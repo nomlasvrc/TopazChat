@@ -421,7 +421,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: TopazPlayer Ver. 3.3.1-N
+  m_Text: TopazPlayer-N Ver. 0.0.2
 --- !u!1 &2655335832276941305
 GameObject:
   m_ObjectHideFlags: 0

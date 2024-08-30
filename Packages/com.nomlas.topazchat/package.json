@@ -1,7 +1,7 @@
 {
   "name": "com.nomlas.topazchat",
   "displayName": "TopazChat Player",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TopazChat Player modified by nomlas",
   "gitDependencies": {},
   "vpmDependencies": {
