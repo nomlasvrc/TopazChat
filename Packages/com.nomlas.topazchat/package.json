@@ -1,11 +1,10 @@
 {
   "name": "com.nomlas.topazchat",
   "displayName": "TopazChat Player",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "TopazChat Player modified by nomlas",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.worlds": "3.7.0"
   },
   "author": {
     "name": "nomlas",
@@ -13,6 +12,5 @@
   },
   "legacyFolders": {},
   "legacyFiles": {},
-  "localPath": "C:\\Users\\hana2\\AppData\\Local\\VRChatProjects\\TopazChatU\\Packages\\com.nomlas.topazchat",
   "unity": "2019.4"
 }
