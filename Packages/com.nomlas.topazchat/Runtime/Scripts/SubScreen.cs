@@ -4,13 +4,14 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
-namespace Nomlas.TopazChat{
-public class SubScreen : PlayerEventListener
+namespace Nomlas.TopazChat
 {
-    [SerializeField] MeshRenderer target;
-    void Start()
+    public class SubScreen : PlayerEventListener
     {
-        target.sharedMaterial = player.screenMaterial;
+        [SerializeField] MeshRenderer target;
+        void Start()
+        {
+            target.sharedMaterial = player.screenMaterial;
+        }
     }
-}
 }
