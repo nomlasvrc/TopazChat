@@ -3,7 +3,7 @@ using System;
 using UdonSharp;
 using UnityEngine;
 
-namespace nomlas.TopazChat {
+namespace Nomlas.TopazChat {
     public class AudioOutputTunnel : UdonSharpBehaviour
     {
         public AudioSource input;
