@@ -38,9 +38,18 @@ namespace Nomlas.TopazChat
         {
             Debug.Log("Play URL: " + url.ToString());
             Stop();
+            UpdateURL(url);
             videoPlayer.PlayURL(url);
         }
 
+        public Controller[] controllers;
+        private void UpdateURL(VRCUrl url)
+        {
+            foreach (Controller controller in controllers)
+            {
+                controller.UpdateURL(url);
+            }
+        }
 
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
