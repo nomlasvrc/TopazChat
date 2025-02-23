@@ -9,9 +9,8 @@ using VRC.Udon;
 
 namespace Nomlas.TopazChat
 {
-    public class Controller : PlayerEventReceiver
+    public class Controller : PlayerEventListener
     {
-        [SerializeField] private TopazChatPlayer player;
         [SerializeField] private Slider volumeSlider;
         [SerializeField] private TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
