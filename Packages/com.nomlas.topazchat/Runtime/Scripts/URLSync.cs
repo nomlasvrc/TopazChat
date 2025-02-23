@@ -5,7 +5,6 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class URLSync : Player
     {
         [UdonSynced, FieldChangeCallback(nameof(SyncStreamURL))]

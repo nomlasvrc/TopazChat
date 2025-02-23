@@ -7,23 +7,40 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class Player : Control
+    public class Player : TopazChatBase
     {
-        [SerializeField] private VRCUrlInputField urlInputField;
-        [SerializeField] private TextMeshProUGUI address;
-        [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] internal VRCUrl defaultStreamURL;
+        [SerializeField] private VRCAVProVideoPlayer videoPlayer;
+        [SerializeField] private AudioSource[] speakers;
+
+        protected TopazChatPlayer player;
 
         private VRCUrl streamURL { get => player.SyncStreamURL; }
+
+        private float _volume;
+        internal float volume
+        {
+            get
+            {
+                return _volume;
+            }
+            set
+            {
+                _volume = Mathf.Clamp01(value);
+                foreach (AudioSource audioSource in speakers)
+                {
+                    audioSource.volume = _volume;
+                }
+            }
+        }
 
         internal protected void StartStream(VRCUrl url)
         {
             Debug.Log("Play URL: " + url.ToString());
             Stop();
-            urlInputField.SetUrl(url);
-            address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
             videoPlayer.PlayURL(url);
         }
+
 
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
@@ -31,27 +48,14 @@ namespace Nomlas.TopazChat
             Resync();
         }
 
-        public void Resync() //GlobalSync又はResyncボタンが押されたときに発火
+        internal void Resync()
         {
             videoPlayer.PlayURL(streamURL);
         }
 
-        public void Stop()
+        internal void Stop()
         {
             videoPlayer.Stop();
-        }
-
-        public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
-        {
-            var _url = urlInputField.GetUrl();
-            if (string.IsNullOrWhiteSpace(_url.ToString()))
-            {
-                urlInputField.SetUrl(defaultStreamURL); //streamURLをセット
-            }
-            else
-            {
-                player.SetUrl(_url); //Globalで変更
-            }
         }
     }
 }
