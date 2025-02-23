@@ -6,6 +6,7 @@ using VRC.SDK3.Components;
 using VRC.SDK3.Video.Components.AVPro;
 using VRC.SDKBase;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("com.nomlas.topazchat.Editor")]
 namespace Nomlas.TopazChat{
 [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class TopazChatPlayer : UdonSharpBehaviour
@@ -13,7 +14,7 @@ public class TopazChatPlayer : UdonSharpBehaviour
     [SerializeField] VRCAVProVideoPlayer videoPlayer;
     [SerializeField] VRCUrlInputField urlInputField;
     [SerializeField] TextMeshProUGUI address;
-    [SerializeField] VRCUrl streamURL;
+    [SerializeField] internal VRCUrl streamURL;
 
     //同期関係
     [UdonSynced, FieldChangeCallback(nameof(SyncStreamURL))] VRCUrl _SyncStreamURL; //これの直接操作は禁止
