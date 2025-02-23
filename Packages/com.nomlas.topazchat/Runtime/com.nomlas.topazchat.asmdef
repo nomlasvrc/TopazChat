@@ -1,6 +1,6 @@
 {
     "name": "com.nomlas.topazchat",
-    "rootNamespace": "nomlas.TopazChat",
+    "rootNamespace": "Nomlas.TopazChat",
     "references": [
         "VRC.SDK3",
         "VRC.SDKBase",
