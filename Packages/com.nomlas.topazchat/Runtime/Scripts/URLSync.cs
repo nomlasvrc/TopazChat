@@ -32,10 +32,12 @@ namespace Nomlas.TopazChat
         {
             if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
             {
+                Log("Play with defalut URL");
                 SetUrl(defaultStreamURL); //streamURLで再生
             }
             else if (player.isLocal)
             {
+                Log("Hello! Please wait while get URL from owner...");
                 RequestSerialization(); //StreamURLをオーナーからもらう
             }
         }

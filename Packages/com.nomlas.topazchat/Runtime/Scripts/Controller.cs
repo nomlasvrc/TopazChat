@@ -14,7 +14,13 @@ namespace Nomlas.TopazChat
         [SerializeField] private Slider volumeSlider;
         [SerializeField] private TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
-        
+
+        private void Start()
+        {
+            player.AddEventListener(this);
+            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(player.defaultStreamURL);
+        }
+
         public void ReSync()
         {
             player.Resync();
@@ -44,8 +50,9 @@ namespace Nomlas.TopazChat
             player.GlobalSync();
         }
 
-        internal override void UpdateURL(VRCUrl url)
+        public override void UpdateURL(VRCUrl url)
         {
+            if (!Utilities.IsValid(urlInputField)) return;
             urlInputField.SetUrl(url);
             address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
             Log("UI Updated");

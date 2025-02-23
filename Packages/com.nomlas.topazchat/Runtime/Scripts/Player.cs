@@ -12,6 +12,7 @@ namespace Nomlas.TopazChat
         #region Inspector
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
+        [SerializeField] private MeshRenderer screen;
         [SerializeField] private AudioSource[] speakers;
         #endregion
 
@@ -36,6 +37,8 @@ namespace Nomlas.TopazChat
             }
         }
 
+        internal Material screenMaterial {get => screen.sharedMaterial;}
+
         #region Listener
         private PlayerEventListener[] listeners;
 
@@ -47,15 +50,21 @@ namespace Nomlas.TopazChat
             listeners.CopyTo(array, 0);
             array[listeners.Length] = listener;
             listeners = array;
+            Log("Added EventListener");
         }
         #endregion
 
+        private void PlayURL(VRCUrl url)
+        {
+            Log("URL Changed: " + url.ToString());
+            videoPlayer.PlayURL(url);
+        }
+
         internal protected void StartStream(VRCUrl url)
         {
-            Debug.Log("Play URL: " + url.ToString());
             Stop();
             UpdateURL(url);
-            videoPlayer.PlayURL(url);
+            PlayURL(url);
         }
 
         private void UpdateURL(VRCUrl url)
@@ -68,13 +77,15 @@ namespace Nomlas.TopazChat
 
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
+            Log("Global Sync");
             SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
             Resync();
         }
 
         internal void Resync()
         {
-            videoPlayer.PlayURL(streamURL);
+            Log("Resync");
+            PlayURL(streamURL);
         }
 
         internal void Stop()

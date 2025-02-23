@@ -9,6 +9,13 @@ namespace Nomlas.TopazChat
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class TopazChatBase : UdonSharpBehaviour
     {
+        const string prefix = "[<color=orange>TopazPlayer-Nmls</color>] ";
+
+        protected void Log(string message)
+        {
+            Debug.Log(prefix + message);
+        }
+        
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
