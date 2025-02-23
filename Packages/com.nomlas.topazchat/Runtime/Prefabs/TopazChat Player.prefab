@@ -1790,10 +1790,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 8905552291691957185}
-  videoPlayer: {fileID: 8769239652123472027}
   urlInputField: {fileID: 892313335843826832}
   address: {fileID: 2507260149030801823}
-  streamURL:
+  videoPlayer: {fileID: 8769239652123472027}
+  defaultStreamURL:
     url: rtspt://topaz.chat/live/StreamKey
 --- !u!114 &8905552291691957185
 MonoBehaviour:
