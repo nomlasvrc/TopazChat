@@ -9,9 +9,11 @@ namespace Nomlas.TopazChat
 {
     public class Player : TopazChatBase
     {
+        #region Inspector
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private AudioSource[] speakers;
+        #endregion
 
         protected TopazChatPlayer player;
 
@@ -34,13 +36,35 @@ namespace Nomlas.TopazChat
             }
         }
 
+        #region Listener
+        private PlayerEventListener[] listeners;
+
+        internal void AddEventListener(PlayerEventListener listener)
+        {
+            if (listeners == null)
+                listeners = new PlayerEventListener[0];
+            var array = new PlayerEventListener[listeners.Length + 1];
+            listeners.CopyTo(array, 0);
+            array[listeners.Length] = listener;
+            listeners = array;
+        }
+        #endregion
+
         internal protected void StartStream(VRCUrl url)
         {
             Debug.Log("Play URL: " + url.ToString());
             Stop();
+            UpdateURL(url);
             videoPlayer.PlayURL(url);
         }
 
+        private void UpdateURL(VRCUrl url)
+        {
+            foreach (PlayerEventListener listener in listeners)
+            {
+                listener.UpdateURL(url);
+            }
+        }
 
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
