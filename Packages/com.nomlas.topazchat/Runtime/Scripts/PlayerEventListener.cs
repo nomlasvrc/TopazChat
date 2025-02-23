@@ -5,7 +5,7 @@ namespace Nomlas.TopazChat
 {
     public class PlayerEventListener : TopazChatBase
     {
-        [HideInInspector] public TopazChatPlayer player {get; internal set;}
+        public TopazChatPlayer player;
         internal virtual void UpdateURL(VRCUrl url) { }
 
         private void Start()
