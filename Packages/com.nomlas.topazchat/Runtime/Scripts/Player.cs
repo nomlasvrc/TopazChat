@@ -11,6 +11,7 @@ namespace Nomlas.TopazChat
     {
         #region Inspector
         [SerializeField] internal VRCUrl defaultStreamURL;
+        [SerializeField] internal TextMeshProUGUI addressText;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
         [SerializeField] private AudioSource[] speakers;

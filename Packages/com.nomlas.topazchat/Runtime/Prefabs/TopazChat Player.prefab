@@ -1732,6 +1732,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 8905552291691957185}
   defaultStreamURL:
     url: rtspt://topaz.chat/live/StreamKey
+  addressText: {fileID: 2507260149030801823}
   videoPlayer: {fileID: 8769239652123472027}
   screen: {fileID: 3951872732637066247}
   speakers:

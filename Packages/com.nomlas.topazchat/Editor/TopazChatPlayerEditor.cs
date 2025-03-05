@@ -22,6 +22,7 @@ namespace Nomlas.TopazChat
 
                 TopazChatPlayer player = (TopazChatPlayer)target;
                 player.defaultStreamURL = new VRCUrl(fullURL);
+                if (player.addressText != null) player.addressText.text = streamKey;
 
                 EditorUtility.SetDirty(target);
             }
