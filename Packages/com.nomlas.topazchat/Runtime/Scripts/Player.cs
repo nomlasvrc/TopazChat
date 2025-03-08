@@ -17,6 +17,10 @@ namespace Nomlas.TopazChat
         [SerializeField] private MeshRenderer screen;
         [SerializeField] private AudioSource[] speakers;
         #endregion
+        public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
+        {
+            return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
+        }
 
         protected TopazChatPlayer player;
 
@@ -68,11 +72,14 @@ namespace Nomlas.TopazChat
         {
             Stop();
             UpdateURL(url, url_Android);
-#if UNITY_ANDROID
-            PlayURL(url_Android);
-#else
-            PlayURL(url);
-#endif
+            if (IsAndroid())
+            {
+                PlayURL(url_Android);
+            }
+            else
+            {
+                PlayURL(url);
+            }
         }
 
         private void UpdateURL(VRCUrl url, VRCUrl url_Android)
@@ -93,7 +100,7 @@ namespace Nomlas.TopazChat
         internal void Resync()
         {
             Log("Resync");
-            PlayURL(player.SyncStreamURL);
+            PlayURL(player.PlatformSyncStreamURL);
         }
 
         internal void Stop()
