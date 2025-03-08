@@ -54,6 +54,7 @@ namespace Nomlas.TopazChat
             array[listeners.Length] = listener;
             listeners = array;
             Log("Added EventListener");
+            listener.OnListenerReady();
         }
         #endregion
 

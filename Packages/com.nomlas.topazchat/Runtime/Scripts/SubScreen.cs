@@ -9,7 +9,7 @@ namespace Nomlas.TopazChat
     public class SubScreen : PlayerEventListener
     {
         [SerializeField] MeshRenderer target;
-        void Start()
+        public override void OnListenerReady()
         {
             target.sharedMaterial = player.screenMaterial;
         }
