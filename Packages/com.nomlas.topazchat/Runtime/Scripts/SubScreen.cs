@@ -11,7 +11,7 @@ namespace Nomlas.TopazChat
         [SerializeField] MeshRenderer target;
         public override void OnListenerReady()
         {
-            target.sharedMaterial = player.screenMaterial;
+            if (player.screenMaterial != null) target.sharedMaterial = player.screenMaterial;
         }
     }
 }
