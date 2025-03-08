@@ -6,6 +6,7 @@ using VRC.SDKBase;
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("com.nomlas.topazchat.Editor")]
 namespace Nomlas.TopazChat
 {
+    [HelpURL("https://github.com/nomlasvrc/TopazChat")]
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class TopazChatBase : UdonSharpBehaviour
     {
