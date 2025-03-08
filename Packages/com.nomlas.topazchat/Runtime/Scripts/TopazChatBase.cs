@@ -15,7 +15,7 @@ namespace Nomlas.TopazChat
         {
             Debug.Log(prefix + message);
         }
-        
+
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
@@ -32,5 +32,32 @@ namespace Nomlas.TopazChat
         {
             return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
         }
+
+        /// <summary>
+        /// 現在実行中のプラットフォームを返します。
+        /// </summary>
+        public static Platform GetPlatform()
+        {
+            return IsAndroid() ? Platform.Android : Platform.Windows;
+        }
+
+        /// <summary>
+        /// 現在実行中のプラットフォームがAndroidかどうか返します。
+        /// </summary>
+        /// <returns>現在実行中のプラットフォームがAndroidかどうか。</returns>
+        public static bool IsAndroid()
+        {
+#if UNITY_ANDROID
+            return true;
+#else
+            return false;
+#endif
+        }
+    }
+
+    public enum Platform
+    {
+        Windows,
+        Android
     }
 }

@@ -12,13 +12,17 @@ namespace Nomlas.TopazChat
     public class Controller : PlayerEventListener
     {
         [SerializeField] private Slider volumeSlider;
-        [SerializeField] private TextMeshProUGUI address;
+        [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
+        [SerializeField] private VRCUrlInputField urlInputField_Android;
+        [SerializeField] internal bool androidMode;
+        private VRCUrl tempURL;
 
         private void Start()
         {
             player.AddEventListener(this);
-            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(player.defaultStreamURL);
+            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+            if (Utilities.IsValid(urlInputField_Android)) urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
         }
 
         public void ReSync()
@@ -36,12 +40,31 @@ namespace Nomlas.TopazChat
             var _url = urlInputField.GetUrl();
             if (string.IsNullOrWhiteSpace(_url.ToString()))
             {
-                urlInputField.SetUrl(player.defaultStreamURL); //streamURLをセット
+                //streamURLをセット
+                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
                 Log("Set default URL");
             }
             else
             {
-                player.SetUrl(_url); //Globalで変更
+                if (androidMode)
+                {
+                    tempURL = _url;
+                    urlInputField_Android.Select();
+                }
+                else
+                {
+                    player.SetUrl(_url, null); //Globalで変更
+                }
+            }
+        }
+
+        public void OnEndStreamKeyEditAndroid()
+        {
+            var _url = urlInputField_Android.GetUrl();
+            if (!string.IsNullOrWhiteSpace(_url.ToString()))
+            {
+                player.SetUrl(tempURL, _url);
             }
         }
 
@@ -50,11 +73,11 @@ namespace Nomlas.TopazChat
             player.GlobalSync();
         }
 
-        public override void UpdateURL(VRCUrl url)
+        public override void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
-            if (!Utilities.IsValid(urlInputField)) return;
-            urlInputField.SetUrl(url);
-            address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(url);
+            if (Utilities.IsValid(urlInputField_Android)) urlInputField_Android.SetUrl(url_Android);
+            if (Utilities.IsValid(address)) address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
             Log("UI Updated");
         }
     }
