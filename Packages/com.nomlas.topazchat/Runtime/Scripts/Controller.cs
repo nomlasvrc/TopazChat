@@ -12,9 +12,11 @@ namespace Nomlas.TopazChat
     public class Controller : PlayerEventListener
     {
         [SerializeField] private Slider volumeSlider;
-        [SerializeField] private TextMeshProUGUI address;
+        [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
         [SerializeField] private VRCUrlInputField urlInputField_Android;
+        [SerializeField] internal bool androidMode;
+        private VRCUrl tempURL;
 
         private void Start()
         {
@@ -40,16 +42,30 @@ namespace Nomlas.TopazChat
             {
                 //streamURLをセット
                 urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
                 Log("Set default URL");
             }
             else
             {
-                player.SetUrl(_url, null); //Globalで変更
+                if (androidMode)
+                {
+                    tempURL = _url;
+                    urlInputField_Android.Select();
+                }
+                else
+                {
+                    player.SetUrl(_url, null); //Globalで変更
+                }
             }
         }
 
         public void OnEndStreamKeyEditAndroid()
         {
+            var _url = urlInputField_Android.GetUrl();
+            if (!string.IsNullOrWhiteSpace(_url.ToString()))
+            {
+                player.SetUrl(tempURL, _url);
+            }
         }
 
         public void GlobalSync()

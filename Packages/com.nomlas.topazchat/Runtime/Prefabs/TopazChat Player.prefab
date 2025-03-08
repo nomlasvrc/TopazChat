@@ -61,6 +61,7 @@ MonoBehaviour:
   address: {fileID: 2507260149030801823}
   urlInputField: {fileID: 892313335843826832}
   urlInputField_Android: {fileID: 226472318588614005}
+  androidMode: 0
 --- !u!114 &5414316130299493857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1958,12 +1959,12 @@ MonoBehaviour:
     url: rtspt://topaz.chat/live/StreamKey
   defaultStreamURL_Android:
     url: rtsp://topaz.chat/live/StreamKey
-  addressText: {fileID: 2507260149030801823}
   videoPlayer: {fileID: 8769239652123472027}
   screen: {fileID: 3951872732637066247}
   speakers:
   - {fileID: 8799641420624244419}
   - {fileID: 8104645065608593362}
+  controller: {fileID: 7595944837173016742}
 --- !u!114 &8905552291691957185
 MonoBehaviour:
   m_ObjectHideFlags: 0
