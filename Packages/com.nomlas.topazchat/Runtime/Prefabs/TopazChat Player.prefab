@@ -306,9 +306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'StreamKey
-
-'
+  m_text: StreamKey
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1959,7 +1957,7 @@ MonoBehaviour:
   defaultStreamURL:
     url: rtspt://topaz.chat/live/StreamKey
   defaultStreamURL_Android:
-    url: 
+    url: rtsp://topaz.chat/live/StreamKey
   addressText: {fileID: 2507260149030801823}
   videoPlayer: {fileID: 8769239652123472027}
   screen: {fileID: 3951872732637066247}
