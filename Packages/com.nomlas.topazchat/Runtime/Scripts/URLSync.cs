@@ -7,24 +7,37 @@ namespace Nomlas.TopazChat
 {
     public class URLSync : Player
     {
-        [UdonSynced, FieldChangeCallback(nameof(SyncStreamURL))]
+        [UdonSynced, FieldChangeCallback(nameof(FieldChangeCallbackedSyncStreamURL))]
         private VRCUrl _SyncStreamURL;
+        [UdonSynced]
+        private VRCUrl _SyncStreamURL_Android;
 
-        internal VRCUrl SyncStreamURL // Local
+        private VRCUrl FieldChangeCallbackedSyncStreamURL
         {
-            get => _SyncStreamURL;
             set
             {
-                _SyncStreamURL = value;
-                StartStream(value);
+                StartStream(_SyncStreamURL, _SyncStreamURL_Android);
             }
         }
 
-        internal void SetUrl(VRCUrl tmpStreamURL) // Global
+        internal VRCUrl SyncStreamURL
         {
-            if (!IsTopazLink(tmpStreamURL)) return;
+            get
+            {
+#if UNITY_ANDROID
+                return _SyncStreamURL_Android;
+#else
+                return _SyncStreamURL;
+#endif
+            }
+        }
+
+        internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android) // Global
+        {
+            if (!IsTopazLink(tmpStreamURL) || !IsTopazLink(tmpStreamURL_Android)) return;
             if (!Networking.IsOwner(Networking.LocalPlayer, this.gameObject)) Networking.SetOwner(Networking.LocalPlayer, this.gameObject);
-            SyncStreamURL = tmpStreamURL;
+            _SyncStreamURL = tmpStreamURL;
+            _SyncStreamURL_Android = tmpStreamURL_Android;
             RequestSerialization();
         }
 
@@ -33,7 +46,7 @@ namespace Nomlas.TopazChat
             if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
             {
                 Log("Play with defalut URL");
-                SetUrl(defaultStreamURL); //streamURLで再生
+                SetUrl(defaultStreamURL, defaultStreamURL_Android); //streamURLで再生
             }
             else if (player.isLocal)
             {

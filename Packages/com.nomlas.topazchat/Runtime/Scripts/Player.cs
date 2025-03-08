@@ -11,6 +11,7 @@ namespace Nomlas.TopazChat
     {
         #region Inspector
         [SerializeField] internal VRCUrl defaultStreamURL;
+        [SerializeField] internal VRCUrl defaultStreamURL_Android;
         [SerializeField] internal TextMeshProUGUI addressText;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
@@ -18,8 +19,6 @@ namespace Nomlas.TopazChat
         #endregion
 
         protected TopazChatPlayer player;
-
-        private VRCUrl streamURL { get => player.SyncStreamURL; }
 
         private float _volume;
         internal float volume
@@ -38,7 +37,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal Material screenMaterial {get => screen.sharedMaterial;}
+        internal Material screenMaterial { get => screen.sharedMaterial; }
 
         #region Listener
         private PlayerEventListener[] listeners;
@@ -55,24 +54,32 @@ namespace Nomlas.TopazChat
         }
         #endregion
 
-        private void PlayURL(VRCUrl url)
+        /// <summary>
+        /// 指定したURLで再生します
+        /// </summary>
+        /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
+        private void PlayURL(VRCUrl platformURL)
         {
-            Log("URL Changed: " + url.ToString());
-            videoPlayer.PlayURL(url);
+            Log("URL Changed: " + platformURL.ToString());
+            videoPlayer.PlayURL(platformURL);
         }
 
-        internal protected void StartStream(VRCUrl url)
+        internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
             Stop();
-            UpdateURL(url);
+            UpdateURL(url, url_Android);
+#if UNITY_ANDROID
+            PlayURL(url_Android);
+#else
             PlayURL(url);
+#endif
         }
 
-        private void UpdateURL(VRCUrl url)
+        private void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
             foreach (PlayerEventListener listener in listeners)
             {
-                listener.UpdateURL(url);
+                listener.UpdateURL(url, url_Android);
             }
         }
 
@@ -86,7 +93,7 @@ namespace Nomlas.TopazChat
         internal void Resync()
         {
             Log("Resync");
-            PlayURL(streamURL);
+            PlayURL(player.SyncStreamURL);
         }
 
         internal void Stop()
