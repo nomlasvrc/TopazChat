@@ -20,7 +20,7 @@ namespace Nomlas.TopazChat
             player.GlobalSync();
         }
 
-        internal void UpdateMessage(string msg)
+        public override void UpdateMessage(string msg)
         {
             message.text = msg;
         }

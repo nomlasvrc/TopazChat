@@ -679,6 +679,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4109763477009045168, guid: a0d29622c03c88b42a916f56872d326e,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 8873732018770733719}
+    - target: {fileID: 4109763477009045168, guid: a0d29622c03c88b42a916f56872d326e,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4109763477009045168, guid: a0d29622c03c88b42a916f56872d326e,
+        type: 3}
     - target: {fileID: 6997214717518167715, guid: a0d29622c03c88b42a916f56872d326e,
         type: 3}
       propertyPath: m_Name
@@ -798,7 +809,6 @@ MonoBehaviour:
   videoPlayer: {fileID: 8818396078497096818}
   screen: {fileID: 3820313407067840750}
   controller: {fileID: 7690338470047935567}
-  audioOutputTunnel: {fileID: -8440103478596096616}
 --- !u!114 &3086512610176519787
 MonoBehaviour:
   m_ObjectHideFlags: 0

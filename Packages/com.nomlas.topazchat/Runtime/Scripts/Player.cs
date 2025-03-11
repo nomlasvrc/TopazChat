@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using VRC.SDK3.Components;
+using VRC.SDK3.Components.Video;
 using VRC.SDK3.Video.Components.AVPro;
 using VRC.SDKBase;
 
@@ -56,6 +57,14 @@ namespace Nomlas.TopazChat
             Log("Added EventListener");
             listener.OnListenerReady();
         }
+
+        internal void ShowMessage(string msg)
+        {
+            foreach (PlayerEventListener listener in listeners)
+            {
+                listener.UpdateMessage(msg);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -65,6 +74,7 @@ namespace Nomlas.TopazChat
         private void PlayURL(VRCUrl platformURL)
         {
             Log("URL Changed: " + platformURL.ToString());
+            ShowMessage("Streaming: " + platformURL.ToString());
             videoPlayer.PlayURL(platformURL);
         }
 
@@ -108,6 +118,40 @@ namespace Nomlas.TopazChat
         internal void Stop()
         {
             videoPlayer.Stop();
+            ShowMessage("");
         }
+
+        private void PVideoError(VideoError videoError)
+        {
+            LogError("Video Error: " + videoError.ToString());
+            switch (videoError)
+            {
+                case VideoError.RateLimited:
+                    ShowMessage("Error: Rate Limited");
+                    break;
+                case VideoError.AccessDenied:
+                    ShowMessage("Error: Access Denied");
+                    break;
+                case VideoError.InvalidURL:
+                    ShowMessage("Error: Invalid URL");
+                    break;
+                case VideoError.PlayerError:
+                    ShowMessage("Error: Player Error");
+                    break;
+                case VideoError.Unknown:
+                    ShowMessage("Error: Unknown Error");
+                    break;
+            }
+        }
+
+        #region Video Events
+        internal void PlayerVideoEnd() { }
+        internal void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
+        internal void PlayerVideoLoop() { }
+        internal void PlayerVideoPause() { }
+        internal void PlayerVideoPlay() { }
+        internal void PlayerVideoReady() { }
+        internal void PlayerVideoStart() { }
+        #endregion
     }
 }

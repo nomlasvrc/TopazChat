@@ -8,5 +8,6 @@ namespace Nomlas.TopazChat
         public TopazChatPlayerBase player;
         public virtual void UpdateURL(VRCUrl url, VRCUrl url_Android) { }
         public virtual void OnListenerReady() { }
+        public virtual void UpdateMessage(string msg) { }
     }
 }
