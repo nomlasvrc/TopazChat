@@ -21,7 +21,7 @@ namespace Nomlas.TopazChat
 
             var oldAndroidMode = player.controller.androidMode;
             player.controller.androidMode = EditorGUILayout.Toggle("Quest/Android向けURL変更機能", player.controller.androidMode);
-            EditorGUILayout.HelpBox("VRChatの制限により、Quest/Android向けのURL（rtsp://topaz.chat/live/XXX）を手動で入力する必要があります。この機能がオフになっていてもデフォルトのストリームURLはプラットフォームに応じて使用されます。", MessageType.Info);
+            EditorGUILayout.HelpBox("VRChatの制限により、Quest/Android向けのURL（rtsp://topaz.chat/live/XXX）を手動で入力する必要があります。この機能がオフになっていてもデフォルトのストリームURLはプラットフォーム別に使用されます。", MessageType.Info);
             if (oldAndroidMode != player.controller.androidMode)
             {
                 EditorUtility.SetDirty(player.controller);
