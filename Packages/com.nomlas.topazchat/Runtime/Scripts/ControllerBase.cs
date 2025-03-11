@@ -1,4 +1,5 @@
 
+using TMPro;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -8,6 +9,7 @@ namespace Nomlas.TopazChat
 {
     public class ControllerBase : PlayerEventListener
     {
+        [SerializeField] private TextMeshProUGUI message;
         public void ReSync()
         {
             player.Resync();
@@ -16,6 +18,11 @@ namespace Nomlas.TopazChat
         public void GlobalSync()
         {
             player.GlobalSync();
+        }
+
+        internal void UpdateMessage(string msg)
+        {
+            message.text = msg;
         }
     }
 }
