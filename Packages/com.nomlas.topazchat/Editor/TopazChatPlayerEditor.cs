@@ -5,13 +5,18 @@ using VRC.SDKBase;
 namespace Nomlas.TopazChat
 {
     [CustomEditor(typeof(TopazChatPlayer))]
-    public class TopazChatPlayerEditor : Editor
+    public class TopazChatPlayerEditor : TopazChatPlayerEditorBase { }
+
+    [CustomEditor(typeof(TopazChatPlayerReverbFilter))]
+    public class TopazChatPlayerReverbFilterEditor : TopazChatPlayerEditorBase { }
+
+    public class TopazChatPlayerEditorBase : Editor
     {
         private string streamKey = "";
 
         public override void OnInspectorGUI()
         {
-            TopazChatPlayer player = (TopazChatPlayer)target;
+            TopazChatPlayerBase player = (TopazChatPlayerBase)target;
 
             var oldStreamKey = streamKey;
             streamKey = EditorGUILayout.TextField("ストリームキー", streamKey);

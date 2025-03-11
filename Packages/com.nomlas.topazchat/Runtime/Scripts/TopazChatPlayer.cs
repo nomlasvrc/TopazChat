@@ -1,15 +1,26 @@
 
 using UdonSharp;
 using UnityEngine;
+using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class TopazChatPlayer : URLSync
+    public class TopazChatPlayer : TopazChatPlayerBase
     {
-        [SerializeField] internal Controller controller;
+        [SerializeField] private AudioSource[] speakers;
         private void Start()
         {
             player = this;
+        }
+
+        protected override void VolumeChange()
+        {
+            {
+                foreach (AudioSource speaker in speakers)
+                {
+                    if (Utilities.IsValid(speaker)) speaker.volume = volume;
+                }
+            }
         }
     }
 }

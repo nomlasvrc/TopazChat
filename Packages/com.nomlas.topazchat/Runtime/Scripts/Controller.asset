@@ -62,7 +62,7 @@ MonoBehaviour:
       Data: 3|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: Nomlas.TopazChat.TopazChatPlayer, com.nomlas.topazchat
+      Data: Nomlas.TopazChat.TopazChatPlayerBase, com.nomlas.topazchat
     - Name: 
       Entry: 8
       Data: 

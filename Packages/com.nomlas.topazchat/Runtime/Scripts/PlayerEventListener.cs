@@ -5,7 +5,7 @@ namespace Nomlas.TopazChat
 {
     public abstract class PlayerEventListener : TopazChatBase
     {
-        public TopazChatPlayer player;
+        public TopazChatPlayerBase player;
         public virtual void UpdateURL(VRCUrl url, VRCUrl url_Android) { }
         public virtual void OnListenerReady() { }
     }
