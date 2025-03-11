@@ -42,7 +42,7 @@ namespace Nomlas.TopazChat
                 }
                 else
                 {
-                    player.SetUrl(_url, VRCUrl.Empty); //Globalで変更
+                    player.SetUrl(_url, _url); //Globalで変更
                 }
             }
         }
