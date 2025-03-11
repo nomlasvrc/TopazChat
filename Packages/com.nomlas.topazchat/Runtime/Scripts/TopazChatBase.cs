@@ -17,6 +17,16 @@ namespace Nomlas.TopazChat
             Debug.Log(prefix + message);
         }
 
+        protected void LogWarning(string message)
+        {
+            Debug.LogWarning(prefix + message);
+        }
+
+        protected void LogError(string message)
+        {
+            Debug.LogError(prefix + message);
+        }
+
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>

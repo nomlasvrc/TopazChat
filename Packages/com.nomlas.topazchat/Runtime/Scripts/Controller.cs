@@ -19,8 +19,26 @@ namespace Nomlas.TopazChat
         private void Start()
         {
             player.AddEventListener(this);
-            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
-            if (Utilities.IsValid(urlInputField_Android)) urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
+            if (Utilities.IsValid(urlInputField))
+            {
+                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+            }
+            else
+            {
+                LogWarning("URL入力欄が見つかりません");
+            }
+            if (Utilities.IsValid(urlInputField_Android))
+            {
+                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
+            }
+            else
+            {
+                LogWarning("URL入力欄(Android)が見つかりません");
+            }
+            if (!Utilities.IsValid(address))
+            {
+                LogWarning("StreamKey表示欄が見つかりません");
+            }
         }
 
         public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
@@ -58,9 +76,9 @@ namespace Nomlas.TopazChat
 
         public override void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
-            if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(url);
-            if (Utilities.IsValid(urlInputField_Android)) urlInputField_Android.SetUrl(url_Android);
-            if (Utilities.IsValid(address)) address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            urlInputField.SetUrl(url);
+            urlInputField_Android.SetUrl(url_Android);
+            address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
             Log("UI Updated");
         }
     }

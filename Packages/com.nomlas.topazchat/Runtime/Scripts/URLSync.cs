@@ -54,7 +54,11 @@ namespace Nomlas.TopazChat
 
         internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android) // Global
         {
-            if (!IsTopazLink(tmpStreamURL) || !IsTopazLink(tmpStreamURL_Android)) return;
+            if (!IsTopazLink(tmpStreamURL) || !IsTopazLink(tmpStreamURL_Android))
+            {
+                LogWarning("TopazChat以外のURLは再生できません。");
+                return;
+            }
             if (!Networking.IsOwner(Networking.LocalPlayer, this.gameObject)) Networking.SetOwner(Networking.LocalPlayer, this.gameObject);
             SetSyncStreamURL(tmpStreamURL, Platform.Windows);
             SetSyncStreamURL(tmpStreamURL_Android, Platform.Android);

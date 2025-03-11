@@ -11,6 +11,10 @@ namespace Nomlas.TopazChat
         private void Start()
         {
             player = this;
+            foreach (AudioSource speaker in speakers)
+            {
+                if (!Utilities.IsValid(speaker)) LogWarning("nullのSpeakerがあります");
+            }
         }
 
         protected override void VolumeChange()

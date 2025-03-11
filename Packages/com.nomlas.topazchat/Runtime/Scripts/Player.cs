@@ -32,6 +32,10 @@ namespace Nomlas.TopazChat
             set
             {
                 _volume = Mathf.Clamp01(value);
+                if (_volume != value)
+                {
+                    Log($"Volume: {_volume} => {value}");
+                }
                 VolumeChange();
             }
         }
