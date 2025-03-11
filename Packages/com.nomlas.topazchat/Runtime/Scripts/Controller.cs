@@ -2,16 +2,14 @@
 using TMPro;
 using UdonSharp;
 using UnityEngine;
-using UnityEngine.UI;
 using VRC.SDK3.Components;
 using VRC.SDKBase;
 using VRC.Udon;
 
 namespace Nomlas.TopazChat
 {
-    public class Controller : PlayerEventListener
+    public class Controller : VolumeController
     {
-        [SerializeField] private Slider volumeSlider;
         [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
         [SerializeField] private VRCUrlInputField urlInputField_Android;
@@ -23,16 +21,6 @@ namespace Nomlas.TopazChat
             player.AddEventListener(this);
             if (Utilities.IsValid(urlInputField)) urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
             if (Utilities.IsValid(urlInputField_Android)) urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
-        }
-
-        public void ReSync()
-        {
-            player.Resync();
-        }
-
-        public void ChangeVolume()
-        {
-            player.volume = volumeSlider.value;
         }
 
         public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
@@ -66,11 +54,6 @@ namespace Nomlas.TopazChat
             {
                 player.SetUrl(tempURL, _url);
             }
-        }
-
-        public void GlobalSync()
-        {
-            player.GlobalSync();
         }
 
         public override void UpdateURL(VRCUrl url, VRCUrl url_Android)
