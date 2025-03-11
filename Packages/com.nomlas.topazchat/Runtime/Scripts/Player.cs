@@ -33,10 +33,7 @@ namespace Nomlas.TopazChat
             set
             {
                 _volume = Mathf.Clamp01(value);
-                foreach (AudioSource audioSource in speakers)
-                {
-                    audioSource.volume = _volume;
-                }
+                VolumeChange();
             }
         }
 
@@ -101,6 +98,14 @@ namespace Nomlas.TopazChat
         {
             Log("Resync");
             PlayURL(player.PlatformSyncStreamURL);
+        }
+
+        private void VolumeChange()
+        {
+            foreach (AudioSource speaker in speakers)
+            {
+                if (Utilities.IsValid(speaker)) speaker.volume = volume;
+            }
         }
 
         internal void Stop()
