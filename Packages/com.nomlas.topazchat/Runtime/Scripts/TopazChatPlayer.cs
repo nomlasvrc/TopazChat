@@ -18,7 +18,7 @@ namespace Nomlas.TopazChat
             {
                 foreach (AudioSource speaker in speakers)
                 {
-                    if (Utilities.IsValid(speaker)) speaker.volume = volume;
+                    if (Utilities.IsValid(speaker)) speaker.volume = Volume;
                 }
             }
         }

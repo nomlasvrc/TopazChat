@@ -11,7 +11,7 @@ namespace Nomlas.TopazChat
         [SerializeField] private Slider volumeSlider;
         public void ChangeVolume()
         {
-            player.volume = volumeSlider.value;
+            player.Volume = volumeSlider.value;
         }
     }
 }

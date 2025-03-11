@@ -23,7 +23,7 @@ namespace Nomlas.TopazChat
         protected TopazChatPlayerBase player;
 
         private float _volume;
-        internal float volume
+        internal float Volume
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal Material screenMaterial { get => screen.sharedMaterial; }
+        internal Material ScreenMaterial { get => screen.sharedMaterial; }
 
         #region Listener
         private PlayerEventListener[] listeners;

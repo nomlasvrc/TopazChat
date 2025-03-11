@@ -16,7 +16,7 @@ namespace Nomlas.TopazChat
 
         protected override void VolumeChange()
         {
-            audioOutputTunnel.volume = volume;
+            audioOutputTunnel.volume = Volume;
         }
     }
 }
