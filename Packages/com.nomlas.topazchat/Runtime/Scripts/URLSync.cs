@@ -59,6 +59,7 @@ namespace Nomlas.TopazChat
             SetSyncStreamURL(tmpStreamURL, Platform.Windows);
             SetSyncStreamURL(tmpStreamURL_Android, Platform.Android);
             RequestSerialization();
+            StartStream(tmpStreamURL, tmpStreamURL_Android);
         }
 
         public override void OnPlayerJoined(VRCPlayerApi player)

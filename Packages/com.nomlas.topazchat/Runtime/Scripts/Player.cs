@@ -14,17 +14,16 @@ namespace Nomlas.TopazChat
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
-        [SerializeField] private AudioSource[] speakers;
         #endregion
         public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
         {
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
         }
 
-        protected TopazChatPlayer player;
+        protected TopazChatPlayerBase player;
 
         private float _volume;
-        internal float volume
+        public float Volume
         {
             get
             {
@@ -37,7 +36,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal Material screenMaterial { get => screen.sharedMaterial; }
+        internal Material ScreenMaterial { get => screen.sharedMaterial; }
 
         #region Listener
         private PlayerEventListener[] listeners;
@@ -100,13 +99,7 @@ namespace Nomlas.TopazChat
             PlayURL(player.PlatformSyncStreamURL);
         }
 
-        private void VolumeChange()
-        {
-            foreach (AudioSource speaker in speakers)
-            {
-                if (Utilities.IsValid(speaker)) speaker.volume = volume;
-            }
-        }
+        protected virtual void VolumeChange() { }
 
         internal void Stop()
         {
