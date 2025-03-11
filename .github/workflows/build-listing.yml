@@ -6,6 +6,8 @@ env:
   
 on: 
   workflow_dispatch:
+  release:
+    types: [published, deleted]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
