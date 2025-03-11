@@ -8,15 +8,9 @@ namespace Nomlas.TopazChat
 {
     public class TopazChatPlayerReverbFilter : TopazChatPlayerBase
     {
-        [SerializeField] private AudioOutputTunnel audioOutputTunnel;
         private void Start()
         {
             player = this;
-        }
-
-        protected override void VolumeChange()
-        {
-            audioOutputTunnel.volume = Volume;
         }
     }
 }

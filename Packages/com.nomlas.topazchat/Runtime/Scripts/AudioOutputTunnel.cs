@@ -10,9 +10,6 @@ namespace Nomlas.TopazChat {
         public AudioSource stereoOutput;
         public AudioSource leftOutput;
         public AudioSource rightOutput;
-
-        internal float volume;
-
         public int bufferLength = 1024 * 4;
 
         private AudioClip stereoOutputClip;
@@ -91,14 +88,6 @@ namespace Nomlas.TopazChat {
             
             input.GetOutputData(readBuffer[0], 0);
             input.GetOutputData(readBuffer[1], 1);
-            
-            foreach (var buffer in readBuffer)
-            {
-                for (var i = 0; i < buffer.Length; i++)
-                {
-                    buffer[i] *= volume;
-                }
-            }
             
             // mono left
             if (leftOutput)
