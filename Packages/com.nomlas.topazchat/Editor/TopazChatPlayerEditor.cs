@@ -64,7 +64,7 @@ namespace Nomlas.TopazChat
             }
             else
             {
-                EditorGUILayout.HelpBox("コントローラーが見つかりません。AndroidModeをオンにできません。", MessageType.Warning);
+                EditorGUILayout.HelpBox("コントローラーが見つかりません。一部機能が無効化されます。", MessageType.Warning);
             }
         }
     }
