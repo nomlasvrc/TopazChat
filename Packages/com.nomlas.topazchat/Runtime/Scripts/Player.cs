@@ -23,7 +23,7 @@ namespace Nomlas.TopazChat
         protected TopazChatPlayerBase player;
 
         private float _volume;
-        internal float Volume
+        public float Volume
         {
             get
             {
