@@ -34,7 +34,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 現在実行中のプラットフォームに応じたStreamURLを返します。
         /// </summary>
-        internal VRCUrl PlatformSyncStreamURL { get => GetSyncStreamURL(GetPlatform()); }
+        internal VRCUrl PlatformSyncStreamURL { get => GetSyncStreamURL(GetRunningPlatform()); }
 
         /// <summary>
         /// StreamURLを設定します。

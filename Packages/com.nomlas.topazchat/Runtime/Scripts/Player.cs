@@ -72,7 +72,7 @@ namespace Nomlas.TopazChat
         {
             Stop();
             UpdateURL(url, url_Android);
-            if (IsAndroid())
+            if (RunningPlatformIsAndroid())
             {
                 PlayURL(url_Android);
             }
