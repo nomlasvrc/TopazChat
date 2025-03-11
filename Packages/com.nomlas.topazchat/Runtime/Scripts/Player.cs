@@ -36,7 +36,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal Material ScreenMaterial { get => screen.sharedMaterial; }
+        public Material ScreenMaterial { get => screen.sharedMaterial; }
 
         #region Listener
         private PlayerEventListener[] listeners;
