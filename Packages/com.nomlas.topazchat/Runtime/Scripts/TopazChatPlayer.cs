@@ -15,11 +15,9 @@ namespace Nomlas.TopazChat
 
         protected override void VolumeChange()
         {
+            foreach (AudioSource speaker in speakers)
             {
-                foreach (AudioSource speaker in speakers)
-                {
-                    if (Utilities.IsValid(speaker)) speaker.volume = Volume;
-                }
+                if (Utilities.IsValid(speaker)) speaker.volume = Volume;
             }
         }
     }
