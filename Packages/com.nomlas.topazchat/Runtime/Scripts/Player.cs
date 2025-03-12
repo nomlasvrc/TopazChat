@@ -73,6 +73,10 @@ namespace Nomlas.TopazChat
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
         private void PlayURL(VRCUrl platformURL)
         {
+            if (!Utilities.IsValid(platformURL))
+            {
+                LogWarning("URLが無効です。");
+            }
             Log("URL Changed: " + platformURL.ToString());
             ShowMessage("Streaming: " + platformURL.ToString());
             videoPlayer.PlayURL(platformURL);
