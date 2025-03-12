@@ -8,19 +8,14 @@ namespace Nomlas.TopazChat
     public class URLSync : Player
     {
         #region UdonSync
-        [UdonSynced, FieldChangeCallback(nameof(FieldChangeCallbackedSyncStreamURL))]
-        private VRCUrl _SyncStreamURL;
-        [UdonSynced]
-        private VRCUrl _SyncStreamURL_Android;
-        #endregion
+        [UdonSynced] private VRCUrl _SyncStreamURL;
+        [UdonSynced] private VRCUrl _SyncStreamURL_Android;
 
-        private VRCUrl FieldChangeCallbackedSyncStreamURL
+        public override void OnDeserialization()
         {
-            set
-            {
-                StartStream(GetSyncStreamURL(Platform.Windows), GetSyncStreamURL(Platform.Android));
-            }
+            StartStream(GetSyncStreamURL(Platform.Windows), GetSyncStreamURL(Platform.Android));
         }
+        #endregion
 
         #region PlatformURL
         /// <summary>
