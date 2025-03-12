@@ -82,15 +82,18 @@ namespace Nomlas.TopazChat
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
         private void PlayURL(VRCUrl platformURL)
         {
-            if (!Utilities.IsValid(platformURL))
+            if (Utilities.IsValid(platformURL) && !string.IsNullOrWhiteSpace(platformURL.ToString()))
+            {
+                Log("URL Changed: " + platformURL.ToString());
+                ShowMessage("Streaming: " + platformURL.ToString());
+                videoPlayer.PlayURL(platformURL);
+            }
+            else
             {
                 LogError("URLが無効です。再生できません。");
-                ShowMessage("Invalid URL", MessageLevel.Error);
+                ShowMessage("Invalid URL. Unable to play.", MessageLevel.Error);
                 return;
             }
-            Log("URL Changed: " + platformURL.ToString());
-            ShowMessage("Streaming: " + platformURL.ToString());
-            videoPlayer.PlayURL(platformURL);
         }
 
         internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
@@ -142,19 +145,19 @@ namespace Nomlas.TopazChat
             switch (videoError)
             {
                 case VideoError.RateLimited:
-                    ShowMessage("Error: Rate Limited", MessageLevel.Error);
+                    ShowMessage("VideoError: Rate Limited", MessageLevel.Error);
                     break;
                 case VideoError.AccessDenied:
-                    ShowMessage("Error: Access Denied", MessageLevel.Error);
+                    ShowMessage("VideoError: Access Denied", MessageLevel.Error);
                     break;
                 case VideoError.InvalidURL:
-                    ShowMessage("Error: Invalid URL", MessageLevel.Error);
+                    ShowMessage("VideoError: Invalid URL", MessageLevel.Error);
                     break;
                 case VideoError.PlayerError:
-                    ShowMessage("Error: Player Error", MessageLevel.Error);
+                    ShowMessage("VideoError: Player Error", MessageLevel.Error);
                     break;
                 case VideoError.Unknown:
-                    ShowMessage("Error: Unknown Error", MessageLevel.Error);
+                    ShowMessage("VideoError: Unknown Error", MessageLevel.Error);
                     break;
             }
         }
