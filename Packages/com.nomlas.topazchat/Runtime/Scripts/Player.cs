@@ -1,5 +1,4 @@
 
-using TMPro;
 using UnityEngine;
 using VRC.SDK3.Components;
 using VRC.SDK3.Components.Video;
@@ -60,9 +59,19 @@ namespace Nomlas.TopazChat
 
         internal void ShowMessage(string msg)
         {
+            _ShowMessage(msg, MessageLevel.Info);
+        }
+
+        internal void ShowMessage(string msg, MessageLevel level)
+        {
+            _ShowMessage(msg, level);
+        }
+
+        private void _ShowMessage(string msg, MessageLevel level)
+        {
             foreach (PlayerEventListener listener in listeners)
             {
-                listener.UpdateMessage(msg);
+                listener.UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
             }
         }
         #endregion
@@ -75,7 +84,9 @@ namespace Nomlas.TopazChat
         {
             if (!Utilities.IsValid(platformURL))
             {
-                LogWarning("URLが無効です。");
+                LogError("URLが無効です。再生できません。");
+                ShowMessage("Invalid URL", MessageLevel.Error);
+                return;
             }
             Log("URL Changed: " + platformURL.ToString());
             ShowMessage("Streaming: " + platformURL.ToString());
@@ -131,19 +142,19 @@ namespace Nomlas.TopazChat
             switch (videoError)
             {
                 case VideoError.RateLimited:
-                    ShowMessage("Error: Rate Limited");
+                    ShowMessage("Error: Rate Limited", MessageLevel.Error);
                     break;
                 case VideoError.AccessDenied:
-                    ShowMessage("Error: Access Denied");
+                    ShowMessage("Error: Access Denied", MessageLevel.Error);
                     break;
                 case VideoError.InvalidURL:
-                    ShowMessage("Error: Invalid URL");
+                    ShowMessage("Error: Invalid URL", MessageLevel.Error);
                     break;
                 case VideoError.PlayerError:
-                    ShowMessage("Error: Player Error");
+                    ShowMessage("Error: Player Error", MessageLevel.Error);
                     break;
                 case VideoError.Unknown:
-                    ShowMessage("Error: Unknown Error");
+                    ShowMessage("Error: Unknown Error", MessageLevel.Error);
                     break;
             }
         }

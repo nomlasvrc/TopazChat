@@ -13,7 +13,13 @@ namespace Nomlas.TopazChat
 
         public override void OnDeserialization()
         {
-            StartStream(GetSyncStreamURL(Platform.Windows), GetSyncStreamURL(Platform.Android));
+            if (!Utilities.IsValid(_SyncStreamURL) || !Utilities.IsValid(_SyncStreamURL_Android))
+            {
+                LogError("UdonSyncに失敗しました。再生できません。");
+                ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
+                return;
+            }
+            StartStream(_SyncStreamURL, _SyncStreamURL_Android);
         }
         #endregion
 
