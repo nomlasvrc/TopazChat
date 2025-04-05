@@ -34,6 +34,11 @@ namespace Nomlas.TopazChat
             }
 
             serializedObject.ApplyModifiedProperties();
+
+            EditorGUILayout.Space(10);
+            EditorGUI.indentLevel++;
+            DrawDefaultInspector();
+            EditorGUI.indentLevel--;
         }
     }
 }
