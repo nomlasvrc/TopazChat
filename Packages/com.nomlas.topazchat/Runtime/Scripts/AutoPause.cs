@@ -30,7 +30,7 @@ namespace Nomlas.TopazChat
             float sqrDistance = (checkPosition - pos).sqrMagnitude;
             if (sqrDistance > sqrPauseDistance)
             {
-                player.Pause();
+                if (!isPausing) player.Pause();
                 isPausing = true;
             }
             else if (sqrDistance < sqrResumeDistance)
