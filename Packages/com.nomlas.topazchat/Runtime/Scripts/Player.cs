@@ -121,7 +121,7 @@ namespace Nomlas.TopazChat
 
         internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
-            Stop(true);
+            Stop(StopType.Stop);
             UpdateURL(url, url_Android);
             if (RunningPlatformIsAndroid())
             {
@@ -160,7 +160,7 @@ namespace Nomlas.TopazChat
             Log("Paused");
             ShowMessage("Paused");
             resumeURL = player.PlatformSyncStreamURL;
-            videoPlayer.Stop();
+            Stop(StopType.Pause);
             PlayerStatus = PlayerStatus.Pause;
         }
 
@@ -175,16 +175,19 @@ namespace Nomlas.TopazChat
 
         protected virtual void VolumeChange() { }
 
-        internal void Stop(bool hideMessage)
+        internal void Stop(StopType stopType)
         {
             videoPlayer.Stop();
-            if (hideMessage) ShowMessage("");
+            if (stopType == StopType.Stop)
+            {
+                ShowMessage("");
+            }
             PlayerStatus = PlayerStatus.Stop;
         }
 
         internal void SafeStop()
         {
-            Stop(false);
+            Stop(StopType.ErrorStop);
         }
 
         private void PVideoError(VideoError videoError)
