@@ -92,13 +92,14 @@ namespace Nomlas.TopazChat
             {
                 LogError("URLが無効です。再生できません。");
                 ShowMessage("Invalid URL. Unable to play.", MessageLevel.Error);
+                SafeStop();
                 return;
             }
         }
 
         internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
-            Stop();
+            Stop(true);
             UpdateURL(url, url_Android);
             if (RunningPlatformIsAndroid())
             {
@@ -133,10 +134,15 @@ namespace Nomlas.TopazChat
 
         protected virtual void VolumeChange() { }
 
-        internal void Stop()
+        internal void Stop(bool hideMessage)
         {
             videoPlayer.Stop();
-            ShowMessage("");
+            if (hideMessage) ShowMessage("");
+        }
+
+        internal void SafeStop()
+        {
+            Stop(false);
         }
 
         private void PVideoError(VideoError videoError)
@@ -160,6 +166,7 @@ namespace Nomlas.TopazChat
                     ShowMessage("VideoError: Unknown Error", MessageLevel.Error);
                     break;
             }
+            SafeStop();
         }
 
         #region Video Events
