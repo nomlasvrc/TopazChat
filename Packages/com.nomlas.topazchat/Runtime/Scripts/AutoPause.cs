@@ -14,20 +14,19 @@ namespace Nomlas.TopazChat
         private float sqrResumeDistance;
         private bool isPausing;
         private VRCPlayerApi local;
-        private Vector3 checkPosition;
         private void Start()
         {
             sqrPauseDistance = pauseDistance * pauseDistance;
             sqrResumeDistance = resumeDistance * resumeDistance;
             local = Networking.LocalPlayer;
-            checkPosition = this.transform.position;
             isPausing = false;
         }
 
         private void Update()
         {
-            var pos = local.GetPosition();
-            float sqrDistance = (checkPosition - pos).sqrMagnitude;
+            var playerPos = local.GetPosition();
+            var checkPos = this.transform.position;
+            float sqrDistance = (checkPos - playerPos).sqrMagnitude;
             if (sqrDistance > sqrPauseDistance)
             {
                 if (!isPausing) player.Pause();
