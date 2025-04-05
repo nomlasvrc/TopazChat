@@ -79,7 +79,7 @@ namespace Nomlas.TopazChat
                 var _url = GetPlatformDefaultStreamURL(Platform.Windows);
                 var _url_Android = GetPlatformDefaultStreamURL(Platform.Android);
                 Log("Send URL to new player");
-                if (Utilities.IsValid(_url) && Utilities.IsValid(_url_Android) && !string.IsNullOrWhiteSpace(_url.ToString()) && !string.IsNullOrWhiteSpace(_url_Android.ToString()))
+                if (IsValidTopazLink(_url) && IsValidTopazLink(_url_Android))
                 {
                     RequestSerialization();
                 }

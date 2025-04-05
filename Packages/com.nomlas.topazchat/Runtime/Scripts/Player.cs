@@ -82,7 +82,7 @@ namespace Nomlas.TopazChat
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
         private void PlayURL(VRCUrl platformURL)
         {
-            if (Utilities.IsValid(platformURL) && !string.IsNullOrWhiteSpace(platformURL.ToString()))
+            if (IsValidTopazLink(platformURL))
             {
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());

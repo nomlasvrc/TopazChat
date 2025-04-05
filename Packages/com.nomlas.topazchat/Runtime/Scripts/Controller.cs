@@ -44,31 +44,31 @@ namespace Nomlas.TopazChat
         public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
         {
             var _url = urlInputField.GetUrl();
-            if (string.IsNullOrWhiteSpace(_url.ToString()))
-            {
-                //streamURLをセット
-                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
-                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
-                Log("Set default URL");
-            }
-            else
+            if (IsValidTopazLink(_url))
             {
                 if (androidMode)
                 {
                     tempURL = _url;
-                    urlInputField_Android.Select();
+                    urlInputField_Android.ActivateInputField();
                 }
                 else
                 {
                     player.SetUrl(_url, _url); //Globalで変更
                 }
             }
+            else
+            {
+                //streamURLをセット
+                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
+                Log("Set default URL");
+            }
         }
 
         public void OnEndStreamKeyEditAndroid()
         {
             var _url = urlInputField_Android.GetUrl();
-            if (!string.IsNullOrWhiteSpace(_url.ToString()))
+            if (IsValidTopazLink(_url))
             {
                 player.SetUrl(tempURL, _url);
             }

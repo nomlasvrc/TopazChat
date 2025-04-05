@@ -27,6 +27,15 @@ namespace Nomlas.TopazChat
             Debug.LogError(prefix + message);
         }
 
+        public static bool IsValidTopazLink(VRCUrl url)
+        {
+            if (!Utilities.IsValid(url)) return false;
+            var _url = url.ToString();
+            if (string.IsNullOrWhiteSpace(_url) || !IsTopazLink(_url)) return false;
+            var _streamKey = _url.Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            return !string.IsNullOrWhiteSpace(_streamKey);
+        }
+
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
