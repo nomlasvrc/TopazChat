@@ -121,6 +121,11 @@ namespace Nomlas.TopazChat
 
         internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
+            if (PlayerStatus == PlayerStatus.Pause)
+            {
+                UpdateURL(url, url_Android);
+                return;
+            }
             Stop(StopType.Stop);
             UpdateURL(url, url_Android);
             if (RunningPlatformIsAndroid())
@@ -150,26 +155,32 @@ namespace Nomlas.TopazChat
 
         internal void Resync()
         {
-            Log("Resync");
-            PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+            if (PlayerStatus == PlayerStatus.Pause)
+            {
+                Log("Resync event received while paused. Ignoring.");
+                return;
+            }
+            else
+            {
+                Log("Resync");
+                PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+            }
         }
 
-        private VRCUrl resumeURL;
         internal void Pause()
         {
             Log("Paused");
             ShowMessage("Paused");
-            resumeURL = player.PlatformSyncStreamURL;
             Stop(StopType.Pause);
             PlayerStatus = PlayerStatus.Pause;
         }
 
         internal void Resume()
         {
-            if ((PlayerStatus == PlayerStatus.Pause) && IsValidTopazLink(resumeURL))
+            if ((PlayerStatus == PlayerStatus.Pause) && IsValidTopazLink(player.PlatformSyncStreamURL))
             {
                 Log("Resume");
-                PlayURL(resumeURL, PlayType.Resume);
+                PlayURL(player.PlatformSyncStreamURL, PlayType.Resume);
             }
         }
 
