@@ -123,6 +123,7 @@ namespace Nomlas.TopazChat
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
+                Log("ポーズ中に再生開始イベントを受信しました。無視します。");
                 UpdateURL(url, url_Android);
                 return;
             }
@@ -157,7 +158,7 @@ namespace Nomlas.TopazChat
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
-                Log("Resync event received while paused. Ignoring.");
+                Log("ポーズ中にResyncイベントを受信しました。無視します。");
                 return;
             }
             else
