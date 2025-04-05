@@ -99,4 +99,18 @@ namespace Nomlas.TopazChat
         Info,
         Error
     }
+
+    public enum PlayType
+    {
+        Play,
+        Resume,
+        ReSync
+    }
+
+    public enum PlayerStatus
+    {
+        Play,
+        Pause,
+        Stop
+    }
 }

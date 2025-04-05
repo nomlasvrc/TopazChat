@@ -17,6 +17,7 @@ namespace Nomlas.TopazChat
             {
                 LogError("UdonSyncに失敗しました。再生できません。");
                 ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
+                SafeStop();
                 return;
             }
             StartStream(_SyncStreamURL, _SyncStreamURL_Android);

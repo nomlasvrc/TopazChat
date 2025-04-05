@@ -15,6 +15,19 @@ namespace Nomlas.TopazChat
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
         #endregion
+        private PlayerStatus _PlayerStatus;
+        public PlayerStatus PlayerStatus
+        {
+            get
+            {
+                return _PlayerStatus;
+            }
+            private set
+            {
+                _PlayerStatus = value;
+                UpdatePlayerStatus(value);
+            }
+        }
         public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
         {
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
@@ -74,39 +87,49 @@ namespace Nomlas.TopazChat
                 listener.UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
             }
         }
+
+        private void UpdatePlayerStatus(PlayerStatus playerStatus)
+        {
+            foreach (PlayerEventListener listener in listeners)
+            {
+                listener.UpdateStatus(playerStatus);
+            }
+        }
         #endregion
 
         /// <summary>
         /// 指定したURLで再生します
         /// </summary>
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
-        private void PlayURL(VRCUrl platformURL)
+        private void PlayURL(VRCUrl platformURL, PlayType playType)
         {
             if (IsValidTopazLink(platformURL))
             {
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());
                 videoPlayer.PlayURL(platformURL);
+                PlayerStatus = PlayerStatus.Play;
             }
             else
             {
                 LogError("URLが無効です。再生できません。");
                 ShowMessage("Invalid URL. Unable to play.", MessageLevel.Error);
+                SafeStop();
                 return;
             }
         }
 
         internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
-            Stop();
+            Stop(true);
             UpdateURL(url, url_Android);
             if (RunningPlatformIsAndroid())
             {
-                PlayURL(url_Android);
+                PlayURL(url_Android, PlayType.Play);
             }
             else
             {
-                PlayURL(url);
+                PlayURL(url, PlayType.Play);
             }
         }
 
@@ -128,15 +151,40 @@ namespace Nomlas.TopazChat
         internal void Resync()
         {
             Log("Resync");
-            PlayURL(player.PlatformSyncStreamURL);
+            PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+        }
+
+        private VRCUrl resumeURL;
+        internal void Pause()
+        {
+            Log("Paused");
+            ShowMessage("Paused");
+            resumeURL = player.PlatformSyncStreamURL;
+            videoPlayer.Stop();
+            PlayerStatus = PlayerStatus.Pause;
+        }
+
+        internal void Resume()
+        {
+            if ((PlayerStatus == PlayerStatus.Pause) && IsValidTopazLink(resumeURL))
+            {
+                Log("Resume");
+                PlayURL(resumeURL, PlayType.Resume);
+            }
         }
 
         protected virtual void VolumeChange() { }
 
-        internal void Stop()
+        internal void Stop(bool hideMessage)
         {
             videoPlayer.Stop();
-            ShowMessage("");
+            if (hideMessage) ShowMessage("");
+            PlayerStatus = PlayerStatus.Stop;
+        }
+
+        internal void SafeStop()
+        {
+            Stop(false);
         }
 
         private void PVideoError(VideoError videoError)
@@ -160,6 +208,7 @@ namespace Nomlas.TopazChat
                     ShowMessage("VideoError: Unknown Error", MessageLevel.Error);
                     break;
             }
+            SafeStop();
         }
 
         #region Video Events
