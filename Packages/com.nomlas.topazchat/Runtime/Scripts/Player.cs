@@ -15,7 +15,19 @@ namespace Nomlas.TopazChat
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
         #endregion
-        [HideInInspector] public PlayerStatus playerStatus { get; private set; }
+        private PlayerStatus _PlayerStatus;
+        public PlayerStatus PlayerStatus
+        {
+            get
+            {
+                return _PlayerStatus;
+            }
+            private set
+            {
+                _PlayerStatus = value;
+                UpdatePlayerStatus(value);
+            }
+        }
         public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
         {
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
@@ -75,6 +87,14 @@ namespace Nomlas.TopazChat
                 listener.UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
             }
         }
+
+        private void UpdatePlayerStatus(PlayerStatus playerStatus)
+        {
+            foreach (PlayerEventListener listener in listeners)
+            {
+                listener.UpdateStatus(playerStatus);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -88,7 +108,7 @@ namespace Nomlas.TopazChat
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());
                 videoPlayer.PlayURL(platformURL);
-                playerStatus = PlayerStatus.Play;
+                PlayerStatus = PlayerStatus.Play;
             }
             else
             {
@@ -141,12 +161,12 @@ namespace Nomlas.TopazChat
             ShowMessage("Paused");
             resumeURL = player.PlatformSyncStreamURL;
             videoPlayer.Stop();
-            playerStatus = PlayerStatus.Pause;
+            PlayerStatus = PlayerStatus.Pause;
         }
 
         internal void Resume()
         {
-            if ((playerStatus == PlayerStatus.Pause) && IsValidTopazLink(resumeURL))
+            if ((PlayerStatus == PlayerStatus.Pause) && IsValidTopazLink(resumeURL))
             {
                 Log("Resume");
                 PlayURL(resumeURL, PlayType.Resume);
@@ -159,7 +179,7 @@ namespace Nomlas.TopazChat
         {
             videoPlayer.Stop();
             if (hideMessage) ShowMessage("");
-            playerStatus = PlayerStatus.Stop;
+            PlayerStatus = PlayerStatus.Stop;
         }
 
         internal void SafeStop()
