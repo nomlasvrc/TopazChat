@@ -15,6 +15,7 @@ namespace Nomlas.TopazChat
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
         [SerializeField] private MeshRenderer screen;
         #endregion
+        [HideInInspector] public PlayerStatus playerStatus { get; private set; }
         public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
         {
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
@@ -87,7 +88,7 @@ namespace Nomlas.TopazChat
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());
                 videoPlayer.PlayURL(platformURL);
-                isPaused = false;
+                playerStatus = PlayerStatus.Play;
             }
             else
             {
@@ -133,7 +134,6 @@ namespace Nomlas.TopazChat
             PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
         }
 
-        private bool isPaused = false;
         private VRCUrl resumeURL;
         internal void Pause()
         {
@@ -141,12 +141,12 @@ namespace Nomlas.TopazChat
             ShowMessage("Paused");
             resumeURL = player.PlatformSyncStreamURL;
             videoPlayer.Stop();
-            isPaused = true;
+            playerStatus = PlayerStatus.Pause;
         }
 
         internal void Resume()
         {
-            if (isPaused && IsValidTopazLink(resumeURL))
+            if ((playerStatus == PlayerStatus.Pause) && IsValidTopazLink(resumeURL))
             {
                 Log("Resume");
                 PlayURL(resumeURL, PlayType.Resume);
@@ -159,7 +159,7 @@ namespace Nomlas.TopazChat
         {
             videoPlayer.Stop();
             if (hideMessage) ShowMessage("");
-            isPaused = false;
+            playerStatus = PlayerStatus.Stop;
         }
 
         internal void SafeStop()

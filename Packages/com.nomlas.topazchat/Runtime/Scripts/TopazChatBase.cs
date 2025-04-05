@@ -106,4 +106,11 @@ namespace Nomlas.TopazChat
         Resume,
         ReSync
     }
+
+    public enum PlayerStatus
+    {
+        Play,
+        Pause,
+        Stop
+    }
 }
