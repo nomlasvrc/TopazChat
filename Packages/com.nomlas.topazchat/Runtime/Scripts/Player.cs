@@ -80,13 +80,14 @@ namespace Nomlas.TopazChat
         /// 指定したURLで再生します
         /// </summary>
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
-        private void PlayURL(VRCUrl platformURL)
+        private void PlayURL(VRCUrl platformURL, PlayType playType)
         {
             if (IsValidTopazLink(platformURL))
             {
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());
                 videoPlayer.PlayURL(platformURL);
+                isPaused = false;
             }
             else
             {
@@ -103,11 +104,11 @@ namespace Nomlas.TopazChat
             UpdateURL(url, url_Android);
             if (RunningPlatformIsAndroid())
             {
-                PlayURL(url_Android);
+                PlayURL(url_Android, PlayType.Play);
             }
             else
             {
-                PlayURL(url);
+                PlayURL(url, PlayType.Play);
             }
         }
 
@@ -129,7 +130,27 @@ namespace Nomlas.TopazChat
         internal void Resync()
         {
             Log("Resync");
-            PlayURL(player.PlatformSyncStreamURL);
+            PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+        }
+
+        private bool isPaused = false;
+        private VRCUrl resumeURL;
+        internal void Pause()
+        {
+            Log("Paused");
+            ShowMessage("Paused");
+            resumeURL = player.PlatformSyncStreamURL;
+            videoPlayer.Stop();
+            isPaused = true;
+        }
+
+        internal void Resume()
+        {
+            if (isPaused && IsValidTopazLink(resumeURL))
+            {
+                Log("Resume");
+                PlayURL(resumeURL, PlayType.Resume);
+            }
         }
 
         protected virtual void VolumeChange() { }
@@ -138,6 +159,7 @@ namespace Nomlas.TopazChat
         {
             videoPlayer.Stop();
             if (hideMessage) ShowMessage("");
+            isPaused = false;
         }
 
         internal void SafeStop()
