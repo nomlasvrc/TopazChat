@@ -77,8 +77,8 @@ namespace Nomlas.TopazChat
             }
             else if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
             {
-                var _url = GetPlatformDefaultStreamURL(Platform.Windows);
-                var _url_Android = GetPlatformDefaultStreamURL(Platform.Android);
+                var _url = GetSyncStreamURL(Platform.Windows);
+                var _url_Android = GetSyncStreamURL(Platform.Android);
                 Log("Send URL to new player");
                 if (IsValidTopazLink(_url) && IsValidTopazLink(_url_Android))
                 {
