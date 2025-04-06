@@ -113,7 +113,7 @@ namespace Nomlas.TopazChat
             else
             {
                 LogError("URLが無効です。再生できません。");
-                ShowMessage("Invalid URL. Unable to play.", MessageLevel.Error);
+                ShowMessage("Invalid URL: " + CheckInvalidTopazLink(platformURL), MessageLevel.Error);
                 SafeStop();
                 return;
             }
@@ -178,7 +178,7 @@ namespace Nomlas.TopazChat
 
         internal void Resume()
         {
-            if ((PlayerStatus == PlayerStatus.Pause) && IsValidTopazLink(player.PlatformSyncStreamURL))
+            if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Resume");
                 PlayURL(player.PlatformSyncStreamURL, PlayType.Resume);
