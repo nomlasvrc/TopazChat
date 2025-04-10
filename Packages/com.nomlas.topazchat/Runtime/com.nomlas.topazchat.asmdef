@@ -5,7 +5,8 @@
         "VRC.SDK3",
         "VRC.SDKBase",
         "UdonSharp.Runtime",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "VRC.Udon"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
