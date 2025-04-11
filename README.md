@@ -1,4 +1,4 @@
-# のむらす式 TopazChat Player 3.0
+# のむらす式 TopazChat Player
 [VCC](https://nomlasvrc.github.io/TopazChat/)<br>
 [booth](https://nomlas.booth.pm/items/6054043)
 
