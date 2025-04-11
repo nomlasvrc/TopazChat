@@ -1143,7 +1143,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 8769239652123472027}
   materialIndex: 0
   textureProperty: _MainTex
-  useSharedMaterial: 1
+  useSharedMaterial: 0
 --- !u!1 &4410844635941190118
 GameObject:
   m_ObjectHideFlags: 0
