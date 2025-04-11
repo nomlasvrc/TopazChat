@@ -56,10 +56,19 @@ namespace Nomlas.TopazChat
         public Material ScreenMaterial { get => screen.sharedMaterial; }
 
         #region Listener
+        /// <summary>
+        /// イベントリスナーの配列。
+        /// AddEventListenerされるまではnullになっていることに注意してください。
+        /// </summary>
         private PlayerEventListener[] listeners;
 
         internal void AddEventListener(PlayerEventListener listener)
         {
+            if (listener == null)
+            {
+                LogError("空のEventListenerが渡されました");
+                return;
+            }
             if (listeners == null)
                 listeners = new PlayerEventListener[0];
             var array = new PlayerEventListener[listeners.Length + 1];
@@ -82,17 +91,19 @@ namespace Nomlas.TopazChat
 
         private void _ShowMessage(string msg, MessageLevel level)
         {
-            foreach (PlayerEventListener listener in listeners)
+            if (!Utilities.IsValid(listeners)) return;
+            for (int i = 0; i < listeners.Length; i++)
             {
-                listener.UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
+                listeners[i].UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
             }
         }
 
         private void UpdatePlayerStatus(PlayerStatus playerStatus)
         {
-            foreach (PlayerEventListener listener in listeners)
+            if (!Utilities.IsValid(listeners)) return;
+            for (int i = 0; i < listeners.Length; i++)
             {
-                listener.UpdateStatus(playerStatus);
+                listeners[i].UpdateStatus(playerStatus);
             }
         }
         #endregion
@@ -141,9 +152,10 @@ namespace Nomlas.TopazChat
 
         private void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
-            foreach (PlayerEventListener listener in listeners)
+            if (!Utilities.IsValid(listeners)) return;
+            for (int i = 0; i < listeners.Length; i++)
             {
-                listener.UpdateURL(url, url_Android);
+                listeners[i].UpdateURL(url, url_Android);
             }
         }
 
