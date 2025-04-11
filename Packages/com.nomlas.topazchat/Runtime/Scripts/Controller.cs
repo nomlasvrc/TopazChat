@@ -16,9 +16,9 @@ namespace Nomlas.TopazChat
         [SerializeField] internal bool androidMode;
         private VRCUrl tempURL;
 
-        private void Start()
+        protected override void Start()
         {
-            player.AddEventListener(this);
+            base.Start();
             if (Utilities.IsValid(urlInputField))
             {
                 urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));

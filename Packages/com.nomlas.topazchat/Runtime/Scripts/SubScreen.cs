@@ -11,9 +11,10 @@ namespace Nomlas.TopazChat
         [SerializeField] MeshRenderer target;
         public override void OnListenerReady()
         {
-            if (player.ScreenMaterial != null)
+            Material screenMat = player.ScreenMaterial;
+            if (screenMat != null)
             {
-                target.sharedMaterial = player.ScreenMaterial;
+                target.sharedMaterial = screenMat;
                 Log("サブスクリーンを設定しました");
             }
             else

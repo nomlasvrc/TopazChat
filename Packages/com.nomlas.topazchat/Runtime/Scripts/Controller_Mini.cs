@@ -6,11 +6,5 @@ using VRC.Udon;
 
 namespace Nomlas.TopazChat
 {
-    public class Controller_Mini : VolumeController
-    {
-        private void Start()
-        {
-            player.AddEventListener(this);
-        }
-    }
+    public class Controller_Mini : VolumeController { }
 }
