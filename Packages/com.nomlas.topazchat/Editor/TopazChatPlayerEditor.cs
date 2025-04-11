@@ -5,34 +5,18 @@ using VRC.SDKBase;
 namespace Nomlas.TopazChat
 {
     [CustomEditor(typeof(TopazChatPlayer))]
-    public class TopazChatPlayerEditor : TopazChatPlayerEditorBase
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawTopazChatPlayerInspector();
-            EditorGUILayout.Space();
-            DrawDefaultInspector();
-        }
-    }
-
-    [CustomEditor(typeof(TopazChatPlayerReverbFilter))]
-    public class TopazChatPlayerReverbFilterEditor : TopazChatPlayerEditorBase
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawTopazChatPlayerInspector();
-            EditorGUILayout.Space();
-            EditorGUILayout.HelpBox("ReverbFilterバリアントでは音量調整ができません。", MessageType.Info);
-            EditorGUILayout.Space();
-            DrawDefaultInspector();
-        }
-    }
-
-    public class TopazChatPlayerEditorBase : Editor
+    public class TopazChatPlayerEditor : Editor
     {
         private string streamKey = "";
 
-        protected void DrawTopazChatPlayerInspector()
+        public override void OnInspectorGUI()
+        {
+            DrawTopazChatPlayerInspector();
+            EditorGUILayout.Space();
+            DrawDefaultInspector();
+        }
+
+        private void DrawTopazChatPlayerInspector()
         {
             TopazChatPlayerBase player = (TopazChatPlayerBase)target;
 
