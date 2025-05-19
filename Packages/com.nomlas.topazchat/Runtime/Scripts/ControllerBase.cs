@@ -1,18 +1,17 @@
 
 using TMPro;
-using UdonSharp;
 using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
+using UnityEngine.UI;
 
 namespace Nomlas.TopazChat
 {
     public class ControllerBase : PlayerEventListener
     {
-        [SerializeField] GameObject playIcon;
-        [SerializeField] GameObject pauseIcon;
-        [SerializeField] GameObject stopIcon;
+        [SerializeField] private GameObject playIcon;
+        [SerializeField] private GameObject pauseIcon;
+        [SerializeField] private GameObject stopIcon;
         [SerializeField] private TextMeshProUGUI message;
+        [SerializeField] private Slider volumeSlider;
         public void ReSync()
         {
             player.Resync();
@@ -21,6 +20,11 @@ namespace Nomlas.TopazChat
         public void GlobalSync()
         {
             player.GlobalSync();
+        }
+
+        public void ChangeVolume()
+        {
+            player.Volume = volumeSlider.value;
         }
 
         public override void UpdateMessage(string msg)

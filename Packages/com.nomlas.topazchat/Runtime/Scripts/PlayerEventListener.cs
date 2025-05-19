@@ -1,11 +1,10 @@
-using UnityEngine;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
     public abstract class PlayerEventListener : TopazChatBase
     {
-        public TopazChatPlayerBase player;
+        public TopazChatPlayer player;
         protected virtual void Start()
         {
             player.AddEventListener(this);

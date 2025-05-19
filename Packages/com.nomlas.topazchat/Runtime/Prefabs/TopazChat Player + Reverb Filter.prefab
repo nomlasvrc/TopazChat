@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 6211606812085191686}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -626,7 +626,7 @@ PrefabInstance:
     - target: {fileID: 6997214717518167715, guid: a0d29622c03c88b42a916f56872d326e,
         type: 3}
       propertyPath: m_Name
-      value: TopazChat Player + Reverb Filter Variant
+      value: TopazChat Player + Reverb Filter
       objectReference: {fileID: 0}
     - target: {fileID: 7595944837173016742, guid: a0d29622c03c88b42a916f56872d326e,
         type: 3}

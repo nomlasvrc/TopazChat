@@ -1,20 +1,34 @@
 
 using UnityEngine;
-using VRC.SDK3.Components;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.Video.Components.AVPro;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class Player : TopazChatBase
+    public class Player : EventDispatcher
     {
-        #region Inspector
+        // ---------------------------------------------
+
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
+
+        public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
+        {
+            return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
+        }
+
+        // ---------------------------------------------
+
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
+
+        // ---------------------------------------------
+
         [SerializeField] private MeshRenderer screen;
-        #endregion
+        public Material ScreenMaterial { get => screen.sharedMaterial; }
+
+        // ---------------------------------------------
+
         private PlayerStatus _PlayerStatus;
         public PlayerStatus PlayerStatus
         {
@@ -28,85 +42,12 @@ namespace Nomlas.TopazChat
                 UpdatePlayerStatus(value);
             }
         }
-        public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
-        {
-            return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
-        }
 
-        protected TopazChatPlayerBase player;
+        // ---------------------------------------------
+        // virtualだが必須
+        protected virtual VRCUrl GetPlatformSyncStreamURL() { return null; }
 
-        private float _volume;
-        public float Volume
-        {
-            get
-            {
-                return _volume;
-            }
-            set
-            {
-                _volume = Mathf.Clamp01(value);
-                if (_volume != value)
-                {
-                    Log($"Volume: {_volume} => {value}");
-                }
-                VolumeChange();
-            }
-        }
-
-        public Material ScreenMaterial { get => screen.sharedMaterial; }
-
-        #region Listener
-        /// <summary>
-        /// イベントリスナーの配列。
-        /// AddEventListenerされるまではnullになっていることに注意してください。
-        /// </summary>
-        private PlayerEventListener[] listeners;
-
-        internal void AddEventListener(PlayerEventListener listener)
-        {
-            if (listener == null)
-            {
-                LogError("空のEventListenerが渡されました");
-                return;
-            }
-            if (listeners == null)
-                listeners = new PlayerEventListener[0];
-            var array = new PlayerEventListener[listeners.Length + 1];
-            listeners.CopyTo(array, 0);
-            array[listeners.Length] = listener;
-            listeners = array;
-            Log("Added EventListener");
-            listener.OnListenerReady();
-        }
-
-        internal void ShowMessage(string msg)
-        {
-            _ShowMessage(msg, MessageLevel.Info);
-        }
-
-        internal void ShowMessage(string msg, MessageLevel level)
-        {
-            _ShowMessage(msg, level);
-        }
-
-        private void _ShowMessage(string msg, MessageLevel level)
-        {
-            if (!Utilities.IsValid(listeners)) return;
-            for (int i = 0; i < listeners.Length; i++)
-            {
-                listeners[i].UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
-            }
-        }
-
-        private void UpdatePlayerStatus(PlayerStatus playerStatus)
-        {
-            if (!Utilities.IsValid(listeners)) return;
-            for (int i = 0; i < listeners.Length; i++)
-            {
-                listeners[i].UpdateStatus(playerStatus);
-            }
-        }
-        #endregion
+        // ---------------------------------------------
 
         /// <summary>
         /// 指定したURLで再生します
@@ -114,7 +55,7 @@ namespace Nomlas.TopazChat
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
         private void PlayURL(VRCUrl platformURL, PlayType playType)
         {
-            if (IsValidTopazLink(platformURL))
+            if (TopazUtils.IsValidTopazLink(platformURL))
             {
                 Log("URL Changed: " + platformURL.ToString());
                 ShowMessage("Streaming: " + platformURL.ToString());
@@ -124,23 +65,22 @@ namespace Nomlas.TopazChat
             else
             {
                 LogError("URLが無効です。再生できません。");
-                ShowMessage("Invalid URL: " + CheckInvalidTopazLink(platformURL), MessageLevel.Error);
+                ShowMessage("Invalid URL: " + TopazUtils.CheckInvalidTopazLink(platformURL), MessageLevel.Error);
                 SafeStop();
                 return;
             }
         }
 
-        internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
+        protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("ポーズ中に再生開始イベントを受信しました。無視します。");
-                UpdateURL(url, url_Android);
                 return;
             }
             Stop(StopType.Stop);
             UpdateURL(url, url_Android);
-            if (RunningPlatformIsAndroid())
+            if (GetRunningPlatform() == Platform.Android)
             {
                 PlayURL(url_Android, PlayType.Play);
             }
@@ -150,23 +90,10 @@ namespace Nomlas.TopazChat
             }
         }
 
-        private void UpdateURL(VRCUrl url, VRCUrl url_Android)
-        {
-            if (!Utilities.IsValid(listeners)) return;
-            for (int i = 0; i < listeners.Length; i++)
-            {
-                listeners[i].UpdateURL(url, url_Android);
-            }
-        }
-
-        public void GlobalSync() //GlobalSyncボタンが押されたときに発火
-        {
-            Log("Global Sync");
-            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
-            Resync();
-        }
-
-        internal void Resync()
+        /// <summary>
+        /// ReSyncします。
+        /// </summary>
+        protected void _Resync()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -176,10 +103,13 @@ namespace Nomlas.TopazChat
             else
             {
                 Log("Resync");
-                PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+                PlayURL(GetPlatformSyncStreamURL(), PlayType.ReSync);
             }
         }
 
+        /// <summary>
+        /// 再生を一時停止します。
+        /// </summary>
         internal void Pause()
         {
             Log("Paused");
@@ -188,17 +118,21 @@ namespace Nomlas.TopazChat
             PlayerStatus = PlayerStatus.Pause;
         }
 
+        /// <summary>
+        /// 再生を再開します。
+        /// </summary>
         internal void Resume()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Resume");
-                PlayURL(player.PlatformSyncStreamURL, PlayType.Resume);
+                PlayURL(GetPlatformSyncStreamURL(), PlayType.Resume);
             }
         }
 
-        protected virtual void VolumeChange() { }
-
+        /// <summary>
+        /// 再生を停止します。
+        /// </summary>
         internal void Stop(StopType stopType)
         {
             videoPlayer.Stop();
@@ -209,12 +143,15 @@ namespace Nomlas.TopazChat
             PlayerStatus = PlayerStatus.Stop;
         }
 
+        /// <summary>
+        /// 何か再生できない事情が発生した場合に明示的に再生を停止します。
+        /// </summary>
         internal void SafeStop()
         {
             Stop(StopType.ErrorStop);
         }
 
-        private void PVideoError(VideoError videoError)
+        protected void PVideoError(VideoError videoError)
         {
             LogError("Video Error: " + videoError.ToString());
             switch (videoError)
@@ -237,15 +174,5 @@ namespace Nomlas.TopazChat
             }
             SafeStop();
         }
-
-        #region Video Events
-        internal void PlayerVideoEnd() { }
-        internal void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
-        internal void PlayerVideoLoop() { }
-        internal void PlayerVideoPause() { }
-        internal void PlayerVideoPlay() { }
-        internal void PlayerVideoReady() { }
-        internal void PlayerVideoStart() { }
-        #endregion
     }
 }

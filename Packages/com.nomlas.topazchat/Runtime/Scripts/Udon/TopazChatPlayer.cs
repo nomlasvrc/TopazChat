@@ -1,10 +1,8 @@
-
 using UnityEngine;
-using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class TopazChatPlayerBase : URLSync
+    public class TopazChatPlayer : URLSync
     {
         [SerializeField] internal Controller controller;
     }

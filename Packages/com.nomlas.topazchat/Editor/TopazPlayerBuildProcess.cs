@@ -17,7 +17,7 @@ namespace Nomlas.TopazChat
                 .Where(x => !IsEditorOnly(x.transform));
 
             var player = Object
-                .FindObjectsByType<TopazChatPlayerBase>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID)
+                .FindObjectsByType<TopazChatPlayer>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID)
                 .FirstOrDefault(x => !IsEditorOnly(x.transform));
 
             foreach (var controller in controllers)
