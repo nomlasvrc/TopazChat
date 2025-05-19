@@ -12,7 +12,6 @@ namespace Nomlas.TopazChat
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
-        [SerializeField] private AudioSource[] speakers;
         [SerializeField] private MeshRenderer screen;
         #endregion
         private PlayerStatus _PlayerStatus;
@@ -34,24 +33,6 @@ namespace Nomlas.TopazChat
         }
 
         protected virtual VRCUrl GetPlatformSyncStreamURL() { return null; }
-
-        private float _volume;
-        public float Volume
-        {
-            get
-            {
-                return _volume;
-            }
-            set
-            {
-                _volume = Mathf.Clamp01(value);
-                if (_volume != value)
-                {
-                    Log($"Volume: {_volume} => {value}");
-                }
-                OnVolumeChange();
-            }
-        }
 
         public Material ScreenMaterial { get => screen.sharedMaterial; }
 
@@ -77,12 +58,11 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal protected void StartStream(VRCUrl url, VRCUrl url_Android)
+        protected void StartStream(VRCUrl url, VRCUrl url_Android)
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("ポーズ中に再生開始イベントを受信しました。無視します。");
-                UpdateURL(url, url_Android);
                 return;
             }
             Stop(StopType.Stop);
@@ -98,19 +78,9 @@ namespace Nomlas.TopazChat
         }
 
         /// <summary>
-        /// GlobalでReSyncします。
-        /// </summary>
-        internal void GlobalSync() //GlobalSyncボタンが押されたときに発火
-        {
-            Log("Global Sync");
-            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
-            Resync();
-        }
-
-        /// <summary>
         /// ReSyncします。
         /// </summary>
-        internal void Resync()
+        protected void _Resync()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -144,14 +114,6 @@ namespace Nomlas.TopazChat
             {
                 Log("Resume");
                 PlayURL(GetPlatformSyncStreamURL(), PlayType.Resume);
-            }
-        }
-
-        private void OnVolumeChange()
-        {
-            foreach (AudioSource speaker in speakers)
-            {
-                if (Utilities.IsValid(speaker)) speaker.volume = Volume;
             }
         }
 
