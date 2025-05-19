@@ -49,7 +49,7 @@ namespace Nomlas.TopazChat
                 {
                     Log($"Volume: {_volume} => {value}");
                 }
-                VolumeChange();
+                OnVolumeChange();
             }
         }
 
@@ -97,13 +97,19 @@ namespace Nomlas.TopazChat
             }
         }
 
-        public void GlobalSync() //GlobalSyncボタンが押されたときに発火
+        /// <summary>
+        /// GlobalでReSyncします。
+        /// </summary>
+        internal void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
             Log("Global Sync");
             SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
             Resync();
         }
 
+        /// <summary>
+        /// ReSyncします。
+        /// </summary>
         internal void Resync()
         {
             if (PlayerStatus == PlayerStatus.Pause)
@@ -118,6 +124,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 再生を一時停止します。
+        /// </summary>
         internal void Pause()
         {
             Log("Paused");
@@ -126,6 +135,9 @@ namespace Nomlas.TopazChat
             PlayerStatus = PlayerStatus.Pause;
         }
 
+        /// <summary>
+        /// 再生を再開します。
+        /// </summary>
         internal void Resume()
         {
             if (PlayerStatus == PlayerStatus.Pause)
@@ -135,7 +147,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        private void VolumeChange()
+        private void OnVolumeChange()
         {
             foreach (AudioSource speaker in speakers)
             {
@@ -143,6 +155,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 再生を停止します。
+        /// </summary>
         internal void Stop(StopType stopType)
         {
             videoPlayer.Stop();
@@ -153,6 +168,9 @@ namespace Nomlas.TopazChat
             PlayerStatus = PlayerStatus.Stop;
         }
 
+        /// <summary>
+        /// 何か再生できない事情が発生した場合に明示的に再生を停止します。
+        /// </summary>
         internal void SafeStop()
         {
             Stop(StopType.ErrorStop);
