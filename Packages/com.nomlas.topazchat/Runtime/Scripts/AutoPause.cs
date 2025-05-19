@@ -1,8 +1,5 @@
-﻿
-using UdonSharp;
-using UnityEngine;
+﻿using UnityEngine;
 using VRC.SDKBase;
-using VRC.Udon;
 
 namespace Nomlas.TopazChat
 {

@@ -1,4 +1,3 @@
-using UnityEngine;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat

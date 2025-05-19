@@ -1,7 +1,6 @@
 
 using UdonSharp;
 using UnityEngine;
-using VRC.SDKBase;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("com.nomlas.topazchat.Editor")]
 namespace Nomlas.TopazChat

@@ -1,10 +1,4 @@
-﻿
-using UdonSharp;
-using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
-
-namespace Nomlas.TopazChat
+﻿namespace Nomlas.TopazChat
 {
     public class VideoStatusWatcher : PlayerEventListener
     {

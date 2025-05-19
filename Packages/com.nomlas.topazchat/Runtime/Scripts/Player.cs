@@ -1,6 +1,5 @@
 
 using UnityEngine;
-using VRC.SDK3.Components;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.Video.Components.AVPro;
 using VRC.SDKBase;
