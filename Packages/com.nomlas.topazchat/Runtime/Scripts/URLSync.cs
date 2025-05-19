@@ -37,20 +37,6 @@ namespace Nomlas.TopazChat
 
         // ----------------------------------------
 
-        public override void OnDeserialization()
-        {
-            if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
-            {
-                StartStream(SyncStreamURL, SyncStreamURL_Android);
-            }
-            else
-            {
-                LogError("UdonSyncに失敗しました。再生できません。");
-                ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
-                SafeStop();
-            }
-        }
-
         /// <summary>
         /// 現在実行中のプラットフォームに応じたStreamURLを返します。
         /// </summary>
@@ -69,7 +55,21 @@ namespace Nomlas.TopazChat
             }
         }
 
-        public override void OnPlayerJoined(VRCPlayerApi player)
+        private void CheckAndStartStream()
+        {
+            if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
+            {
+                StartStream(SyncStreamURL, SyncStreamURL_Android);
+            }
+            else
+            {
+                LogError("UdonSyncに失敗しました。再生できません。");
+                ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
+                SafeStop();
+            }
+        }
+
+        private void PlayerJoinSync(VRCPlayerApi joinedPlayer)
         {
             if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
             {
@@ -89,7 +89,7 @@ namespace Nomlas.TopazChat
                     SetUrl(GetPlatformDefaultStreamURL(Platform.Windows), GetPlatformDefaultStreamURL(Platform.Android));
                 }
             }
-            else if (player.isLocal)
+            else if (joinedPlayer.isLocal)
             {
                 Log("Hello! Please wait while get URL from owner...");
             }
@@ -102,6 +102,16 @@ namespace Nomlas.TopazChat
             {
                 Networking.SetOwner(local, this.gameObject);
             }
+        }
+
+        public override void OnPlayerJoined(VRCPlayerApi player)
+        {
+            PlayerJoinSync(player);
+        }
+
+        public override void OnDeserialization()
+        {
+            CheckAndStartStream();
         }
     }
 }
