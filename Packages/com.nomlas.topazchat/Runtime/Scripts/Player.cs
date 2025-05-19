@@ -8,12 +8,27 @@ namespace Nomlas.TopazChat
 {
     public class Player : EventDispatcher
     {
-        #region Inspector
+        // ---------------------------------------------
+
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
+
+        public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
+        {
+            return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
+        }
+
+        // ---------------------------------------------
+
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
+
+        // ---------------------------------------------
+
         [SerializeField] private MeshRenderer screen;
-        #endregion
+        public Material ScreenMaterial { get => screen.sharedMaterial; }
+
+        // ---------------------------------------------
+
         private PlayerStatus _PlayerStatus;
         public PlayerStatus PlayerStatus
         {
@@ -27,14 +42,12 @@ namespace Nomlas.TopazChat
                 UpdatePlayerStatus(value);
             }
         }
-        public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
-        {
-            return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
-        }
 
+        // ---------------------------------------------
+        // virtualだが必須
         protected virtual VRCUrl GetPlatformSyncStreamURL() { return null; }
 
-        public Material ScreenMaterial { get => screen.sharedMaterial; }
+        // ---------------------------------------------
 
         /// <summary>
         /// 指定したURLで再生します
