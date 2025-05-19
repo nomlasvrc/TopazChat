@@ -7,9 +7,9 @@ namespace Nomlas.TopazChat
 {
     public class ControllerBase : PlayerEventListener
     {
-        [SerializeField] GameObject playIcon;
-        [SerializeField] GameObject pauseIcon;
-        [SerializeField] GameObject stopIcon;
+        [SerializeField] private GameObject playIcon;
+        [SerializeField] private GameObject pauseIcon;
+        [SerializeField] private GameObject stopIcon;
         [SerializeField] private TextMeshProUGUI message;
         [SerializeField] private Slider volumeSlider;
         public void ReSync()

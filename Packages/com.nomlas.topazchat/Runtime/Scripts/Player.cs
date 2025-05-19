@@ -135,7 +135,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        void VolumeChange()
+        private void VolumeChange()
         {
             foreach (AudioSource speaker in speakers)
             {
