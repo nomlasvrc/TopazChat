@@ -46,18 +46,5 @@ namespace Nomlas.TopazChat
             return false;
 #endif
         }
-
-        public string MessageLevelColor(MessageLevel level)
-        {
-            switch (level)
-            {
-                case MessageLevel.Info:
-                    return "#CCCCCC";
-                case MessageLevel.Error:
-                    return "#CC0000";
-                default:
-                    return "#CCCCCC";
-            }
-        }
     }
 }

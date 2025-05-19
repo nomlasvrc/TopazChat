@@ -94,7 +94,7 @@ namespace Nomlas.TopazChat
             if (!Utilities.IsValid(listeners)) return;
             for (int i = 0; i < listeners.Length; i++)
             {
-                listeners[i].UpdateMessage($"<color={MessageLevelColor(level)}>{msg}</color>");
+                listeners[i].UpdateMessage($"<color={TopazUtils.MessageLevelColor(level)}>{msg}</color>");
             }
         }
 

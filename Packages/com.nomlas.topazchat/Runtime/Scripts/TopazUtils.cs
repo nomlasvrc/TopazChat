@@ -48,6 +48,19 @@ namespace Nomlas.TopazChat
         {
             return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
         }
+
+        public static string MessageLevelColor(MessageLevel level)
+        {
+            switch (level)
+            {
+                case MessageLevel.Info:
+                    return "#CCCCCC";
+                case MessageLevel.Error:
+                    return "#CC0000";
+                default:
+                    return "#CCCCCC";
+            }
+        }
     }
 
     public enum Platform
