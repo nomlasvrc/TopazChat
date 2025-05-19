@@ -55,7 +55,7 @@ namespace Nomlas.TopazChat
             }
         }
 
-        private void CheckAndStartStream()
+        private void CheckReceivedURLAndStartStream()
         {
             if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
             {
@@ -79,7 +79,7 @@ namespace Nomlas.TopazChat
             else if (joinedPlayer.isLocal) //インスタンス人数が二人以上で、あなたがJoinした人なら
             {
                 Log("Welcome! checking if received URLs can be played...");
-                CheckAndStartStream();
+                CheckReceivedURLAndStartStream();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Nomlas.TopazChat
 
         public override void OnDeserialization()
         {
-            CheckAndStartStream();
+            CheckReceivedURLAndStartStream();
         }
     }
 }
