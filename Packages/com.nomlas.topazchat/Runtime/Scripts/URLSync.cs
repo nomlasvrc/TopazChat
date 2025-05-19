@@ -18,15 +18,20 @@ namespace Nomlas.TopazChat
 
         // ----------- Set用 ------------
 
-        internal void SetSyncStreamURL(VRCUrl url, Platform platform)
+        internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
         {
-            if (platform == Platform.Android)
+            if (TopazUtils.IsTopazLink(tmpStreamURL) && TopazUtils.IsTopazLink(tmpStreamURL_Android))
             {
-                _SyncStreamURL_Android = url;
+                TakeOwner();
+                _SyncStreamURL = tmpStreamURL;
+                _SyncStreamURL_Android = tmpStreamURL_Android;
+                RequestSerialization();
+                StartStream(tmpStreamURL, tmpStreamURL_Android);
             }
             else
             {
-                _SyncStreamURL = url;
+                LogWarning("TopazChat以外のURLは再生できません。");
+                return;
             }
         }
 
@@ -64,20 +69,6 @@ namespace Nomlas.TopazChat
             }
         }
 
-        internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android) // Global
-        {
-            if (!TopazUtils.IsTopazLink(tmpStreamURL) || !TopazUtils.IsTopazLink(tmpStreamURL_Android))
-            {
-                LogWarning("TopazChat以外のURLは再生できません。");
-                return;
-            }
-            if (!Networking.IsOwner(Networking.LocalPlayer, this.gameObject)) Networking.SetOwner(Networking.LocalPlayer, this.gameObject);
-            SetSyncStreamURL(tmpStreamURL, Platform.Windows);
-            SetSyncStreamURL(tmpStreamURL_Android, Platform.Android);
-            RequestSerialization();
-            StartStream(tmpStreamURL, tmpStreamURL_Android);
-        }
-
         public override void OnPlayerJoined(VRCPlayerApi player)
         {
             if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
@@ -101,6 +92,15 @@ namespace Nomlas.TopazChat
             else if (player.isLocal)
             {
                 Log("Hello! Please wait while get URL from owner...");
+            }
+        }
+
+        private void TakeOwner()
+        {
+            var local = Networking.LocalPlayer;
+            if (!Networking.IsOwner(local, this.gameObject))
+            {
+                Networking.SetOwner(local, this.gameObject);
             }
         }
     }
