@@ -73,25 +73,13 @@ namespace Nomlas.TopazChat
         {
             if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
             {
-                Log("Play with defalut URL");
+                Log("Welcome! Play with defalut URL...");
                 SetDefaultURL();
-            }
-            else if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject)) //インスタンス人数が二人以上で、Ownerなら
-            {
-                Log("Send URL to new player");
-                if (TopazUtils.IsValidTopazLink(SyncStreamURL) && TopazUtils.IsValidTopazLink(SyncStreamURL_Android))
-                {
-                    RequestSerialization();
-                }
-                else
-                {
-                    LogWarning("Streaming URL is invalid. Play with defalut URL.");
-                    SetDefaultURL();
-                }
             }
             else if (joinedPlayer.isLocal) //インスタンス人数が二人以上で、あなたがJoinした人なら
             {
-                Log("Hello! Please wait while get URL from owner...");
+                Log("Welcome! checking if received URLs can be played...");
+                CheckAndStartStream();
             }
         }
 
