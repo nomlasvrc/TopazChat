@@ -2,6 +2,7 @@
 using TMPro;
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.SDKBase;
 using VRC.Udon;
 
@@ -13,6 +14,7 @@ namespace Nomlas.TopazChat
         [SerializeField] GameObject pauseIcon;
         [SerializeField] GameObject stopIcon;
         [SerializeField] private TextMeshProUGUI message;
+        [SerializeField] private Slider volumeSlider;
         public void ReSync()
         {
             player.Resync();
@@ -21,6 +23,11 @@ namespace Nomlas.TopazChat
         public void GlobalSync()
         {
             player.GlobalSync();
+        }
+
+        public void ChangeVolume()
+        {
+            player.Volume = volumeSlider.value;
         }
 
         public override void UpdateMessage(string msg)

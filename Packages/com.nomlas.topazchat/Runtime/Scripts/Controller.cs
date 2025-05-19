@@ -8,7 +8,7 @@ using VRC.Udon;
 
 namespace Nomlas.TopazChat
 {
-    public class Controller : VolumeController
+    public class Controller : ControllerBase
     {
         [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
