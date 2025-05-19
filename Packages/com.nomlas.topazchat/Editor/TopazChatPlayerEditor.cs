@@ -18,7 +18,7 @@ namespace Nomlas.TopazChat
 
         private void DrawTopazChatPlayerInspector()
         {
-            TopazChatPlayerBase player = (TopazChatPlayerBase)target;
+            TopazChatPlayer player = (TopazChatPlayer)target;
 
             var oldStreamKey = streamKey;
             streamKey = EditorGUILayout.TextField("ストリームキー", streamKey);

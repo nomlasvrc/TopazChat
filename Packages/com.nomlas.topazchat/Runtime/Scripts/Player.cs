@@ -32,7 +32,7 @@ namespace Nomlas.TopazChat
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
         }
 
-        protected TopazChatPlayerBase player;
+        protected TopazChatPlayer player;
 
         private float _volume;
         public float Volume

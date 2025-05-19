@@ -3,8 +3,9 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class TopazChatPlayer : TopazChatPlayerBase
+    public class TopazChatPlayer : URLSync
     {
+        [SerializeField] internal Controller controller;
         [SerializeField] private AudioSource[] speakers;
         private void Start()
         {
