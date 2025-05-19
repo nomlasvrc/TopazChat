@@ -40,18 +40,15 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 現在実行中のプラットフォームに応じたStreamURLを返します。
         /// </summary>
-        public VRCUrl PlatformSyncStreamURL
+        protected override VRCUrl GetPlatformSyncStreamURL()
         {
-            get
+            if (GetRunningPlatform() == Platform.Android)
             {
-                if (GetRunningPlatform() == Platform.Android)
-                {
-                    return SyncStreamURL_Android;
-                }
-                else
-                {
-                    return SyncStreamURL;
-                }
+                return SyncStreamURL_Android;
+            }
+            else
+            {
+                return SyncStreamURL;
             }
         }
 

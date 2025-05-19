@@ -33,7 +33,7 @@ namespace Nomlas.TopazChat
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
         }
 
-        protected TopazChatPlayer player;
+        protected virtual VRCUrl GetPlatformSyncStreamURL() { return null; }
 
         private float _volume;
         public float Volume
@@ -114,7 +114,7 @@ namespace Nomlas.TopazChat
             else
             {
                 Log("Resync");
-                PlayURL(player.PlatformSyncStreamURL, PlayType.ReSync);
+                PlayURL(GetPlatformSyncStreamURL(), PlayType.ReSync);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Nomlas.TopazChat
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Resume");
-                PlayURL(player.PlatformSyncStreamURL, PlayType.Resume);
+                PlayURL(GetPlatformSyncStreamURL(), PlayType.Resume);
             }
         }
 
