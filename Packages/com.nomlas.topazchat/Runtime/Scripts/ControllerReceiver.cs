@@ -24,6 +24,14 @@ namespace Nomlas.TopazChat
             }
         }
 
+        private void OnVolumeChange()
+        {
+            foreach (AudioSource speaker in speakers)
+            {
+                if (Utilities.IsValid(speaker)) speaker.volume = Volume;
+            }
+        }
+
         /// <summary>
         /// ReSyncします。
         /// </summary>
@@ -40,14 +48,6 @@ namespace Nomlas.TopazChat
             Log("Global Sync");
             SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
             _Resync();
-        }
-
-        private void OnVolumeChange()
-        {
-            foreach (AudioSource speaker in speakers)
-            {
-                if (Utilities.IsValid(speaker)) speaker.volume = Volume;
-            }
         }
     }
 }
