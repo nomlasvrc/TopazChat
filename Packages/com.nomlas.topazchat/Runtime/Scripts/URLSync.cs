@@ -6,22 +6,51 @@ namespace Nomlas.TopazChat
 {
     public class URLSync : VideoEventListener
     {
-        #region UdonSync
+        // ----------------------------------------
+        //
+        //                UdonSync
+
         [UdonSynced] private VRCUrl _SyncStreamURL;
         [UdonSynced] private VRCUrl _SyncStreamURL_Android;
 
+        // -----------------------------------------
+
+        private VRCUrl SyncStreamURL
+        {
+            get
+            {
+                return _SyncStreamURL;
+            }
+            set
+            {
+                _SyncStreamURL = value;
+            }
+        }
+        private VRCUrl SyncStreamURL_Android
+        {
+            get
+            {
+                return _SyncStreamURL_Android;
+            }
+            set
+            {
+                _SyncStreamURL_Android = value;
+            }
+        }
+
         public override void OnDeserialization()
         {
-            if (!Utilities.IsValid(_SyncStreamURL) || !Utilities.IsValid(_SyncStreamURL_Android))
+            if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
+            {
+                StartStream(SyncStreamURL, SyncStreamURL_Android);
+            }
+            else
             {
                 LogError("UdonSyncに失敗しました。再生できません。");
                 ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
                 SafeStop();
-                return;
             }
-            StartStream(_SyncStreamURL, _SyncStreamURL_Android);
         }
-        #endregion
 
         #region PlatformURL
         /// <summary>
@@ -29,7 +58,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         public VRCUrl GetSyncStreamURL(Platform platform)
         {
-            return platform == Platform.Android ? _SyncStreamURL_Android : _SyncStreamURL;
+            return platform == Platform.Android ? SyncStreamURL_Android : SyncStreamURL;
         }
 
         /// <summary>
@@ -44,11 +73,11 @@ namespace Nomlas.TopazChat
         {
             if (platform == Platform.Android)
             {
-                _SyncStreamURL_Android = url;
+                SyncStreamURL_Android = url;
             }
             else
             {
-                _SyncStreamURL = url;
+                SyncStreamURL = url;
             }
         }
         #endregion
