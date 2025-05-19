@@ -49,4 +49,36 @@ namespace Nomlas.TopazChat
             return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
         }
     }
+
+    public enum Platform
+    {
+        Windows,
+        Android
+    }
+
+    public enum MessageLevel
+    {
+        Info,
+        Error
+    }
+
+    public enum PlayType
+    {
+        Play,
+        Resume,
+        ReSync
+    }
+    public enum StopType
+    {
+        Stop,
+        ErrorStop,
+        Pause
+    }
+
+    public enum PlayerStatus
+    {
+        Play,
+        Pause,
+        Stop
+    }
 }

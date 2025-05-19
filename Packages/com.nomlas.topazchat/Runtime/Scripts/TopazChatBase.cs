@@ -60,36 +60,4 @@ namespace Nomlas.TopazChat
             }
         }
     }
-
-    public enum Platform
-    {
-        Windows,
-        Android
-    }
-
-    public enum MessageLevel
-    {
-        Info,
-        Error
-    }
-
-    public enum PlayType
-    {
-        Play,
-        Resume,
-        ReSync
-    }
-    public enum StopType
-    {
-        Stop,
-        ErrorStop,
-        Pause
-    }
-
-    public enum PlayerStatus
-    {
-        Play,
-        Pause,
-        Stop
-    }
 }
