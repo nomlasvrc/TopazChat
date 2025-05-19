@@ -56,7 +56,7 @@ namespace Nomlas.TopazChat
 
         internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android) // Global
         {
-            if (!IsTopazLink(tmpStreamURL) || !IsTopazLink(tmpStreamURL_Android))
+            if (!TopazUtils.IsTopazLink(tmpStreamURL) || !TopazUtils.IsTopazLink(tmpStreamURL_Android))
             {
                 LogWarning("TopazChat以外のURLは再生できません。");
                 return;
@@ -80,7 +80,7 @@ namespace Nomlas.TopazChat
                 var _url = GetSyncStreamURL(Platform.Windows);
                 var _url_Android = GetSyncStreamURL(Platform.Android);
                 Log("Send URL to new player");
-                if (IsValidTopazLink(_url) && IsValidTopazLink(_url_Android))
+                if (TopazUtils.IsValidTopazLink(_url) && TopazUtils.IsValidTopazLink(_url_Android))
                 {
                     RequestSerialization();
                 }

@@ -27,49 +27,6 @@ namespace Nomlas.TopazChat
             Debug.LogError(prefix + message);
         }
 
-        public static bool IsValidTopazLink(VRCUrl url)
-        {
-            if (!Utilities.IsValid(url)) return false;
-            var _url = url.ToString();
-            if (string.IsNullOrWhiteSpace(_url) || !IsTopazLink(_url)) return false;
-            var _streamKey = _url.Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
-            return !string.IsNullOrWhiteSpace(_streamKey);
-        }
-        public static string CheckInvalidTopazLink(VRCUrl url)
-        {
-            if (!Utilities.IsValid(url)) return "Invalid VRCUrl";
-            var _url = url.ToString();
-            if (_url == null) return "Null URL";
-            if (string.IsNullOrWhiteSpace(_url)) return "Empty URL";
-            if (!IsTopazLink(_url)) return "Not TopazChat URL";
-            var _streamKey = _url.Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
-            if (string.IsNullOrWhiteSpace(_streamKey))
-            {
-                return "Empty StreamKey";
-            }
-            else
-            {
-                return "Unknown Error";
-            }
-        }
-
-        /// <summary>
-        /// TopazChatのリンクならばTrueを返します。
-        /// </summary>
-        public static bool IsTopazLink(VRCUrl url)
-        {
-            var _url = url.ToString();
-            return _url.StartsWith("rtspt://topaz.chat/live") || _url.StartsWith("rtsp://topaz.chat/live");
-        }
-
-        /// <summary>
-        /// TopazChatのリンクならばTrueを返します。
-        /// </summary>
-        public static bool IsTopazLink(string url)
-        {
-            return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
-        }
-
         /// <summary>
         /// 現在実行中のプラットフォームを返します。
         /// </summary>

@@ -44,7 +44,7 @@ namespace Nomlas.TopazChat
         public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
         {
             var _url = urlInputField.GetUrl();
-            if (IsValidTopazLink(_url))
+            if (TopazUtils.IsValidTopazLink(_url))
             {
                 if (androidMode)
                 {
@@ -68,7 +68,7 @@ namespace Nomlas.TopazChat
         public void OnEndStreamKeyEditAndroid()
         {
             var _url = urlInputField_Android.GetUrl();
-            if (IsValidTopazLink(_url))
+            if (TopazUtils.IsValidTopazLink(_url))
             {
                 player.SetUrl(tempURL, _url);
             }
