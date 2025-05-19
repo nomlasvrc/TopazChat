@@ -15,28 +15,8 @@ namespace Nomlas.TopazChat
 
         // -----------------------------------------
 
-        private VRCUrl SyncStreamURL
-        {
-            get
-            {
-                return _SyncStreamURL;
-            }
-            set
-            {
-                _SyncStreamURL = value;
-            }
-        }
-        private VRCUrl SyncStreamURL_Android
-        {
-            get
-            {
-                return _SyncStreamURL_Android;
-            }
-            set
-            {
-                _SyncStreamURL_Android = value;
-            }
-        }
+        private VRCUrl SyncStreamURL => _SyncStreamURL;
+        private VRCUrl SyncStreamURL_Android => _SyncStreamURL_Android;
 
         public override void OnDeserialization()
         {
@@ -52,19 +32,23 @@ namespace Nomlas.TopazChat
             }
         }
 
-        #region PlatformURL
-        /// <summary>
-        /// プラットフォームに応じたStreamURLを返します。
-        /// </summary>
-        public VRCUrl GetSyncStreamURL(Platform platform)
-        {
-            return platform == Platform.Android ? SyncStreamURL_Android : SyncStreamURL;
-        }
-
         /// <summary>
         /// 現在実行中のプラットフォームに応じたStreamURLを返します。
         /// </summary>
-        public VRCUrl PlatformSyncStreamURL { get => GetSyncStreamURL(GetRunningPlatform()); }
+        public VRCUrl PlatformSyncStreamURL
+        {
+            get
+            {
+                if (GetRunningPlatform() == Platform.Android)
+                {
+                    return SyncStreamURL_Android;
+                }
+                else
+                {
+                    return SyncStreamURL;
+                }
+            }
+        }
 
         /// <summary>
         /// StreamURLを設定します。
@@ -73,14 +57,13 @@ namespace Nomlas.TopazChat
         {
             if (platform == Platform.Android)
             {
-                SyncStreamURL_Android = url;
+                _SyncStreamURL_Android = url;
             }
             else
             {
-                SyncStreamURL = url;
+                _SyncStreamURL = url;
             }
         }
-        #endregion
 
         internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android) // Global
         {
@@ -105,10 +88,8 @@ namespace Nomlas.TopazChat
             }
             else if (Networking.IsOwner(Networking.LocalPlayer, this.gameObject))
             {
-                var _url = GetSyncStreamURL(Platform.Windows);
-                var _url_Android = GetSyncStreamURL(Platform.Android);
                 Log("Send URL to new player");
-                if (TopazUtils.IsValidTopazLink(_url) && TopazUtils.IsValidTopazLink(_url_Android))
+                if (TopazUtils.IsValidTopazLink(SyncStreamURL) && TopazUtils.IsValidTopazLink(SyncStreamURL_Android))
                 {
                     RequestSerialization();
                 }

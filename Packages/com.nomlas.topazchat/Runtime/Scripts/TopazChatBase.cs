@@ -38,7 +38,7 @@ namespace Nomlas.TopazChat
         /// 現在実行中のプラットフォームがAndroidかどうか返します。
         /// </summary>
         /// <returns>現在実行中のプラットフォームがAndroidかどうか。</returns>
-        public static bool RunningPlatformIsAndroid()
+        private static bool RunningPlatformIsAndroid()
         {
 #if UNITY_ANDROID
             return true;

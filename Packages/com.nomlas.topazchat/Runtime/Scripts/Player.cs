@@ -140,7 +140,7 @@ namespace Nomlas.TopazChat
             }
             Stop(StopType.Stop);
             UpdateURL(url, url_Android);
-            if (RunningPlatformIsAndroid())
+            if (GetRunningPlatform() == Platform.Android)
             {
                 PlayURL(url_Android, PlayType.Play);
             }
