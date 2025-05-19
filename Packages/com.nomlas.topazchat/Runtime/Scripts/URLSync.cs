@@ -7,16 +7,30 @@ namespace Nomlas.TopazChat
     public class URLSync : VideoEventListener
     {
         // ----------------------------------------
-        //
-        //                UdonSync
 
+        // --------- UdonSync ----------
         [UdonSynced] private VRCUrl _SyncStreamURL;
         [UdonSynced] private VRCUrl _SyncStreamURL_Android;
 
-        // -----------------------------------------
-
+        // ----------- Get用 ------------
         private VRCUrl SyncStreamURL => _SyncStreamURL;
         private VRCUrl SyncStreamURL_Android => _SyncStreamURL_Android;
+
+        // ----------- Set用 ------------
+
+        internal void SetSyncStreamURL(VRCUrl url, Platform platform)
+        {
+            if (platform == Platform.Android)
+            {
+                _SyncStreamURL_Android = url;
+            }
+            else
+            {
+                _SyncStreamURL = url;
+            }
+        }
+
+        // ----------------------------------------
 
         public override void OnDeserialization()
         {
@@ -47,21 +61,6 @@ namespace Nomlas.TopazChat
                 {
                     return SyncStreamURL;
                 }
-            }
-        }
-
-        /// <summary>
-        /// StreamURLを設定します。
-        /// </summary>
-        internal void SetSyncStreamURL(VRCUrl url, Platform platform)
-        {
-            if (platform == Platform.Android)
-            {
-                _SyncStreamURL_Android = url;
-            }
-            else
-            {
-                _SyncStreamURL = url;
             }
         }
 
