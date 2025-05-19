@@ -4,7 +4,7 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class URLSync : Player
+    public class URLSync : VideoEventListener
     {
         #region UdonSync
         [UdonSynced] private VRCUrl _SyncStreamURL;

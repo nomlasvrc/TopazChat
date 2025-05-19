@@ -220,7 +220,7 @@ namespace Nomlas.TopazChat
             Stop(StopType.ErrorStop);
         }
 
-        private void PVideoError(VideoError videoError)
+        protected void PVideoError(VideoError videoError)
         {
             LogError("Video Error: " + videoError.ToString());
             switch (videoError)
@@ -243,15 +243,5 @@ namespace Nomlas.TopazChat
             }
             SafeStop();
         }
-
-        #region Video Events
-        internal void PlayerVideoEnd() { }
-        internal void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
-        internal void PlayerVideoLoop() { }
-        internal void PlayerVideoPause() { }
-        internal void PlayerVideoPlay() { }
-        internal void PlayerVideoReady() { }
-        internal void PlayerVideoStart() { }
-        #endregion
     }
 }
