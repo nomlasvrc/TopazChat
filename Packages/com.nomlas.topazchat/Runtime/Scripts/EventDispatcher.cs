@@ -10,7 +10,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private PlayerEventListener[] listeners;
 
-        internal void AddEventListener(PlayerEventListener listener)
+        public void AddEventListener(PlayerEventListener listener)
         {
             if (listener == null)
             {
