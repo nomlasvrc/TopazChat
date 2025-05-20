@@ -23,7 +23,7 @@ namespace Nomlas.TopazChat
             listeners.CopyTo(array, 0);
             array[listeners.Length] = listener;
             listeners = array;
-            Log("Added EventListener");
+            Log("Added EventListener: " + listener.GetListenerName());
             listener.OnListenerReady();
         }
 

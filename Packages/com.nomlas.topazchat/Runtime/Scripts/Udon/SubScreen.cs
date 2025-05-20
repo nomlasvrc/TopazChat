@@ -18,5 +18,10 @@ namespace Nomlas.TopazChat
                 LogError("サブスクリーンの設定に失敗しました");
             }
         }
+
+        public override string GetListenerName()
+        {
+            return "SubScreen";
+        }
     }
 }

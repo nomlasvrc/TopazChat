@@ -37,6 +37,11 @@ namespace Nomlas.TopazChat
             }
         }
 
+        public override string GetListenerName()
+        {
+            return "AutoPause";
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(this.transform.position, pauseDistance);

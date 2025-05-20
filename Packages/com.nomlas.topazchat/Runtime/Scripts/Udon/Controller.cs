@@ -79,5 +79,10 @@ namespace Nomlas.TopazChat
             address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
             Log("UI Updated");
         }
+
+        public override string GetListenerName()
+        {
+            return "Controller";
+        }
     }
 }

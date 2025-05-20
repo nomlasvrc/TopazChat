@@ -9,10 +9,14 @@ namespace Nomlas.TopazChat
         {
             player.AddEventListener(this);
         }
-        
+
         public virtual void UpdateURL(VRCUrl url, VRCUrl url_Android) { }
         public virtual void OnListenerReady() { }
         public virtual void UpdateMessage(string msg) { }
         public virtual void UpdateStatus(PlayerStatus playerStatus) { }
+        public virtual string GetListenerName()
+        {
+            return "Generic Event Listener";
+        }
     }
 }
