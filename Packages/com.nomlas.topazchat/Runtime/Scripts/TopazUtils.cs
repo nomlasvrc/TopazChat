@@ -14,7 +14,7 @@ namespace Nomlas.TopazChat
             return !string.IsNullOrWhiteSpace(_streamKey);
         }
 
-        public static string CheckInvalidTopazLink(VRCUrl url)
+        public static string InvalidTopazLinkReason(VRCUrl url)
         {
             if (!Utilities.IsValid(url)) return "Invalid VRCUrl";
             var _url = url.ToString();

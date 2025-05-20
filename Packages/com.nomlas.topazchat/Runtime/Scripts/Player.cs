@@ -57,15 +57,27 @@ namespace Nomlas.TopazChat
         {
             if (TopazUtils.IsValidTopazLink(platformURL))
             {
-                Log("URL Changed: " + platformURL.ToString());
-                ShowMessage("Streaming: " + platformURL.ToString());
+                var platformURLString = platformURL.ToString();
+                switch (playType)
+                {
+                    case PlayType.Play:
+                        Log("Play: " + platformURLString);
+                        break;
+                    case PlayType.Resume:
+                        Log("Resume: " + platformURLString);
+                        break;
+                    case PlayType.ReSync:
+                        Log("ReSync: " + platformURLString);
+                        break;
+                }
+                ShowMessage("Streaming: " + platformURLString);
                 videoPlayer.PlayURL(platformURL);
                 PlayerStatus = PlayerStatus.Play;
             }
             else
             {
                 LogError("URLが無効です。再生できません。");
-                ShowMessage("Invalid URL: " + TopazUtils.CheckInvalidTopazLink(platformURL), MessageLevel.Error);
+                ShowMessage("Invalid URL: " + TopazUtils.InvalidTopazLinkReason(platformURL), MessageLevel.Error);
                 SafeStop();
                 return;
             }
