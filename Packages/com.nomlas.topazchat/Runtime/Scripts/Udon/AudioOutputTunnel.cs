@@ -6,11 +6,11 @@ using UnityEngine;
 namespace Nomlas.TopazChat {
     public class AudioOutputTunnel : UdonSharpBehaviour
     {
-        public AudioSource input;
-        public AudioSource stereoOutput;
-        public AudioSource leftOutput;
-        public AudioSource rightOutput;
-        public int bufferLength = 1024 * 4;
+        [SerializeField] private AudioSource input;
+        [SerializeField] private AudioSource stereoOutput;
+        [SerializeField] private AudioSource leftOutput;
+        [SerializeField] private AudioSource rightOutput;
+        [SerializeField] private int bufferLength = 1024 * 4;
 
         private AudioClip stereoOutputClip;
         private AudioClip leftOutputClip;
