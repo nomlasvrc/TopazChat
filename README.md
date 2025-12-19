@@ -1,5 +1,5 @@
 # のむらす式 TopazChat Player
-[VCC](https://nomlasvrc.github.io/TopazChat/)<br>
+[VCC](https://nomlasvrc.github.io/nomlas-package-listing/)<br>
 [booth](https://nomlas.booth.pm/items/6054043)
 
 [ドキュメント](https://github.com/nomlasvrc/TopazChat/wiki)
