@@ -1,4 +1,5 @@
 
+using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 現在実行中のプラットフォームを返します。
         /// </summary>
+        [PublicAPI]
         public static Platform GetRunningPlatform()
         {
             return RunningPlatformIsAndroid() ? Platform.Android : Platform.Windows;

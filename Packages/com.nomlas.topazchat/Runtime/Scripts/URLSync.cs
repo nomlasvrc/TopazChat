@@ -18,7 +18,7 @@ namespace Nomlas.TopazChat
 
         // ----------- Set用 ------------
 
-        internal void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
+        public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
         {
             if (TopazUtils.IsTopazLink(tmpStreamURL) && TopazUtils.IsTopazLink(tmpStreamURL_Android))
             {

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
@@ -10,6 +11,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private PlayerEventListener[] listeners;
 
+        [PublicAPI]
         public void AddEventListener(PlayerEventListener listener)
         {
             if (listener == null)

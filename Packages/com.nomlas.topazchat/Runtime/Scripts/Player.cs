@@ -1,4 +1,5 @@
 
+using JetBrains.Annotations;
 using UnityEngine;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.Video.Components.AVPro;
@@ -13,6 +14,7 @@ namespace Nomlas.TopazChat
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
 
+        [PublicAPI]
         public VRCUrl GetPlatformDefaultStreamURL(Platform platform)
         {
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
@@ -25,11 +27,13 @@ namespace Nomlas.TopazChat
         // ---------------------------------------------
 
         [SerializeField] private MeshRenderer screen;
+        [PublicAPI]
         public Material ScreenMaterial { get => screen.sharedMaterial; }
 
         // ---------------------------------------------
 
         private PlayerStatus _PlayerStatus;
+        [PublicAPI]
         public PlayerStatus PlayerStatus
         {
             get
@@ -122,7 +126,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 再生を一時停止します。
         /// </summary>
-        internal void Pause()
+        public void Pause()
         {
             Log("Paused");
             ShowMessage("Paused");
@@ -133,7 +137,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 再生を再開します。
         /// </summary>
-        internal void Resume()
+        public void Resume()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -145,7 +149,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 再生を停止します。
         /// </summary>
-        internal void Stop(StopType stopType)
+        public void Stop(StopType stopType)
         {
             videoPlayer.Stop();
             if (stopType == StopType.Stop)
@@ -158,7 +162,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 何か再生できない事情が発生した場合に明示的に再生を停止します。
         /// </summary>
-        internal void SafeStop()
+        public void SafeStop()
         {
             Stop(StopType.ErrorStop);
         }

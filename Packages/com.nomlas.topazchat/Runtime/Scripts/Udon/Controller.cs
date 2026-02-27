@@ -39,6 +39,7 @@ namespace Nomlas.TopazChat
             }
         }
 
+        [UnityEvent]
         public void OnEndStreamKeyEdit() //StreamKeyのInputFieldの変更が終わったときに発火
         {
             var _url = urlInputField.GetUrl();
@@ -63,6 +64,7 @@ namespace Nomlas.TopazChat
             }
         }
 
+        [UnityEvent]
         public void OnEndStreamKeyEditAndroid()
         {
             var _url = urlInputField_Android.GetUrl();

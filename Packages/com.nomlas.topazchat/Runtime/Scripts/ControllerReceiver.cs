@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using VRC.SDKBase;
 
@@ -7,6 +8,7 @@ namespace Nomlas.TopazChat
     {
         [SerializeField] private AudioSource[] speakers;
         private float _Volume;
+        [PublicAPI]
         public float Volume
         {
             get
@@ -35,7 +37,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// ReSyncします。
         /// </summary>
-        internal void Resync()
+        public void Resync()
         {
             _Resync();
         }
@@ -43,7 +45,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// GlobalでReSyncします。
         /// </summary>
-        internal void GlobalSync() //GlobalSyncボタンが押されたときに発火
+        public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
             Log("Global Sync");
             SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");

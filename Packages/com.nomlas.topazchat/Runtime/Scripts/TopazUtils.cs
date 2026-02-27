@@ -1,10 +1,12 @@
 
+using JetBrains.Annotations;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
     public class TopazUtils
     {
+        [PublicAPI]
         public static bool IsValidTopazLink(VRCUrl url)
         {
             if (!Utilities.IsValid(url)) return false;
@@ -14,6 +16,7 @@ namespace Nomlas.TopazChat
             return !string.IsNullOrWhiteSpace(_streamKey);
         }
 
+        [PublicAPI]
         public static string InvalidTopazLinkReason(VRCUrl url)
         {
             if (!Utilities.IsValid(url)) return "Invalid VRCUrl";
@@ -35,6 +38,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
+        [PublicAPI]
         public static bool IsTopazLink(VRCUrl url)
         {
             var _url = url.ToString();
@@ -44,11 +48,13 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
+        [PublicAPI]
         public static bool IsTopazLink(string url)
         {
             return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
         }
 
+        [PublicAPI]
         public static string MessageLevelColor(MessageLevel level)
         {
             switch (level)

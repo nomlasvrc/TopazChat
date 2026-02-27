@@ -5,12 +5,12 @@ namespace Nomlas.TopazChat
 {
     public class VideoEventListener : Player
     {
-        internal void PlayerVideoEnd() { }
-        internal void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
-        internal void PlayerVideoLoop() { }
-        internal void PlayerVideoPause() { }
-        internal void PlayerVideoPlay() { }
-        internal void PlayerVideoReady() { }
-        internal void PlayerVideoStart() { }
+        public void PlayerVideoEnd() { }
+        public void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
+        public void PlayerVideoLoop() { }
+        public void PlayerVideoPause() { }
+        public void PlayerVideoPlay() { }
+        public void PlayerVideoReady() { }
+        public void PlayerVideoStart() { }
     }
 }
