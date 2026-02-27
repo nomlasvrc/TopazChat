@@ -43,7 +43,7 @@ namespace Nomlas.TopazChat
         {
             if (!IsValidTopazLink(url)) return null;
             var _url = url.ToString();
-            return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "");
+            return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "").Replace($"{PebbleURL}/", "");
         }
 
         /// <summary>
@@ -61,11 +61,12 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static bool IsTopazLink(string url)
         {
-            return url.StartsWith(TopazURL) || url.StartsWith(TopazURL_Android);
+            return url.StartsWith(TopazURL) || url.StartsWith(TopazURL_Android) || url.StartsWith(PebbleURL);
         }
 
         public const string TopazURL = "rtspt://topaz.chat/live";
         public const string TopazURL_Android = "rtsp://topaz.chat/live";
+        public const string PebbleURL = "https://pebble.xrift.net";
 
         [PublicAPI]
         public static string MessageLevelColor(MessageLevel level)
