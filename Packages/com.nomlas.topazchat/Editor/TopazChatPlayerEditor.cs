@@ -40,8 +40,8 @@ namespace Nomlas.TopazChat
 
                 if (oldStreamKey != streamKey)
                 {
-                    player.defaultStreamURL = new VRCUrl("rtspt://topaz.chat/live/" + streamKey);
-                    player.defaultStreamURL_Android = new VRCUrl("rtsp://topaz.chat/live/" + streamKey);
+                    player.defaultStreamURL = new VRCUrl($"{TopazUtils.TopazURL}/{streamKey}");
+                    player.defaultStreamURL_Android = new VRCUrl($"{TopazUtils.TopazURL_Android}/{streamKey}");
                     if (player.controller.address != null) player.controller.address.text = streamKey;
 
                     EditorUtility.SetDirty(target);

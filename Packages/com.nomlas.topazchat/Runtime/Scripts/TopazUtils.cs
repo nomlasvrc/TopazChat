@@ -12,7 +12,7 @@ namespace Nomlas.TopazChat
             if (!Utilities.IsValid(url)) return false;
             var _url = url.ToString();
             if (string.IsNullOrWhiteSpace(_url) || !IsTopazLink(_url)) return false;
-            var _streamKey = _url.Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            var _streamKey = StreamKey(url);
             return !string.IsNullOrWhiteSpace(_streamKey);
         }
 
@@ -24,7 +24,7 @@ namespace Nomlas.TopazChat
             if (_url == null) return "Null URL";
             if (string.IsNullOrWhiteSpace(_url)) return "Empty URL";
             if (!IsTopazLink(_url)) return "Not TopazChat URL";
-            var _streamKey = _url.Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            var _streamKey = StreamKey(url);
             if (string.IsNullOrWhiteSpace(_streamKey))
             {
                 return "Empty StreamKey";
@@ -36,13 +36,23 @@ namespace Nomlas.TopazChat
         }
 
         /// <summary>
+        /// VRCURLからStreamKeyを返します。
+        /// </summary>
+        [PublicAPI]
+        public static string StreamKey(VRCUrl url)
+        {
+            if (!IsValidTopazLink(url)) return null;
+            var _url = url.ToString();
+            return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "");
+        }
+
+        /// <summary>
         /// TopazChatのリンクならばTrueを返します。
         /// </summary>
         [PublicAPI]
         public static bool IsTopazLink(VRCUrl url)
         {
-            var _url = url.ToString();
-            return _url.StartsWith("rtspt://topaz.chat/live") || _url.StartsWith("rtsp://topaz.chat/live");
+            return IsTopazLink(url.ToString());
         }
 
         /// <summary>
@@ -51,8 +61,11 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static bool IsTopazLink(string url)
         {
-            return url.StartsWith("rtspt://topaz.chat/live") || url.StartsWith("rtsp://topaz.chat/live");
+            return url.StartsWith(TopazURL) || url.StartsWith(TopazURL_Android);
         }
+
+        public const string TopazURL = "rtspt://topaz.chat/live";
+        public const string TopazURL_Android = "rtsp://topaz.chat/live";
 
         [PublicAPI]
         public static string MessageLevelColor(MessageLevel level)

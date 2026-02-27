@@ -78,7 +78,7 @@ namespace Nomlas.TopazChat
         {
             urlInputField.SetUrl(url);
             urlInputField_Android.SetUrl(url_Android);
-            address.text = url.ToString().Replace("rtspt://topaz.chat/live/", "").Replace("rtsp://topaz.chat/live/", "");
+            address.text = TopazUtils.StreamKey(url);
             Log("UI Updated");
         }
 
