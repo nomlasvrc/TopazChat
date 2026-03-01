@@ -48,6 +48,7 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static string StreamKey(VRCUrl url)
         {
+            if (!Utilities.IsValid(url)) return null;
             var _url = url.ToString();
             return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "").Replace($"{PebbleURL}/", "");
         }
@@ -58,6 +59,7 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static bool IsTopazLink(VRCUrl url)
         {
+            if (!Utilities.IsValid(url)) return false;
             var _url = url.ToString();
             return _url.StartsWith(TopazURL) || _url.StartsWith(TopazURL_Android) || _url.StartsWith(PebbleURL);
         }
