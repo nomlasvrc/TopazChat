@@ -20,7 +20,10 @@ namespace Nomlas.TopazChat
                 return;
             }
             if (listeners == null)
+            {
                 listeners = new PlayerEventListener[0];
+            }
+
             var array = new PlayerEventListener[listeners.Length + 1];
             listeners.CopyTo(array, 0);
             array[listeners.Length] = listener;
