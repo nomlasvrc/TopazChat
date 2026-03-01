@@ -1,6 +1,4 @@
-﻿
-using JetBrains.Annotations;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using VRC.SDK3.Components;
 using VRC.SDKBase;
