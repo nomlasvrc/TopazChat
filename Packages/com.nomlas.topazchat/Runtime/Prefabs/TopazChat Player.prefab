@@ -65,6 +65,7 @@ MonoBehaviour:
   address: {fileID: 2507260149030801823}
   urlInputField: {fileID: 892313335843826832}
   urlInputField_Android: {fileID: 226472318588614005}
+  savedStreamKeyText: {fileID: 3003259086039221825}
   androidMode: 0
 --- !u!114 &5414316130299493857
 MonoBehaviour:
@@ -908,7 +909,7 @@ GameObject:
   - component: {fileID: 7950602861374641337}
   - component: {fileID: 3003259086039221825}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: SavedKey Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1229,7 +1230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Saved Address
+  m_text: Saved StreamKey
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1871,7 +1872,7 @@ GameObject:
   - component: {fileID: 4062565988136974658}
   - component: {fileID: 3669566212176218905}
   m_Layer: 0
-  m_Name: Saved Address
+  m_Name: Saved StreamKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3647,7 +3648,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Mute
+          m_StringArgument: ToggleMute
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &2717886777238866586

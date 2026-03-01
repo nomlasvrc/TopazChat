@@ -8,9 +8,14 @@ namespace Nomlas.TopazChat
 {
     public class Controller : ControllerBase
     {
+        [Space]
         [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
         [SerializeField] private VRCUrlInputField urlInputField_Android;
+        [Space]
+        private VRCUrl savedUrl;
+        [SerializeField] private TextMeshProUGUI savedStreamKeyText;
+        [Space]
         [SerializeField] internal bool androidMode;
         private VRCUrl tempURL;
 
@@ -72,6 +77,22 @@ namespace Nomlas.TopazChat
             {
                 player.SetUrl(tempURL, _url);
             }
+        }
+
+        [UnityEvent]
+        public void LoadPersistence()
+        {
+            if (TopazUtils.IsValidTopazLink(savedUrl))
+            {
+                player.SetUrl(savedUrl, savedUrl);
+            }
+        }
+
+        public void OnRestoredUrl(VRCUrl url)
+        {
+            savedUrl = url;
+            savedStreamKeyText.text = TopazUtils.StreamKey(savedUrl);
+            Log("Restored URL");
         }
 
         public override void UpdateURL(VRCUrl url, VRCUrl url_Android)
