@@ -86,9 +86,10 @@ namespace Nomlas.TopazChat
         public void LoadPersistence()
         {
             var savedUrl = saver.SavedURL;
-            if (TopazUtils.IsValidTopazLink(savedUrl))
+            var savedUrl_Android = saver.SavedURL_Android;
+            if (TopazUtils.IsValidTopazLink(savedUrl) && TopazUtils.IsValidTopazLink(savedUrl_Android))
             {
-                player.SetUrl(savedUrl, savedUrl);
+                player.SetUrl(savedUrl, savedUrl_Android);
             }
         }
 
@@ -99,10 +100,9 @@ namespace Nomlas.TopazChat
             Log("Restored URL");
         }
 
-        [PublicAPI]
-        public void SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
+        private void SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
         {
-            saver.SaveKey(url);
+            saver.SaveKey(url, url_Android);
             savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
 

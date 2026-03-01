@@ -13,13 +13,15 @@ namespace Nomlas.TopazChat
     {
         [SerializeField][Header("コントローラー")] internal Controller[] controller;
         [UdonSynced] private VRCUrl savedUrl;
+        [UdonSynced] private VRCUrl savedUrl_Android;
 
-        [PublicAPI]
-        public VRCUrl SavedURL => savedUrl;
+        [PublicAPI] public VRCUrl SavedURL => savedUrl;
+        [PublicAPI] public VRCUrl SavedURL_Android => savedUrl_Android;
 
-        public void SaveKey(VRCUrl url)
+        public void SaveKey(VRCUrl url, VRCUrl url_Android)
         {
             savedUrl = url;
+            savedUrl_Android = url_Android;
             RequestSerialization();
         }
 
