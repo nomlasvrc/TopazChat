@@ -11,8 +11,12 @@ namespace Nomlas.TopazChat
         [SerializeField] private GameObject playIcon;
         [SerializeField] private GameObject pauseIcon;
         [SerializeField] private GameObject stopIcon;
+        [Space]
         [SerializeField] private TextMeshProUGUI message;
+        [Space]
         [SerializeField] private Slider volumeSlider;
+        [Space]
+        private float previousVolume;
 
         [UnityEvent]
         public void ReSync()
@@ -30,6 +34,22 @@ namespace Nomlas.TopazChat
         public void ChangeVolume()
         {
             player.Volume = volumeSlider.value;
+        }
+
+        [UnityEvent]
+        public void ToggleMute()
+        {
+            if (player.Volume > 0)
+            { // 音声出力時
+                previousVolume = player.Volume;
+                player.Volume = 0;
+                volumeSlider.value = 0;
+            }
+            else
+            { // ミュート時
+                player.Volume = previousVolume;
+                volumeSlider.value = previousVolume;
+            }
         }
 
         [PublicAPI]

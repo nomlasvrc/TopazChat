@@ -10,6 +10,9 @@ namespace Nomlas.TopazChat
         public const string TopazURL_Android = "rtsp://topaz.chat/live";
         public const string PebbleURL = "https://pebble.xrift.net";
 
+        /// <summary>
+        /// URLが有効であり、かつ、ストリームキーが有効ならばTrueを返します。
+        /// </summary>
         [PublicAPI]
         public static bool IsValidTopazLink(VRCUrl url)
         {
