@@ -1,4 +1,5 @@
 ﻿
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using VRC.SDK3.Components;
@@ -13,7 +14,7 @@ namespace Nomlas.TopazChat
         [SerializeField] private VRCUrlInputField urlInputField;
         [SerializeField] private VRCUrlInputField urlInputField_Android;
         [Space]
-        private VRCUrl savedUrl;
+        private Save saver;
         [SerializeField] private TextMeshProUGUI savedStreamKeyText;
         [Space]
         [SerializeField] internal bool androidMode;
@@ -58,6 +59,7 @@ namespace Nomlas.TopazChat
                 else
                 {
                     player.SetUrl(_url, _url); //Globalで変更
+                    SaveURLAndUpdateKey(_url, _url);
                 }
             }
             else
@@ -76,23 +78,32 @@ namespace Nomlas.TopazChat
             if (TopazUtils.IsValidTopazLink(_url))
             {
                 player.SetUrl(tempURL, _url);
+                SaveURLAndUpdateKey(tempURL, _url);
             }
         }
 
         [UnityEvent]
         public void LoadPersistence()
         {
+            var savedUrl = saver.SavedURL;
             if (TopazUtils.IsValidTopazLink(savedUrl))
             {
                 player.SetUrl(savedUrl, savedUrl);
             }
         }
 
-        public void OnRestoredUrl(VRCUrl url)
+        public void OnRestoredUrl(Save sender)
         {
-            savedUrl = url;
-            savedStreamKeyText.text = TopazUtils.StreamKey(savedUrl);
+            saver = sender;
+            savedStreamKeyText.text = TopazUtils.StreamKey(saver.SavedURL);
             Log("Restored URL");
+        }
+
+        [PublicAPI]
+        public void SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
+        {
+            saver.SaveKey(url);
+            savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
 
         public override void UpdateURL(VRCUrl url, VRCUrl url_Android)

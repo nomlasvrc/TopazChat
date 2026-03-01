@@ -13,7 +13,7 @@ namespace Nomlas.TopazChat
     {
         [SerializeField][Header("コントローラー")] internal Controller[] controller;
         [UdonSynced] private VRCUrl savedUrl;
-        
+
         [PublicAPI]
         public VRCUrl SavedURL => savedUrl;
 
@@ -26,12 +26,10 @@ namespace Nomlas.TopazChat
         public override void OnPlayerRestored(VRCPlayerApi player)
         {
             if (player != Networking.LocalPlayer) return;
-            if (Utilities.IsValid(savedUrl))
+
+            foreach (var c in controller)
             {
-                foreach (var c in controller)
-                {
-                    c.OnRestoredUrl(savedUrl);
-                }
+                c.OnRestoredUrl(this);
             }
         }
 
