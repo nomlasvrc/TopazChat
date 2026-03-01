@@ -6,6 +6,10 @@ namespace Nomlas.TopazChat
 {
     public class TopazUtils
     {
+        public const string TopazURL = "rtspt://topaz.chat/live";
+        public const string TopazURL_Android = "rtsp://topaz.chat/live";
+        public const string PebbleURL = "https://pebble.xrift.net";
+
         /// <summary>
         /// URLが有効であり、かつ、ストリームキーが有効ならばTrueを返します。
         /// </summary>
@@ -14,7 +18,7 @@ namespace Nomlas.TopazChat
         {
             if (!Utilities.IsValid(url)) return false;
             var _url = url.ToString();
-            if (string.IsNullOrWhiteSpace(_url) || !IsTopazLink(_url)) return false;
+            if (string.IsNullOrWhiteSpace(_url) || !IsTopazLink(url)) return false;
             var _streamKey = StreamKey(url);
             return !string.IsNullOrWhiteSpace(_streamKey);
         }
@@ -26,7 +30,7 @@ namespace Nomlas.TopazChat
             var _url = url.ToString();
             if (_url == null) return "Null URL";
             if (string.IsNullOrWhiteSpace(_url)) return "Empty URL";
-            if (!IsTopazLink(_url)) return "Not TopazChat URL";
+            if (!IsTopazLink(url)) return "Not TopazChat URL";
             var _streamKey = StreamKey(url);
             if (string.IsNullOrWhiteSpace(_streamKey))
             {
@@ -44,7 +48,6 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static string StreamKey(VRCUrl url)
         {
-            if (!IsValidTopazLink(url)) return null;
             var _url = url.ToString();
             return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "").Replace($"{PebbleURL}/", "");
         }
@@ -55,21 +58,9 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public static bool IsTopazLink(VRCUrl url)
         {
-            return IsTopazLink(url.ToString());
+            var _url = url.ToString();
+            return _url.StartsWith(TopazURL) || _url.StartsWith(TopazURL_Android) || _url.StartsWith(PebbleURL);
         }
-
-        /// <summary>
-        /// TopazChatのリンクならばTrueを返します。
-        /// </summary>
-        [PublicAPI]
-        public static bool IsTopazLink(string url)
-        {
-            return url.StartsWith(TopazURL) || url.StartsWith(TopazURL_Android) || url.StartsWith(PebbleURL);
-        }
-
-        public const string TopazURL = "rtspt://topaz.chat/live";
-        public const string TopazURL_Android = "rtsp://topaz.chat/live";
-        public const string PebbleURL = "https://pebble.xrift.net";
 
         [PublicAPI]
         public static string MessageLevelColor(MessageLevel level)
