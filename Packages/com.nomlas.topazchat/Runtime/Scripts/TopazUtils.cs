@@ -6,6 +6,9 @@ namespace Nomlas.TopazChat
 {
     public class TopazUtils
     {
+        /// <summary>
+        /// URLが有効であり、かつ、ストリームキーが有効ならばTrueを返します。
+        /// </summary>
         [PublicAPI]
         public static bool IsValidTopazLink(VRCUrl url)
         {
