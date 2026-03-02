@@ -30,7 +30,7 @@ namespace Nomlas.TopazChat
             }
             else
             {
-                LogWarning("TopazChat以外のURLは再生できません。");
+                LogWarning("Only TopazChat URLs can be played.");
                 return;
             }
         }
@@ -58,7 +58,7 @@ namespace Nomlas.TopazChat
             }
             else
             {
-                LogError("UdonSyncに失敗しました。再生できません。");
+                LogError("UdonSync failed. Unable to play.");
                 ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
                 SafeStop();
             }

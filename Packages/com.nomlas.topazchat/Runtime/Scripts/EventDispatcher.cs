@@ -16,7 +16,7 @@ namespace Nomlas.TopazChat
         {
             if (listener == null)
             {
-                LogError("空のEventListenerが渡されました");
+                LogError("A null EventListener was provided.");
                 return;
             }
             if (listeners == null)

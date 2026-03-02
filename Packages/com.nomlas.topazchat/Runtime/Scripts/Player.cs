@@ -80,7 +80,7 @@ namespace Nomlas.TopazChat
             }
             else
             {
-                LogError("URLが無効です。再生できません。");
+                LogError("Invalid URL. Unable to play.");
                 ShowMessage("Invalid URL: " + TopazUtils.InvalidTopazLinkReason(platformURL), MessageLevel.Error);
                 SafeStop();
                 return;
@@ -91,7 +91,7 @@ namespace Nomlas.TopazChat
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
-                Log("ポーズ中に再生開始イベントを受信しました。無視します。");
+                Log("Received a start playback event while paused. Ignoring.");
                 return;
             }
             Stop(StopType.Stop);
@@ -113,7 +113,7 @@ namespace Nomlas.TopazChat
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
-                Log("ポーズ中にResyncイベントを受信しました。無視します。");
+                Log("Received a resync event while paused. Ignoring.");
                 return;
             }
             else
