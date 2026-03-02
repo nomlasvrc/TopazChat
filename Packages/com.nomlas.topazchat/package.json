@@ -3,6 +3,7 @@
   "displayName": "TopazChat Player",
   "version": "0.1.9",
   "description": "TopazChat Player modified by nomlas",
+  "changelogUrl": "https://github.com/nomlasvrc/TopazChat/releases",
   "gitDependencies": {},
   "vpmDependencies": {
     "com.vrchat.worlds": ">=3.5.0"
