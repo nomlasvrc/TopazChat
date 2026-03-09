@@ -35,13 +35,9 @@ namespace Nomlas.TopazChat
             }
         }
 
-        /// <summary>
-        /// ReSyncします。
-        /// </summary>
-        public void Resync()
-        {
-            _Resync();
-        }
+        public void Pause() => _Pause();
+        public void Resume() => _Resume();
+        public void Resync() => _Resync();
 
         /// <summary>
         /// GlobalでReSyncします。
