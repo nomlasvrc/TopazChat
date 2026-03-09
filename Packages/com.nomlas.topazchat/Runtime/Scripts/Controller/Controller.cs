@@ -95,7 +95,7 @@ namespace Nomlas.TopazChat
         public void UIStop()
         {
             Log("Stop by user");
-            player.UserStop();
+            player.GlobalUserStop();
         }
 
         public void _OnRestoredUrl(Save sender)
