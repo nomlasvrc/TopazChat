@@ -81,7 +81,7 @@ namespace Nomlas.TopazChat
         }
 
         [UnityEvent]
-        public void LoadPersistence()
+        public void LoadPersistenceURL()
         {
             var savedUrl = saver.SavedURL;
             var savedUrl_Android = saver.SavedURL_Android;
