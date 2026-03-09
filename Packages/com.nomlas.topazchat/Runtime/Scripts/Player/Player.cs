@@ -92,6 +92,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private void _StartStream(VRCUrl url, VRCUrl url_Android)
         {
+            UpdateURL(url, url_Android);
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Received a start playback event while paused. Ignoring.");
@@ -99,7 +100,6 @@ namespace Nomlas.TopazChat
             }
             ShowMessage("Starting stream...");
             _Stop(StopType.PlayNext);
-            UpdateURL(url, url_Android);
             if (GetRunningPlatform() == Platform.Android)
             {
                 _PlayURL(url_Android, PlayType.Play);
