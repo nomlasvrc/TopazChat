@@ -38,6 +38,7 @@ namespace Nomlas.TopazChat
         public void Pause() => _Pause();
         public void Resume() => _Resume();
         public void Resync() => _Resync();
+        public void UserStop() => _Stop(StopType.UserStop);
 
         /// <summary>
         /// GlobalでReSyncします。

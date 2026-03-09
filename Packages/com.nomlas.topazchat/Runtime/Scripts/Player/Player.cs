@@ -94,7 +94,8 @@ namespace Nomlas.TopazChat
                 Log("Received a start playback event while paused. Ignoring.");
                 return;
             }
-            _Stop(StopType.Stop);
+            ShowMessage("Starting stream...");
+            _Stop(StopType.PlayNext);
             UpdateURL(url, url_Android);
             if (GetRunningPlatform() == Platform.Android)
             {
@@ -152,7 +153,7 @@ namespace Nomlas.TopazChat
         protected void _Stop(StopType stopType)
         {
             videoPlayer.Stop();
-            if (stopType == StopType.Stop)
+            if (stopType == StopType.UserStop)
             {
                 ShowMessage("");
             }

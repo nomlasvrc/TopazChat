@@ -1991,7 +1991,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: LoadPersistence
+          m_StringArgument: LoadPersistenceURL
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &4705411417066287820
@@ -2964,7 +2964,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Stop
+          m_StringArgument: UIStop
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &8223669106978118157
