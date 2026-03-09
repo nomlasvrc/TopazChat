@@ -57,7 +57,7 @@ namespace Nomlas.TopazChat
                 else
                 {
                     player.SetUrl(_url, _url); //Globalで変更
-                    SaveURLAndUpdateKey(_url, _url);
+                    _SaveURLAndUpdateKey(_url, _url);
                 }
             }
             else
@@ -76,7 +76,7 @@ namespace Nomlas.TopazChat
             if (TopazUtils.IsValidTopazLink(_url))
             {
                 player.SetUrl(tempURL, _url);
-                SaveURLAndUpdateKey(tempURL, _url);
+                _SaveURLAndUpdateKey(tempURL, _url);
             }
         }
 
@@ -91,16 +91,16 @@ namespace Nomlas.TopazChat
             }
         }
 
-        public void OnRestoredUrl(Save sender)
+        public void _OnRestoredUrl(Save sender)
         {
             saver = sender;
             savedStreamKeyText.text = TopazUtils.StreamKey(saver.SavedURL);
             Log("Restored URL");
         }
 
-        private void SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
+        private void _SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
         {
-            saver.SaveKey(url, url_Android);
+            saver._SaveKey(url, url_Android);
             savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
 

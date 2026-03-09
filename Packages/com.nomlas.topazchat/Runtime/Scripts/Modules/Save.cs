@@ -18,7 +18,7 @@ namespace Nomlas.TopazChat
         [PublicAPI] public VRCUrl SavedURL => savedUrl;
         [PublicAPI] public VRCUrl SavedURL_Android => savedUrl_Android;
 
-        public void SaveKey(VRCUrl url, VRCUrl url_Android)
+        public void _SaveKey(VRCUrl url, VRCUrl url_Android)
         {
             savedUrl = url;
             savedUrl_Android = url_Android;
@@ -31,7 +31,7 @@ namespace Nomlas.TopazChat
 
             foreach (var c in controller)
             {
-                c.OnRestoredUrl(this);
+                c._OnRestoredUrl(this);
             }
         }
 
