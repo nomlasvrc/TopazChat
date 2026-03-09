@@ -91,6 +91,13 @@ namespace Nomlas.TopazChat
             }
         }
 
+        [UnityEvent]
+        public void UIStop()
+        {
+            Log("Stop by user");
+            player.UserStop();
+        }
+
         public void _OnRestoredUrl(Save sender)
         {
             saver = sender;

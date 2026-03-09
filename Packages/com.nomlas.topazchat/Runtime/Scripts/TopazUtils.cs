@@ -99,7 +99,8 @@ namespace Nomlas.TopazChat
     }
     public enum StopType
     {
-        Stop,
+        PlayNext,
+        UserStop,
         ErrorStop,
         Pause
     }
