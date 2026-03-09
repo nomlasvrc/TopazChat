@@ -251,17 +251,16 @@ namespace Nomlas.TopazChat
 
         private void _CheckReceivedURL()
         {
+            if (SyncStreamURL == VRCUrl.Empty && SyncStreamURL_Android == VRCUrl.Empty)
+            {
+                Log("Received URL to stop stream.");
+                _Stop(StopType.UserStop);
+                return;
+            }
+
             if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
             {
-                if (SyncStreamURL == VRCUrl.Empty && SyncStreamURL_Android == VRCUrl.Empty)
-                {
-                    Log("Received URL to stop stream.");
-                    _Stop(StopType.UserStop);
-                }
-                else
-                {
-                    _StartStream(SyncStreamURL, SyncStreamURL_Android);
-                }
+                _StartStream(SyncStreamURL, SyncStreamURL_Android);
             }
             else
             {
