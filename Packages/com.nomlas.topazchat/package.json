@@ -6,7 +6,7 @@
   "changelogUrl": "https://github.com/nomlasvrc/TopazChat/releases",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.worlds": ">=3.5.0"
+    "com.vrchat.worlds": ">=3.8.1"
   },
   "author": {
     "name": "nomlas",
@@ -14,5 +14,5 @@
   },
   "legacyFolders": {},
   "legacyFiles": {},
-  "unity": "2019.4"
+  "unity": "2022.3"
 }
