@@ -12,7 +12,7 @@ namespace Nomlas.TopazChat
 
         public void OnProcessScene(Scene scene, BuildReport report)
         {
-            var controllers = Object
+            var listeners = Object
                 .FindObjectsByType<PlayerEventListener>(FindObjectsInactive.Include, FindObjectsSortMode.None)
                 .Where(x => !IsEditorOnly(x.transform));
 
@@ -20,12 +20,25 @@ namespace Nomlas.TopazChat
                 .FindObjectsByType<TopazChatPlayer>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID)
                 .FirstOrDefault(x => !IsEditorOnly(x.transform));
 
-            foreach (var controller in controllers)
+            foreach (var listener in listeners)
             {
-                if (controller.player == null)
+                if (listener.player == null)
                 {
-                    controller.player = player;
+                    listener.player = player;
                 }
+            }
+
+            var controllers = Object
+                .FindObjectsByType<Controller>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(x => !IsEditorOnly(x.transform));
+
+            var saver = Object
+                .FindObjectsByType<Save>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID)
+                .FirstOrDefault(x => !IsEditorOnly(x.transform));
+            
+            if (saver != null)
+            {
+                saver.controller = controllers.ToArray();
             }
         }
 
