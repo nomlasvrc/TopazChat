@@ -39,7 +39,11 @@ namespace Nomlas.TopazChat
         public void Pause() => _Pause();
         public void Resume() => _Resume();
         public void Resync() => _Resync();
-        public void UserStop() => _Stop(StopType.UserStop);
+        public void GlobalUserStop()
+        {
+            Log("Global Stop");
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(UserStop));
+        }
 
         /// <summary>
         /// GlobalでReSyncします。
@@ -63,6 +67,21 @@ namespace Nomlas.TopazChat
                 Log("Global Sync from unknown player");
             }
             _Resync();
+        }
+
+        [NetworkCallable]
+        public void UserStop()
+        {
+            var callingPlayer = NetworkCalling.CallingPlayer;
+            if (Utilities.IsValid(callingPlayer))
+            {
+                Log($"Stop from {callingPlayer.displayName}");
+            }
+            else
+            {
+                Log("Stop from unknown player");
+            }
+            _Stop(StopType.UserStop);
         }
 
         // ----- Video Events -----
