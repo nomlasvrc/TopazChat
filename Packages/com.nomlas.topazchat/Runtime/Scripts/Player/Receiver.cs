@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using VRC.SDK3.Components.Video;
+using VRC.SDK3.UdonNetworkCalling;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
@@ -46,7 +47,21 @@ namespace Nomlas.TopazChat
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
             Log("Global Sync");
-            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(ReceiveSync));
+        }
+
+        [NetworkCallable]
+        public void ReceiveSync()
+        {
+            var callingPlayer = NetworkCalling.CallingPlayer;
+            if (Utilities.IsValid(callingPlayer))
+            {
+                Log($"Global Sync from {callingPlayer.displayName}");
+            }
+            else
+            {
+                Log("Global Sync from unknown player");
+            }
             _Resync();
         }
 
