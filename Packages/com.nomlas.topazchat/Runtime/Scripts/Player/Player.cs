@@ -1,5 +1,6 @@
 
 using JetBrains.Annotations;
+using UdonSharp;
 using UnityEngine;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.Video.Components.AVPro;
@@ -9,7 +10,7 @@ namespace Nomlas.TopazChat
 {
     public class Player : EventDispatcher
     {
-        // ---------------------------------------------
+        // ----- default URLs -----
 
         [SerializeField] internal VRCUrl defaultStreamURL;
         [SerializeField] internal VRCUrl defaultStreamURL_Android;
@@ -20,17 +21,17 @@ namespace Nomlas.TopazChat
             return platform == Platform.Android ? defaultStreamURL_Android : defaultStreamURL;
         }
 
-        // ---------------------------------------------
+        // ----- VRC AVPro Video Player -----
 
         [SerializeField] private VRCAVProVideoPlayer videoPlayer;
 
-        // ---------------------------------------------
+        // ----- screen -----
 
         [SerializeField] private MeshRenderer screen;
         [PublicAPI]
         public Material ScreenMaterial { get => screen.sharedMaterial; }
 
-        // ---------------------------------------------
+        // ----- Player status -----
 
         private PlayerStatus _PlayerStatus;
         [PublicAPI]
@@ -48,13 +49,9 @@ namespace Nomlas.TopazChat
         }
 
         // ---------------------------------------------
-        // virtualだが必須
-        protected virtual VRCUrl GetPlatformSyncStreamURL() { return null; }
-
-        // ---------------------------------------------
 
         /// <summary>
-        /// 指定したURLで再生します
+        /// 指定したURLで再生します。
         /// </summary>
         /// <param name="platformURL">プラットフォームに応じたURLにしてください。</param>
         private void PlayURL(VRCUrl platformURL, PlayType playType)
@@ -87,7 +84,10 @@ namespace Nomlas.TopazChat
             }
         }
 
-        protected void StartStream(VRCUrl url, VRCUrl url_Android)
+        /// <summary>
+        /// 指定したURLで再生処理をします。
+        /// </summary>
+        private void StartStream(VRCUrl url, VRCUrl url_Android)
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -189,6 +189,105 @@ namespace Nomlas.TopazChat
                     break;
             }
             SafeStop();
+        }
+
+
+
+
+
+        // ----------------------------------------
+
+        // --------- UdonSync ----------
+        [UdonSynced] private VRCUrl _SyncStreamURL;
+        [UdonSynced] private VRCUrl _SyncStreamURL_Android;
+
+        // ----------- Get用 ------------
+        private VRCUrl SyncStreamURL => _SyncStreamURL;
+        private VRCUrl SyncStreamURL_Android => _SyncStreamURL_Android;
+
+        // ----------- Set用 ------------
+
+        public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
+        {
+            if (TopazUtils.IsTopazLink(tmpStreamURL) && TopazUtils.IsTopazLink(tmpStreamURL_Android))
+            {
+                TakeOwner();
+                _SyncStreamURL = tmpStreamURL;
+                _SyncStreamURL_Android = tmpStreamURL_Android;
+                RequestSerialization();
+                StartStream(tmpStreamURL, tmpStreamURL_Android);
+            }
+            else
+            {
+                LogWarning("Only TopazChat URLs can be played.");
+                return;
+            }
+        }
+
+        // ----------------------------------------
+
+        protected VRCUrl GetPlatformSyncStreamURL()
+        {
+            if (GetRunningPlatform() == Platform.Android)
+            {
+                return SyncStreamURL_Android;
+            }
+            else
+            {
+                return SyncStreamURL;
+            }
+        }
+
+        private void CheckReceivedURLAndStartStream()
+        {
+            if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
+            {
+                StartStream(SyncStreamURL, SyncStreamURL_Android);
+            }
+            else
+            {
+                LogError("UdonSync failed. Unable to play.");
+                ShowMessage("UdonSync failed. Unable to play.", MessageLevel.Error);
+                SafeStop();
+            }
+        }
+
+        private void PlayerJoinSync(VRCPlayerApi joinedPlayer)
+        {
+            if (VRCPlayerApi.GetPlayerCount() <= 1) //インスタンス人数がひとりなら
+            {
+                Log("Welcome! Play with defalut URL...");
+                SetDefaultURL();
+            }
+            else if (joinedPlayer.isLocal) //インスタンス人数が二人以上で、あなたがJoinした人なら
+            {
+                Log("Welcome! checking if received URLs can be played...");
+                CheckReceivedURLAndStartStream();
+            }
+        }
+
+        private void SetDefaultURL()
+        {
+            SetUrl(GetPlatformDefaultStreamURL(Platform.Windows), GetPlatformDefaultStreamURL(Platform.Android));
+        }
+
+        private void TakeOwner()
+        {
+            var local = Networking.LocalPlayer;
+            if (!Networking.IsOwner(local, this.gameObject))
+            {
+                Networking.SetOwner(local, this.gameObject);
+            }
+        }
+
+        public override void OnPlayerJoined(VRCPlayerApi player)
+        {
+            PlayerJoinSync(player);
+        }
+
+        public override void OnDeserialization()
+        {
+            CheckReceivedURLAndStartStream();
         }
     }
 }
