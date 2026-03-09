@@ -1,10 +1,11 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using VRC.SDK3.Components.Video;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class ControllerReceiver : VideoEventListener
+    public class Receiver : Player
     {
         [SerializeField] private AudioSource[] speakers;
         private float _Volume;
@@ -34,13 +35,10 @@ namespace Nomlas.TopazChat
             }
         }
 
-        /// <summary>
-        /// ReSyncします。
-        /// </summary>
-        public void Resync()
-        {
-            _Resync();
-        }
+        public void Pause() => _Pause();
+        public void Resume() => _Resume();
+        public void Resync() => _Resync();
+        public void UserStop() => _Stop(StopType.UserStop);
 
         /// <summary>
         /// GlobalでReSyncします。
@@ -51,5 +49,15 @@ namespace Nomlas.TopazChat
             SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "Resync");
             _Resync();
         }
+
+        // ----- Video Events -----
+        public void PlayerVideoEnd() { }
+        public void PlayerVideoError(VideoError videoError) { PVideoError(videoError); }
+        public void PlayerVideoLoop() { }
+        public void PlayerVideoPause() { }
+        public void PlayerVideoPlay() { }
+        public void PlayerVideoReady() { }
+        public void PlayerVideoStart() { }
+        // -----
     }
 }
