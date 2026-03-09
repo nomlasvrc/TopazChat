@@ -81,7 +81,7 @@ namespace Nomlas.TopazChat
             {
                 Log("Stop from unknown player");
             }
-            _Stop(StopType.UserStop);
+            _UserStop();
         }
 
         // ----- Video Events -----

@@ -210,6 +210,16 @@ namespace Nomlas.TopazChat
 
         public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
         {
+            if (tmpStreamURL == VRCUrl.Empty && tmpStreamURL_Android == VRCUrl.Empty)
+            {
+                Log("Stopping stream...");
+                TakeOwner();
+                _SyncStreamURL = VRCUrl.Empty;
+                _SyncStreamURL_Android = VRCUrl.Empty;
+                RequestSerialization();
+                _Stop(StopType.UserStop);
+                return;
+            }
             if (TopazUtils.IsTopazLink(tmpStreamURL) && TopazUtils.IsTopazLink(tmpStreamURL_Android))
             {
                 TakeOwner();
@@ -239,11 +249,19 @@ namespace Nomlas.TopazChat
             }
         }
 
-        private void _CheckReceivedURLAndStartStream()
+        private void _CheckReceivedURL()
         {
             if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
             {
-                _StartStream(SyncStreamURL, SyncStreamURL_Android);
+                if (SyncStreamURL == VRCUrl.Empty && SyncStreamURL_Android == VRCUrl.Empty)
+                {
+                    Log("Received URL to stop stream.");
+                    _Stop(StopType.UserStop);
+                }
+                else
+                {
+                    _StartStream(SyncStreamURL, SyncStreamURL_Android);
+                }
             }
             else
             {
@@ -263,8 +281,13 @@ namespace Nomlas.TopazChat
             else if (joinedPlayer.isLocal) //インスタンス人数が二人以上で、あなたがJoinした人なら
             {
                 Log("Welcome! checking if received URLs can be played...");
-                _CheckReceivedURLAndStartStream();
+                _CheckReceivedURL();
             }
+        }
+
+        protected void _UserStop()
+        {
+            SetUrl(VRCUrl.Empty, VRCUrl.Empty);
         }
 
         private void _SetDefaultURL()
@@ -288,7 +311,7 @@ namespace Nomlas.TopazChat
 
         public override void OnDeserialization()
         {
-            _CheckReceivedURLAndStartStream();
+            _CheckReceivedURL();
         }
     }
 }
