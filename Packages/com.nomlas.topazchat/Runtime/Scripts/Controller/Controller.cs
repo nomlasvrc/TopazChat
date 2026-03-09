@@ -101,8 +101,10 @@ namespace Nomlas.TopazChat
         public void _OnRestoredUrl(Save sender)
         {
             saver = sender;
-            savedStreamKeyText.text = TopazUtils.StreamKey(saver.SavedURL);
-            Log("Restored URL");
+
+            var streamKey = TopazUtils.StreamKey(saver.SavedURL);
+            savedStreamKeyText.text = streamKey;
+            Log("URL Restored. StreamKey: " + streamKey);
         }
 
         private void _SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
