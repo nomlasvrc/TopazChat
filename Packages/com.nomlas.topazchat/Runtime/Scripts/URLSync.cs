@@ -4,7 +4,7 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
-    public class URLSync : ControllerReceiver
+    public class URLSync : Receiver
     {
         // ----------------------------------------
 
