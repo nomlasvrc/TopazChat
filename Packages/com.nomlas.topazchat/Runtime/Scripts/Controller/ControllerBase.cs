@@ -80,5 +80,10 @@ namespace Nomlas.TopazChat
                     break;
             }
         }
+
+        public override void OnChangeVolume(float volume)
+        {
+            volumeSlider.SetValueWithoutNotify(volume);
+        }
     }
 }

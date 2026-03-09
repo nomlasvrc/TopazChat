@@ -14,6 +14,7 @@ namespace Nomlas.TopazChat
         public virtual void OnListenerReady() { }
         public virtual void UpdateMessage(string msg) { }
         public virtual void UpdateStatus(PlayerStatus playerStatus) { }
+        public virtual void OnChangeVolume(float volume) { }
         public virtual string GetListenerName()
         {
             return "Generic Event Listener";

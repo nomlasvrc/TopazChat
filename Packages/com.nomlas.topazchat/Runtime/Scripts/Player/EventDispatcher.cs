@@ -68,5 +68,14 @@ namespace Nomlas.TopazChat
                 listeners[i].UpdateURL(url, url_Android);
             }
         }
+
+        protected void ChangeVolume(float volume)
+        {
+            if (!Utilities.IsValid(listeners)) return;
+            for (int i = 0; i < listeners.Length; i++)
+            {
+                listeners[i].OnChangeVolume(volume);
+            }
+        }
     }
 }

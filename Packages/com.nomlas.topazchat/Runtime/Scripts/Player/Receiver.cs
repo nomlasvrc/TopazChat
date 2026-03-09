@@ -25,6 +25,7 @@ namespace Nomlas.TopazChat
                     Log($"Volume: {_Volume} => {value}");
                 }
                 OnVolumeChange();
+                ChangeVolume(value);
             }
         }
 
