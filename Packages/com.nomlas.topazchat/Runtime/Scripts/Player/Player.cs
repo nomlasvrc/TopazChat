@@ -213,7 +213,7 @@ namespace Nomlas.TopazChat
 
         public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
         {
-            if (tmpStreamURL.ToString() == StopURL.ToString())
+            if (tmpStreamURL != null && tmpStreamURL.ToString() == StopURL.ToString())
             {
                 Log("Stopping stream...");
                 TakeOwner();
