@@ -8,6 +8,7 @@ namespace Nomlas.TopazChat
     public class TopazChatPlayerEditor : Editor
     {
         private string streamKey = "";
+        public static VRCUrl StopURL => new VRCUrl("stop");
 
         public override void OnInspectorGUI()
         {
@@ -33,8 +34,8 @@ namespace Nomlas.TopazChat
             {
                 if (string.IsNullOrEmpty(streamKey))
                 {
-                    player.defaultStreamURL = VRCUrl.Empty;
-                    player.defaultStreamURL_Android = VRCUrl.Empty;
+                    player.defaultStreamURL = StopURL;
+                    player.defaultStreamURL_Android = StopURL;
                     if (player.controller.address != null) player.controller.address.text = "-";
                 }
                 else

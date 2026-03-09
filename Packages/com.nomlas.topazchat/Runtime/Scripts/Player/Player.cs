@@ -48,6 +48,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        // ----- VRCURL -----
+        private readonly VRCUrl StopURL = new VRCUrl("stop");
+
         // ---------------------------------------------
 
         /// <summary>
@@ -210,12 +213,12 @@ namespace Nomlas.TopazChat
 
         public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
         {
-            if (tmpStreamURL == VRCUrl.Empty && tmpStreamURL_Android == VRCUrl.Empty)
+            if (tmpStreamURL == StopURL && tmpStreamURL_Android == StopURL)
             {
                 Log("Stopping stream...");
                 TakeOwner();
-                _SyncStreamURL = VRCUrl.Empty;
-                _SyncStreamURL_Android = VRCUrl.Empty;
+                _SyncStreamURL = StopURL;
+                _SyncStreamURL_Android = StopURL;
                 RequestSerialization();
                 _Stop(StopType.UserStop);
                 return;
@@ -251,16 +254,19 @@ namespace Nomlas.TopazChat
 
         private void _CheckReceivedURL()
         {
-            if (SyncStreamURL == VRCUrl.Empty && SyncStreamURL_Android == VRCUrl.Empty)
-            {
-                Log("Received URL to stop stream.");
-                _Stop(StopType.UserStop);
-                return;
-            }
-
             if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
             {
-                _StartStream(SyncStreamURL, SyncStreamURL_Android);
+                if (SyncStreamURL.ToString() == StopURL.ToString())
+                {
+                    Log("Received URL to stop stream.");
+                    _Stop(StopType.UserStop);
+                    return;
+                }
+                else
+                {
+                    Log("Received valid stream URL. Starting stream...");
+                    _StartStream(SyncStreamURL, SyncStreamURL_Android);
+                }
             }
             else
             {
@@ -286,7 +292,7 @@ namespace Nomlas.TopazChat
 
         protected void _UserStop()
         {
-            SetUrl(VRCUrl.Empty, VRCUrl.Empty);
+            SetUrl(StopURL, StopURL);
         }
 
         private void _SetDefaultURL()
