@@ -28,12 +28,21 @@ namespace Nomlas.TopazChat
 
             var oldStreamKey = streamKey;
             streamKey = EditorGUILayout.TextField("ストリームキー", streamKey);
-            EditorGUILayout.HelpBox("このテキストフィールドに入力すると、StreamURLが自動で更新されます。", MessageType.None);
+            EditorGUILayout.HelpBox("このテキストフィールドに入力すると、StreamURLが自動で更新されます。\n空欄にすると、インスタンス作成時は停止します。", MessageType.None);
             if (oldStreamKey != streamKey)
             {
-                player.defaultStreamURL = new VRCUrl($"{TopazUtils.TopazURL}/{streamKey}");
-                player.defaultStreamURL_Android = new VRCUrl($"{TopazUtils.TopazURL_Android}/{streamKey}");
-                if (player.controller.address != null) player.controller.address.text = streamKey;
+                if (string.IsNullOrEmpty(streamKey))
+                {
+                    player.defaultStreamURL = VRCUrl.Empty;
+                    player.defaultStreamURL_Android = VRCUrl.Empty;
+                    if (player.controller.address != null) player.controller.address.text = "-";
+                }
+                else
+                {
+                    player.defaultStreamURL = new VRCUrl($"{TopazUtils.TopazURL}/{streamKey}");
+                    player.defaultStreamURL_Android = new VRCUrl($"{TopazUtils.TopazURL_Android}/{streamKey}");
+                    if (player.controller.address != null) player.controller.address.text = streamKey;
+                }
 
                 EditorUtility.SetDirty(target);
                 EditorUtility.SetDirty(player.controller.address);
