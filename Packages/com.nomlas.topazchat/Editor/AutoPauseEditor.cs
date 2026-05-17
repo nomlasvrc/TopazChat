@@ -8,6 +8,9 @@ namespace Nomlas.TopazChat
     {
         SerializedProperty pauseDistance;
         SerializedProperty resumeDistance;
+        public const float PauseResumeGap = 2f;
+        public const float MinDistance = 1f;
+        public const float MaxDistance = 100f;
 
         // OnEnableでプロパティを取得
         private void OnEnable()
@@ -20,18 +23,10 @@ namespace Nomlas.TopazChat
         {
             serializedObject.Update();
 
-            float minValue = 0.1f;
-            float maxValue = 100f;
+            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distence", pauseDistance.floatValue, MinDistance, MaxDistance);
 
-            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distence", Mathf.Max(pauseDistance.floatValue, minValue), minValue, maxValue);
-
-            float resumeMax = pauseDistance.floatValue - 0.1f;
-            resumeDistance.floatValue = EditorGUILayout.Slider("Resume Distance", Mathf.Max(resumeDistance.floatValue, minValue), minValue, resumeMax);
-
-            if (resumeDistance.floatValue >= pauseDistance.floatValue)
-            {
-                resumeDistance.floatValue = pauseDistance.floatValue - 0.1f;
-            }
+            float resumeMax = pauseDistance.floatValue - PauseResumeGap;
+            resumeDistance.floatValue = EditorGUILayout.Slider("Resume Distance", resumeDistance.floatValue, MinDistance, resumeMax);
 
             serializedObject.ApplyModifiedProperties();
 
