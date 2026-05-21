@@ -37,7 +37,7 @@ namespace Nomlas.TopazChat
 
         public override void OnPlayerRestored(VRCPlayerApi player)
         {
-            if (player != Networking.LocalPlayer) return;
+            if (!player.isLocal) return;
 
             foreach (var c in controller)
             {
