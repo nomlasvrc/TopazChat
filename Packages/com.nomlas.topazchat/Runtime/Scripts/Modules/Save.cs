@@ -15,9 +15,19 @@ namespace Nomlas.TopazChat
         [UdonSynced] private VRCUrl savedUrl;
         [UdonSynced] private VRCUrl savedUrl_Android;
 
+        /// <summary>
+        /// 保存されたURLを返します。
+        /// </summary>
         [PublicAPI] public VRCUrl SavedURL => savedUrl;
+        /// <summary>
+        /// 保存されたURL(Android)を返します。
+        /// </summary>
         [PublicAPI] public VRCUrl SavedURL_Android => savedUrl_Android;
 
+        /// <summary>
+        /// URLを保存します。
+        /// 内部用
+        /// </summary>
         public void _SaveKey(VRCUrl url, VRCUrl url_Android)
         {
             savedUrl = url;
