@@ -39,9 +39,10 @@ namespace Nomlas.TopazChat
             }
         }
 
-        public void Pause() => _Pause();
-        public void Resume() => _Resume();
-        public void Resync() => _Resync();
+        [PublicAPI] public void Pause() => _Pause();
+        [PublicAPI] public void Resume() => _Resume();
+        [PublicAPI] public void Resync() => _Resync();
+        [PublicAPI]
         public void GlobalUserStop()
         {
             Log("Global Stop");
@@ -51,6 +52,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// GlobalでReSyncします。
         /// </summary>
+        [PublicAPI]
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
             Log("Global Sync");

@@ -98,6 +98,7 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 指定したURLで再生処理をします。
+        /// 内部用
         /// </summary>
         private void _StartStream(VRCUrl url, VRCUrl url_Android)
         {
@@ -121,6 +122,7 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// ReSyncします。
+        /// 継承用
         /// </summary>
         protected void _Resync()
         {
@@ -138,6 +140,7 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を一時停止します。
+        /// 継承用
         /// </summary>
         protected void _Pause()
         {
@@ -149,6 +152,7 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を再開します。
+        /// 継承用
         /// </summary>
         protected void _Resume()
         {
@@ -161,8 +165,9 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を停止します。
+        /// 内部用
         /// </summary>
-        protected void _Stop(StopType stopType)
+        private void _Stop(StopType stopType)
         {
             videoPlayer.Stop();
             if (stopType == StopType.UserStop)
@@ -174,6 +179,7 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 何か再生できない事情が発生した場合に明示的に再生を停止します。
+        /// 内部用
         /// </summary>
         private void _SafeStop()
         {
@@ -315,11 +321,18 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// ユーザー入力により、Globalで再生を停止します。
+        /// 継承用
+        /// </summary>
         protected void _UserStop()
         {
             SetUrl(StopURL, StopURL);
         }
 
+        /// <summary>
+        /// GlobalでデフォルトのURLをセットします。
+        /// </summary>
         private void _SetDefaultURL()
         {
             SetUrl(DefaultStreamURL, DefaultStreamURL_Android);
