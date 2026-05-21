@@ -30,7 +30,7 @@ namespace Nomlas.TopazChat
             base.Start();
             if (Utilities.IsValid(urlInputField))
             {
-                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
+                urlInputField.SetUrl(player.DefaultStreamURL);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace Nomlas.TopazChat
             }
             if (Utilities.IsValid(urlInputField_Android))
             {
-                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
+                urlInputField_Android.SetUrl(player.DefaultStreamURL_Android);
             }
             else
             {
@@ -74,8 +74,8 @@ namespace Nomlas.TopazChat
             else
             {
                 //streamURLをセット
-                urlInputField.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Windows));
-                urlInputField_Android.SetUrl(player.GetPlatformDefaultStreamURL(Platform.Android));
+                urlInputField.SetUrl(player.DefaultStreamURL);
+                urlInputField_Android.SetUrl(player.DefaultStreamURL_Android);
                 Log("Set default URL");
             }
         }

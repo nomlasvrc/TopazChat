@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using UdonSharp;
 using UnityEngine;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.UdonNetworkCalling;
@@ -6,6 +7,7 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class Receiver : Player
     {
         [SerializeField] private AudioSource[] speakers;

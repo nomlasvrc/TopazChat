@@ -35,11 +35,18 @@ namespace Nomlas.TopazChat
             listener.OnListenerReady();
         }
 
+        /// <summary>
+        /// 情報メッセージをUIに表示します。
+        /// </summary>
+        /// <param name="msg"></param>
         protected void ShowMessage(string msg)
         {
             _ShowMessage(msg, MessageLevel.Info);
         }
 
+        /// <summary>
+        /// メッセージをUIに表示します。
+        /// </summary>
         protected void ShowMessage(string msg, MessageLevel level)
         {
             _ShowMessage(msg, level);
@@ -54,6 +61,10 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 再生状態の変更をイベントリスナーに通知します。
+        /// </summary>
+        /// <param name="playerStatus"></param>
         protected void UpdatePlayerStatus(PlayerStatus playerStatus)
         {
             if (!Utilities.IsValid(listeners)) return;
@@ -63,6 +74,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// URLの変更をイベントリスナーに通知します。
+        /// </summary>
         protected void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
             if (!Utilities.IsValid(listeners)) return;
@@ -72,6 +86,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 音量の変更をイベントリスナーに通知します。
+        /// </summary>
         protected void ChangeVolume(float volume)
         {
             if (!Utilities.IsValid(listeners)) return;
