@@ -9,14 +9,20 @@ namespace Nomlas.TopazChat
     {
         public override string ListenerName => "Controller";
         [Space]
-        [SerializeField] internal TextMeshProUGUI address;
-        [SerializeField] private VRCUrlInputField urlInputField;
-        [SerializeField] private VRCUrlInputField urlInputField_Android;
+        [SerializeField][Header("ストリームキーの表示欄")] internal TextMeshProUGUI address;
+        [SerializeField][Header("URL入力欄")] private VRCUrlInputField urlInputField;
+        [SerializeField][Header("URL入力欄(Android)")] private VRCUrlInputField urlInputField_Android;
         [Space]
-        private Save saver;
-        [SerializeField] private TextMeshProUGUI savedStreamKeyText;
+        [SerializeField][Header("保存されたストリームキーの表示欄")] private TextMeshProUGUI savedStreamKeyText;
         [Space]
         [SerializeField] internal bool androidMode;
+        /// <summary>
+        /// ストリームキーのPersistenceを行うコンポーネント。
+        /// </summary>
+        private Save saver;
+        /// <summary>
+        /// AndroidMode時にURLを一時的に保存するための変数。
+        /// </summary>
         private VRCUrl tempURL;
 
         protected override void Start()
@@ -40,7 +46,11 @@ namespace Nomlas.TopazChat
             }
             if (!Utilities.IsValid(address))
             {
-                LogWarning("StreamKey表示欄が見つかりません");
+                LogWarning("ストリームキー表示欄が見つかりません");
+            }
+            if (!Utilities.IsValid(savedStreamKeyText))
+            {
+                LogWarning("保存されたストリームキーの表示欄が見つかりません");
             }
         }
 
@@ -84,6 +94,11 @@ namespace Nomlas.TopazChat
         [UnityEvent]
         public void LoadPersistenceURL()
         {
+            if (!Utilities.IsValid(saver))
+            {
+                LogWarning("URL Saverが見つかりません");
+                return;
+            }
             var savedUrl = saver.SavedURL;
             var savedUrl_Android = saver.SavedURL_Android;
             if (TopazUtils.IsValidTopazLink(savedUrl) && TopazUtils.IsValidTopazLink(savedUrl_Android))
@@ -101,6 +116,11 @@ namespace Nomlas.TopazChat
 
         public void _OnRestoredUrl(Save sender)
         {
+            if (!Utilities.IsValid(sender))
+            {
+                LogError("URL Saverが正しくありません");
+                return;
+            }
             saver = sender;
 
             var streamKey = TopazUtils.StreamKey(saver.SavedURL);
@@ -110,6 +130,11 @@ namespace Nomlas.TopazChat
 
         private void _SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
         {
+            if (!Utilities.IsValid(saver))
+            {
+                LogWarning("URL Saverが見つからないため、URLを保存できません");
+                return;
+            }
             saver._SaveKey(url, url_Android);
             savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
