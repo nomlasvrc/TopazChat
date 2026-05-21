@@ -13,7 +13,10 @@ namespace Nomlas.TopazChat
         {
             DrawTopazChatPlayerInspector();
             EditorGUILayout.Space();
+            EditorGUILayout.LabelField("インスペクターの値", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
             DrawDefaultInspector();
+            EditorGUI.indentLevel--;
         }
 
         private void DrawTopazChatPlayerInspector()
