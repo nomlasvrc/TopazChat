@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
@@ -32,6 +31,12 @@ namespace Nomlas.TopazChat
             EditorGUILayout.HelpBox("このテキストフィールドに入力すると、StreamURLが自動で更新されます。\n空欄にすると、インスタンス作成時は停止します。", MessageType.None);
             if (oldStreamKey != streamKey)
             {
+                Undo.RecordObject(player, "Update Topaz Stream Key");
+                if (player.controller.address != null)
+                {
+                    Undo.RecordObject(player.controller.address, "Update Topaz Stream Key");
+                }
+
                 if (string.IsNullOrEmpty(streamKey))
                 {
                     player.defaultStreamURL = StopURL;
@@ -46,7 +51,10 @@ namespace Nomlas.TopazChat
                 }
 
                 EditorUtility.SetDirty(target);
-                EditorUtility.SetDirty(player.controller.address);
+                if (player.controller.address != null)
+                {
+                    EditorUtility.SetDirty(player.controller.address);
+                }
             }
 
             /*
