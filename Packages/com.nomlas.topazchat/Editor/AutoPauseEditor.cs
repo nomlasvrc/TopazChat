@@ -23,7 +23,7 @@ namespace Nomlas.TopazChat
         {
             serializedObject.Update();
 
-            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distence", pauseDistance.floatValue, MinDistance, MaxDistance);
+            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distance", pauseDistance.floatValue, MinDistance, MaxDistance);
 
             float resumeMax = pauseDistance.floatValue - PauseResumeGap;
             resumeDistance.floatValue = EditorGUILayout.Slider("Resume Distance", resumeDistance.floatValue, MinDistance, resumeMax);
