@@ -5,6 +5,7 @@ namespace Nomlas.TopazChat
 {
     public class AutoPause : PlayerEventListener
     {
+        public override string ListenerName => "AutoPause";
         [SerializeField] internal float pauseDistance = 40;
         [SerializeField] internal float resumeDistance = 38;
         private float sqrPauseDistance;
@@ -35,11 +36,6 @@ namespace Nomlas.TopazChat
                 if (isPausing) player.Resume();
                 isPausing = false;
             }
-        }
-
-        public override string GetListenerName()
-        {
-            return "AutoPause";
         }
 
         private void OnDrawGizmosSelected()

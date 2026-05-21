@@ -7,6 +7,7 @@ namespace Nomlas.TopazChat
 {
     public class Controller : ControllerBase
     {
+        public override string ListenerName => "Controller";
         [Space]
         [SerializeField] internal TextMeshProUGUI address;
         [SerializeField] private VRCUrlInputField urlInputField;
@@ -119,11 +120,6 @@ namespace Nomlas.TopazChat
             urlInputField_Android.SetUrl(url_Android);
             address.text = TopazUtils.StreamKey(url);
             Log("UI Updated");
-        }
-
-        public override string GetListenerName()
-        {
-            return "Controller";
         }
     }
 }

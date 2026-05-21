@@ -14,21 +14,24 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public void AddEventListener(PlayerEventListener listener)
         {
-            if (listener == null)
+            if (listener == null) //nullのlistenerを渡すな
             {
                 LogError("A null EventListener was provided.");
                 return;
             }
-            if (listeners == null)
+            if (listeners == null) //初めてAddEventListenerされたときに配列を初期化
             {
                 listeners = new PlayerEventListener[0];
             }
 
+            //配列を拡張して新しいlistenerを追加
             var array = new PlayerEventListener[listeners.Length + 1];
             listeners.CopyTo(array, 0);
             array[listeners.Length] = listener;
             listeners = array;
-            Log("Added EventListener: " + listener.GetListenerName());
+
+            //ログと通知
+            Log($"Added EventListener: {listener.ListenerName}");
             listener.OnListenerReady();
         }
 
