@@ -22,13 +22,17 @@ namespace Nomlas.TopazChat
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUI.BeginChangeCheck();
 
-            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distance", pauseDistance.floatValue, MinDistance, MaxDistance);
+            pauseDistance.floatValue = EditorGUILayout.Slider("Pause Distance", pauseDistance.floatValue, MinDistance + PauseResumeGap, MaxDistance);
 
             float resumeMax = pauseDistance.floatValue - PauseResumeGap;
             resumeDistance.floatValue = EditorGUILayout.Slider("Resume Distance", resumeDistance.floatValue, MinDistance, resumeMax);
 
-            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
 
             EditorGUILayout.Space(10);
             EditorGUI.indentLevel++;

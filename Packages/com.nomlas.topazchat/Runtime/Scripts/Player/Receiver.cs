@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using UdonSharp;
 using UnityEngine;
 using VRC.SDK3.Components.Video;
 using VRC.SDK3.UdonNetworkCalling;
@@ -6,6 +7,7 @@ using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class Receiver : Player
     {
         [SerializeField] private AudioSource[] speakers;
@@ -37,9 +39,10 @@ namespace Nomlas.TopazChat
             }
         }
 
-        public void Pause() => _Pause();
-        public void Resume() => _Resume();
-        public void Resync() => _Resync();
+        [PublicAPI] public void Pause() => _Pause();
+        [PublicAPI] public void Resume() => _Resume();
+        [PublicAPI] public void Resync() => _Resync();
+        [PublicAPI]
         public void GlobalUserStop()
         {
             Log("Global Stop");
@@ -49,6 +52,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// GlobalでReSyncします。
         /// </summary>
+        [PublicAPI]
         public void GlobalSync() //GlobalSyncボタンが押されたときに発火
         {
             Log("Global Sync");

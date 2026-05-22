@@ -4,6 +4,7 @@ namespace Nomlas.TopazChat
 {
     public class SubScreen : PlayerEventListener
     {
+        public override string ListenerName => "SubScreen";
         [SerializeField] private MeshRenderer target;
         public override void OnListenerReady()
         {
@@ -17,11 +18,6 @@ namespace Nomlas.TopazChat
             {
                 LogError("サブスクリーンの設定に失敗しました");
             }
-        }
-
-        public override string GetListenerName()
-        {
-            return "SubScreen";
         }
     }
 }

@@ -7,9 +7,12 @@ namespace Nomlas.TopazChat {
     public class AudioOutputTunnel : UdonSharpBehaviour
     {
         [SerializeField] private AudioSource input;
+        [Space]
         [SerializeField] private AudioSource stereoOutput;
+        [Space]
         [SerializeField] private AudioSource leftOutput;
         [SerializeField] private AudioSource rightOutput;
+        [Space]
         [SerializeField] private int bufferLength = 1024 * 4;
 
         private AudioClip stereoOutputClip;

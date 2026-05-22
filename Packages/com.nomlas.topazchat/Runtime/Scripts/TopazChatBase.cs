@@ -30,23 +30,17 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 現在実行中のプラットフォームを返します。
         /// </summary>
-        [PublicAPI]
-        public static Platform GetRunningPlatform()
-        {
-            return RunningPlatformIsAndroid() ? Platform.Android : Platform.Windows;
-        }
+        [PublicAPI] public const Platform RunningPlatform = IsAndroid ? Platform.Android : Platform.Windows;
 
         /// <summary>
         /// 現在実行中のプラットフォームがAndroidかどうか返します。
         /// </summary>
-        /// <returns>現在実行中のプラットフォームがAndroidかどうか。</returns>
-        private static bool RunningPlatformIsAndroid()
-        {
+        private const bool IsAndroid =
 #if UNITY_ANDROID
-            return true;
+        true;
 #else
-            return false;
+        false;
 #endif
-        }
+
     }
 }

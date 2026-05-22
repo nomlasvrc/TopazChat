@@ -14,29 +14,39 @@ namespace Nomlas.TopazChat
         [PublicAPI]
         public void AddEventListener(PlayerEventListener listener)
         {
-            if (listener == null)
+            if (listener == null) //nullのlistenerを渡すな
             {
                 LogError("A null EventListener was provided.");
                 return;
             }
-            if (listeners == null)
+            if (listeners == null) //初めてAddEventListenerされたときに配列を初期化
             {
                 listeners = new PlayerEventListener[0];
             }
 
+            //配列を拡張して新しいlistenerを追加
             var array = new PlayerEventListener[listeners.Length + 1];
             listeners.CopyTo(array, 0);
             array[listeners.Length] = listener;
             listeners = array;
-            Log("Added EventListener: " + listener.GetListenerName());
+
+            //ログと通知
+            Log($"Added EventListener: {listener.ListenerName}");
             listener.OnListenerReady();
         }
 
+        /// <summary>
+        /// 情報メッセージをUIに表示します。
+        /// </summary>
+        /// <param name="msg"></param>
         protected void ShowMessage(string msg)
         {
             _ShowMessage(msg, MessageLevel.Info);
         }
 
+        /// <summary>
+        /// メッセージをUIに表示します。
+        /// </summary>
         protected void ShowMessage(string msg, MessageLevel level)
         {
             _ShowMessage(msg, level);
@@ -51,6 +61,10 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 再生状態の変更をイベントリスナーに通知します。
+        /// </summary>
+        /// <param name="playerStatus"></param>
         protected void UpdatePlayerStatus(PlayerStatus playerStatus)
         {
             if (!Utilities.IsValid(listeners)) return;
@@ -60,6 +74,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// URLの変更をイベントリスナーに通知します。
+        /// </summary>
         protected void UpdateURL(VRCUrl url, VRCUrl url_Android)
         {
             if (!Utilities.IsValid(listeners)) return;
@@ -69,6 +86,9 @@ namespace Nomlas.TopazChat
             }
         }
 
+        /// <summary>
+        /// 音量の変更をイベントリスナーに通知します。
+        /// </summary>
         protected void ChangeVolume(float volume)
         {
             if (!Utilities.IsValid(listeners)) return;

@@ -12,9 +12,6 @@ namespace Nomlas.TopazChat
         public override void OnVideoReady() => player.PlayerVideoReady();
         public override void OnVideoStart() => player.PlayerVideoStart();
 
-        public override string GetListenerName()
-        {
-            return "VideoStatusWatcher";
-        }
+        public override string ListenerName => "VideoStatusWatcher";
     }
 }
