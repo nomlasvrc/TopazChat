@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using VRC.SDKBase;
 
 namespace Nomlas.TopazChat
@@ -12,6 +14,8 @@ namespace Nomlas.TopazChat
         public override void OnInspectorGUI()
         {
             DrawTopazChatPlayerInspector();
+            EditorGUILayout.Space();
+            DrawSaverInspector();
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("インスペクターの値", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
@@ -69,6 +73,43 @@ namespace Nomlas.TopazChat
                 EditorUtility.SetDirty(player.controller);
             }
             */
+        }
+
+        private const string StreamKeySaverPrefabPath = "Packages/com.nomlas.topazchat/Runtime/Prefabs/StreamKey Saver.prefab";
+        private void DrawSaverInspector()
+        {
+            var saverCount = SaveEditor.GetSaveComponentCount();
+            if (saverCount == 0)
+            {
+                EditorGUILayout.HelpBox("ストリームキーを保存するコンポーネントが見つかりません。ストリームキーは保存されません。", MessageType.Warning);
+                if (GUILayout.Button("追加する"))
+                {
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(StreamKeySaverPrefabPath);
+                    if (prefab != null)
+                    {
+                        var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        Undo.RegisterCreatedObjectUndo(instance, "Create Stream Key Saver");
+                    }
+                    else
+                    {
+                        Debug.LogError($"Failed to load prefab at path: {StreamKeySaverPrefabPath}");
+                    }
+                }
+                return;
+            }
+            else if (saverCount > 1)
+            {
+                EditorGUILayout.HelpBox("ストリームキーを保存するコンポーネントが複数見つかりました。誤動作の原因になる可能性があるため、削除してください。", MessageType.Error);
+                if (GUILayout.Button("確認する"))
+                {
+                    var savers = FindObjectsOfType<Save>();
+                    if (savers.Length > 0)
+                    {
+                        Selection.objects = savers.Select(s => s.gameObject).ToArray();
+                    }
+                }
+                return;
+            }
         }
     }
 }

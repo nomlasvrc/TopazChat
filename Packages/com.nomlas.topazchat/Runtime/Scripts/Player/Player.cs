@@ -98,7 +98,6 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 指定したURLで再生処理をします。
-        /// 内部用
         /// </summary>
         private void _StartStream(VRCUrl url, VRCUrl url_Android)
         {
@@ -122,9 +121,8 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// ReSyncします。
-        /// 継承用
         /// </summary>
-        protected void _Resync()
+        private protected void _Resync()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -140,9 +138,8 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を一時停止します。
-        /// 継承用
         /// </summary>
-        protected void _Pause()
+        private protected void _Pause()
         {
             Log("Paused");
             ShowMessage("Paused");
@@ -152,9 +149,8 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を再開します。
-        /// 継承用
         /// </summary>
-        protected void _Resume()
+        private protected void _Resume()
         {
             if (PlayerStatus == PlayerStatus.Pause)
             {
@@ -165,7 +161,6 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 再生を停止します。
-        /// 内部用
         /// </summary>
         private void _Stop(StopType stopType)
         {
@@ -179,14 +174,13 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// 何か再生できない事情が発生した場合に明示的に再生を停止します。
-        /// 内部用
         /// </summary>
         private void _SafeStop()
         {
             _Stop(StopType.ErrorStop);
         }
 
-        protected void PVideoError(VideoError videoError)
+        private protected void PVideoError(VideoError videoError)
         {
             LogError("Video Error: " + videoError.ToString());
             switch (videoError)
@@ -323,9 +317,8 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// ユーザー入力により、Globalで再生を停止します。
-        /// 継承用
         /// </summary>
-        protected void _UserStop()
+        private protected void _UserStop()
         {
             SetUrl(StopURL, StopURL);
         }
