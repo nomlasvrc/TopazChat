@@ -18,7 +18,7 @@ namespace Nomlas.TopazChat
         private float sqrResumeDistance;
         private bool isPausing;
         private VRCPlayerApi local;
-        protected override void Start()
+        private protected override void Start()
         {
             base.Start();
 

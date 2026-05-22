@@ -26,9 +26,8 @@ namespace Nomlas.TopazChat
 
         /// <summary>
         /// URLを保存します。
-        /// 内部用
         /// </summary>
-        public void _SaveKey(VRCUrl url, VRCUrl url_Android)
+        public void SaveKeyInternal(VRCUrl url, VRCUrl url_Android)
         {
             savedUrl = url;
             savedUrl_Android = url_Android;
@@ -41,7 +40,7 @@ namespace Nomlas.TopazChat
 
             foreach (var c in controller)
             {
-                c._OnRestoredUrl(this);
+                c.OnRestoredUrlInternal(this);
             }
         }
 

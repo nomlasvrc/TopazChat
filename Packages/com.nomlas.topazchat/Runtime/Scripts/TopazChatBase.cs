@@ -12,17 +12,17 @@ namespace Nomlas.TopazChat
     {
         private const string prefix = "[<color=orange>TopazPlayer-Nmls</color>] ";
 
-        protected void Log(string message)
+        private protected void Log(string message)
         {
             Debug.Log(prefix + message);
         }
 
-        protected void LogWarning(string message)
+        private protected void LogWarning(string message)
         {
             Debug.LogWarning(prefix + message);
         }
 
-        protected void LogError(string message)
+        private protected void LogError(string message)
         {
             Debug.LogError(prefix + message);
         }

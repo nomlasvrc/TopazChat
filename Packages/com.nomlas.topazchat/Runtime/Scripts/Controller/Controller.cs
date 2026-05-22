@@ -27,7 +27,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private VRCUrl tempURL;
 
-        protected override void Start()
+        private protected override void Start()
         {
             base.Start();
             if (Utilities.IsValid(urlInputField))
@@ -116,7 +116,7 @@ namespace Nomlas.TopazChat
             player.GlobalUserStop();
         }
 
-        public void _OnRestoredUrl(Save sender)
+        public void OnRestoredUrlInternal(Save sender)
         {
             if (!Utilities.IsValid(sender))
             {
@@ -138,7 +138,7 @@ namespace Nomlas.TopazChat
                 LogWarning("URL Saverが見つからないため、URLを保存できません");
                 return;
             }
-            saver._SaveKey(url, url_Android);
+            saver.SaveKeyInternal(url, url_Android);
             savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
 

@@ -8,7 +8,7 @@ namespace Nomlas.TopazChat
         /// 全てのListenerに渡される、TopazChatPlayerのコンポーネント。
         /// </summary>
         public TopazChatPlayer player;
-        protected virtual void Start()
+        private protected virtual void Start()
         {
             player.AddEventListener(this);
         }
