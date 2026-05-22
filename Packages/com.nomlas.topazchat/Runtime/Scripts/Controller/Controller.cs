@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.SDK3.Components;
 using VRC.SDKBase;
 
@@ -13,6 +14,7 @@ namespace Nomlas.TopazChat
         [SerializeField][Header("URL入力欄")] private VRCUrlInputField urlInputField;
         [SerializeField][Header("URL入力欄(Android)")] private VRCUrlInputField urlInputField_Android;
         [Space]
+        [SerializeField][Header("保存されたストリームキーを読み込むボタン")] private Button loadButton;
         [SerializeField][Header("保存されたストリームキーの表示欄")] private TextMeshProUGUI savedStreamKeyText;
         [Space]
         [SerializeField] internal bool androidMode;
@@ -125,6 +127,7 @@ namespace Nomlas.TopazChat
 
             var streamKey = TopazUtils.StreamKey(saver.SavedURL);
             savedStreamKeyText.text = streamKey;
+            loadButton.interactable = true;
             Log("URL Restored. StreamKey: " + streamKey);
         }
 

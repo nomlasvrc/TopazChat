@@ -65,6 +65,7 @@ MonoBehaviour:
   address: {fileID: 2507260149030801823}
   urlInputField: {fileID: 892313335843826832}
   urlInputField_Android: {fileID: 226472318588614005}
+  loadButton: {fileID: 3669566212176218905}
   savedStreamKeyText: {fileID: 3003259086039221825}
   androidMode: 0
 --- !u!114 &5414316130299493857
@@ -1977,7 +1978,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 4062565988136974658}
   m_OnClick:
     m_PersistentCalls:
