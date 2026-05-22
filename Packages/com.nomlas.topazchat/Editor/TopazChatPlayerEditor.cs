@@ -75,12 +75,26 @@ namespace Nomlas.TopazChat
             */
         }
 
+        private const string StreamKeySaverPrefabPath = "Packages/com.nomlas.topazchat/Runtime/Prefabs/StreamKey Saver.prefab";
         private void DrawSaverInspector()
         {
             var saverCount = SaveEditor.GetSaveComponentCount();
             if (saverCount == 0)
             {
                 EditorGUILayout.HelpBox("ストリームキーを保存するコンポーネントが見つかりません。ストリームキーは保存されません。", MessageType.Warning);
+                if (GUILayout.Button("追加する"))
+                {
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(StreamKeySaverPrefabPath);
+                    if (prefab != null)
+                    {
+                        var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                        Undo.RegisterCreatedObjectUndo(instance, "Create Stream Key Saver");
+                    }
+                    else
+                    {
+                        Debug.LogError($"Failed to load prefab at path: {StreamKeySaverPrefabPath}");
+                    }
+                }
                 return;
             }
             else if (saverCount > 1)
