@@ -1,5 +1,4 @@
 
-using JetBrains.Annotations;
 using UdonSharp;
 using UnityEngine;
 
@@ -26,21 +25,6 @@ namespace Nomlas.TopazChat
         {
             Debug.LogError(prefix + message);
         }
-
-        /// <summary>
-        /// 現在実行中のプラットフォームを返します。
-        /// </summary>
-        [PublicAPI] public const Platform RunningPlatform = IsAndroid ? Platform.Android : Platform.Windows;
-
-        /// <summary>
-        /// 現在実行中のプラットフォームがAndroidかどうか返します。
-        /// </summary>
-        private const bool IsAndroid =
-#if UNITY_ANDROID
-        true;
-#else
-        false;
-#endif
 
     }
 }

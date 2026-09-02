@@ -7,7 +7,6 @@ namespace Nomlas.TopazChat
     public class TopazUtils
     {
         public const string TopazURL = "rtspt://topaz.chat/live";
-        public const string TopazURL_Android = "rtsp://topaz.chat/live";
         public const string PebbleURL = "https://pebble.xrift.net";
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Nomlas.TopazChat
         {
             if (!Utilities.IsValid(url)) return null;
             var _url = url.ToString();
-            return _url.Replace($"{TopazURL}/", "").Replace($"{TopazURL_Android}/", "").Replace($"{PebbleURL}/", "");
+            return _url.Replace($"{TopazURL}/", "").Replace($"{PebbleURL}/", "");
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace Nomlas.TopazChat
         {
             if (!Utilities.IsValid(url)) return false;
             var _url = url.ToString();
-            return _url.StartsWith(TopazURL) || _url.StartsWith(TopazURL_Android) || _url.StartsWith(PebbleURL);
+            return _url.StartsWith(TopazURL) || _url.StartsWith(PebbleURL);
         }
 
         [PublicAPI]
@@ -77,12 +76,6 @@ namespace Nomlas.TopazChat
                     return "#CCCCCC";
             }
         }
-    }
-
-    public enum Platform
-    {
-        Windows,
-        Android
     }
 
     public enum MessageLevel

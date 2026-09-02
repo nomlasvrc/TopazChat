@@ -16,7 +16,7 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// URLが変更されたときに発火します。
         /// </summary>
-        public virtual void UpdateURL(VRCUrl url, VRCUrl url_Android) { }
+        public virtual void UpdateURL(VRCUrl url) { }
         /// <summary>
         /// Listenerが登録され、準備ができたときに発火します。
         /// </summary>

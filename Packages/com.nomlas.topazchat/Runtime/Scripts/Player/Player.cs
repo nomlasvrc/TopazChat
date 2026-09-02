@@ -10,19 +10,14 @@ namespace Nomlas.TopazChat
 {
     public class Player : EventDispatcher
     {
-        // ----- default URLs -----
+        // ----- default URL -----
 
         [SerializeField] internal VRCUrl defaultStreamURL;
-        [SerializeField] internal VRCUrl defaultStreamURL_Android;
 
         /// <summary>
         /// デフォルトのストリームURLを返します。
         /// </summary>
         [PublicAPI] public VRCUrl DefaultStreamURL => defaultStreamURL;
-        /// <summary>
-        /// デフォルトのストリームURL(Android)を返します。
-        /// </summary>
-        [PublicAPI] public VRCUrl DefaultStreamURL_Android => defaultStreamURL_Android;
 
         // ----- VRC AVPro Video Player -----
 
@@ -65,32 +60,31 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 指定したURLで再生します。
         /// </summary>
-        /// <param name="platformURL">実行プラットフォームに応じたURL</param>
-        private void _PlayURL(VRCUrl platformURL, PlayType playType)
+        private void _PlayURL(VRCUrl url, PlayType playType)
         {
-            if (TopazUtils.IsValidTopazLink(platformURL))
+            if (TopazUtils.IsValidTopazLink(url))
             {
-                var platformURLString = platformURL.ToString();
+                var urlString = url.ToString();
                 switch (playType)
                 {
                     case PlayType.Play:
-                        Log("Play: " + platformURLString);
+                        Log("Play: " + urlString);
                         break;
                     case PlayType.Resume:
-                        Log("Resume: " + platformURLString);
+                        Log("Resume: " + urlString);
                         break;
                     case PlayType.ReSync:
-                        Log("ReSync: " + platformURLString);
+                        Log("ReSync: " + urlString);
                         break;
                 }
-                ShowMessage("Streaming: " + platformURLString);
-                videoPlayer.PlayURL(platformURL);
+                ShowMessage("Streaming: " + urlString);
+                videoPlayer.PlayURL(url);
                 PlayerStatus = PlayerStatus.Play;
             }
             else
             {
                 LogError("Invalid URL. Unable to play.");
-                ShowMessage("Invalid URL: " + TopazUtils.InvalidTopazLinkReason(platformURL), MessageLevel.Error);
+                ShowMessage("Invalid URL: " + TopazUtils.InvalidTopazLinkReason(url), MessageLevel.Error);
                 _SafeStop();
                 return;
             }
@@ -99,9 +93,9 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// 指定したURLで再生処理をします。
         /// </summary>
-        private void _StartStream(VRCUrl url, VRCUrl url_Android)
+        private void _StartStream(VRCUrl url)
         {
-            UpdateURL(url, url_Android);
+            UpdateURL(url);
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Received a start playback event while paused. Ignoring.");
@@ -109,14 +103,7 @@ namespace Nomlas.TopazChat
             }
             ShowMessage("Starting stream...");
             _Stop(StopType.PlayNext);
-            if (RunningPlatform == Platform.Android)
-            {
-                _PlayURL(url_Android, PlayType.Play);
-            }
-            else
-            {
-                _PlayURL(url, PlayType.Play);
-            }
+            _PlayURL(url, PlayType.Play);
         }
 
         /// <summary>
@@ -132,7 +119,7 @@ namespace Nomlas.TopazChat
             else
             {
                 Log("Resync");
-                _PlayURL(GetPlatformSyncStreamURL(), PlayType.ReSync);
+                _PlayURL(SyncStreamURL, PlayType.ReSync);
             }
         }
 
@@ -155,7 +142,7 @@ namespace Nomlas.TopazChat
             if (PlayerStatus == PlayerStatus.Pause)
             {
                 Log("Resume");
-                _PlayURL(GetPlatformSyncStreamURL(), PlayType.Resume);
+                _PlayURL(SyncStreamURL, PlayType.Resume);
             }
         }
 
@@ -212,17 +199,12 @@ namespace Nomlas.TopazChat
 
         // --------- UdonSync ----------
         [UdonSynced] private VRCUrl _SyncStreamURL;
-        [UdonSynced] private VRCUrl _SyncStreamURL_Android;
 
         // ----------- Get用 ------------
         /// <summary>
         /// 現在のストリームURLを返します。
         /// </summary>
         [PublicAPI] public VRCUrl SyncStreamURL => _SyncStreamURL;
-        /// <summary>
-        /// 現在のストリームURL(Android)を返します。
-        /// </summary>
-        [PublicAPI] public VRCUrl SyncStreamURL_Android => _SyncStreamURL_Android;
 
         // ----------- Set用 ------------
 
@@ -230,25 +212,23 @@ namespace Nomlas.TopazChat
         /// ストリームURLをセットします。stopURLやGlobal同期にも対応しています。
         /// </summary>
         [PublicAPI]
-        public void SetUrl(VRCUrl tmpStreamURL, VRCUrl tmpStreamURL_Android)
+        public void SetUrl(VRCUrl tmpStreamURL)
         {
             if (tmpStreamURL != null && tmpStreamURL.ToString() == StopURL.ToString())
             {
                 Log("Stopping stream...");
                 TakeOwner();
                 _SyncStreamURL = StopURL;
-                _SyncStreamURL_Android = StopURL;
                 RequestSerialization();
                 _Stop(StopType.UserStop);
                 return;
             }
-            if (TopazUtils.IsTopazLink(tmpStreamURL) && TopazUtils.IsTopazLink(tmpStreamURL_Android))
+            if (TopazUtils.IsTopazLink(tmpStreamURL))
             {
                 TakeOwner();
                 _SyncStreamURL = tmpStreamURL;
-                _SyncStreamURL_Android = tmpStreamURL_Android;
                 RequestSerialization();
-                _StartStream(tmpStreamURL, tmpStreamURL_Android);
+                _StartStream(tmpStreamURL);
             }
             else
             {
@@ -260,26 +240,11 @@ namespace Nomlas.TopazChat
         // ----------------------------------------
 
         /// <summary>
-        /// 現在のプラットフォームのストリームURLを返します。
-        /// </summary>
-        private VRCUrl GetPlatformSyncStreamURL()
-        {
-            if (RunningPlatform == Platform.Android)
-            {
-                return SyncStreamURL_Android;
-            }
-            else
-            {
-                return SyncStreamURL;
-            }
-        }
-
-        /// <summary>
         /// 受け取ったURLが再生可能かつTopazChatのURLか確認し、再生又は停止処理を行います。
         /// </summary>
         private void _CheckReceivedURL()
         {
-            if (Utilities.IsValid(SyncStreamURL) && Utilities.IsValid(SyncStreamURL_Android))
+            if (Utilities.IsValid(SyncStreamURL))
             {
                 if (SyncStreamURL.ToString() == StopURL.ToString())
                 {
@@ -290,7 +255,7 @@ namespace Nomlas.TopazChat
                 else
                 {
                     Log("Received valid stream URL. Starting stream...");
-                    _StartStream(SyncStreamURL, SyncStreamURL_Android);
+                    _StartStream(SyncStreamURL);
                 }
             }
             else
@@ -310,7 +275,7 @@ namespace Nomlas.TopazChat
             }
             else if (player.isLocal) //インスタンス人数が二人以上で、あなたがJoinした人なら
             {
-                Log("Welcome! checking if received URLs can be played...");
+                Log("Welcome! checking if received URL can be played...");
                 _CheckReceivedURL();
             }
         }
@@ -320,7 +285,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private protected void _UserStop()
         {
-            SetUrl(StopURL, StopURL);
+            SetUrl(StopURL);
         }
 
         /// <summary>
@@ -328,7 +293,7 @@ namespace Nomlas.TopazChat
         /// </summary>
         private void _SetDefaultURL()
         {
-            SetUrl(DefaultStreamURL, DefaultStreamURL_Android);
+            SetUrl(DefaultStreamURL);
         }
 
         private void TakeOwner()

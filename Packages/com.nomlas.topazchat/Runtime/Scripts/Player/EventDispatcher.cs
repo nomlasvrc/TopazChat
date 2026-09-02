@@ -77,12 +77,12 @@ namespace Nomlas.TopazChat
         /// <summary>
         /// URLの変更をイベントリスナーに通知します。
         /// </summary>
-        protected void UpdateURL(VRCUrl url, VRCUrl url_Android)
+        protected void UpdateURL(VRCUrl url)
         {
             if (!Utilities.IsValid(listeners)) return;
             for (int i = 0; i < listeners.Length; i++)
             {
-                listeners[i].UpdateURL(url, url_Android);
+                listeners[i].UpdateURL(url);
             }
         }
 

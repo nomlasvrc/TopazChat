@@ -12,21 +12,13 @@ namespace Nomlas.TopazChat
         [Space]
         [SerializeField][Header("ストリームキーの表示欄")] internal TextMeshProUGUI address;
         [SerializeField][Header("URL入力欄")] private VRCUrlInputField urlInputField;
-        [SerializeField][Header("URL入力欄(Android)")] private VRCUrlInputField urlInputField_Android;
         [Space]
         [SerializeField][Header("保存されたストリームキーを読み込むボタン")] private Button loadButton;
         [SerializeField][Header("保存されたストリームキーの表示欄")] private TextMeshProUGUI savedStreamKeyText;
-        [Space]
-        [SerializeField] internal bool androidMode;
         /// <summary>
         /// ストリームキーのPersistenceを行うコンポーネント。
         /// </summary>
         private Save saver;
-        /// <summary>
-        /// AndroidMode時にURLを一時的に保存するための変数。
-        /// </summary>
-        private VRCUrl tempURL;
-
         private protected override void Start()
         {
             base.Start();
@@ -37,14 +29,6 @@ namespace Nomlas.TopazChat
             else
             {
                 LogWarning("URL入力欄が見つかりません");
-            }
-            if (Utilities.IsValid(urlInputField_Android))
-            {
-                urlInputField_Android.SetUrl(player.DefaultStreamURL_Android);
-            }
-            else
-            {
-                LogWarning("URL入力欄(Android)が見つかりません");
             }
             if (!Utilities.IsValid(address))
             {
@@ -62,34 +46,14 @@ namespace Nomlas.TopazChat
             var _url = urlInputField.GetUrl();
             if (TopazUtils.IsValidTopazLink(_url))
             {
-                if (androidMode)
-                {
-                    tempURL = _url;
-                    urlInputField_Android.ActivateInputField();
-                }
-                else
-                {
-                    player.SetUrl(_url, _url); //Globalで変更
-                    _SaveURLAndUpdateKey(_url, _url);
-                }
+                player.SetUrl(_url); //Globalで変更
+                _SaveURLAndUpdateKey(_url);
             }
             else
             {
                 //streamURLをセット
                 urlInputField.SetUrl(player.DefaultStreamURL);
-                urlInputField_Android.SetUrl(player.DefaultStreamURL_Android);
                 Log("Set default URL");
-            }
-        }
-
-        [UnityEvent]
-        public void OnEndStreamKeyEditAndroid()
-        {
-            var _url = urlInputField_Android.GetUrl();
-            if (TopazUtils.IsValidTopazLink(_url))
-            {
-                player.SetUrl(tempURL, _url);
-                _SaveURLAndUpdateKey(tempURL, _url);
             }
         }
 
@@ -102,10 +66,9 @@ namespace Nomlas.TopazChat
                 return;
             }
             var savedUrl = saver.SavedURL;
-            var savedUrl_Android = saver.SavedURL_Android;
-            if (TopazUtils.IsValidTopazLink(savedUrl) && TopazUtils.IsValidTopazLink(savedUrl_Android))
+            if (TopazUtils.IsValidTopazLink(savedUrl))
             {
-                player.SetUrl(savedUrl, savedUrl_Android);
+                player.SetUrl(savedUrl);
             }
         }
 
@@ -131,21 +94,20 @@ namespace Nomlas.TopazChat
             Log("URL Restored. StreamKey: " + streamKey);
         }
 
-        private void _SaveURLAndUpdateKey(VRCUrl url, VRCUrl url_Android)
+        private void _SaveURLAndUpdateKey(VRCUrl url)
         {
             if (!Utilities.IsValid(saver))
             {
                 LogWarning("URL Saverが見つからないため、URLを保存できません");
                 return;
             }
-            saver.SaveKeyInternal(url, url_Android);
+            saver.SaveKeyInternal(url);
             savedStreamKeyText.text = TopazUtils.StreamKey(url);
         }
 
-        public override void UpdateURL(VRCUrl url, VRCUrl url_Android)
+        public override void UpdateURL(VRCUrl url)
         {
             urlInputField.SetUrl(url);
-            urlInputField_Android.SetUrl(url_Android);
             address.text = TopazUtils.StreamKey(url);
             Log("UI Updated");
         }
